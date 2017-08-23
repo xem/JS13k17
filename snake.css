@@ -253,20 +253,40 @@ input[type=range] {
   top: -40vh;
 }
 
-.tree {
-  font: 19vh/24vh a;
+/**************************************************************/
+
+/* Emoji */
+
+.emoji {
   position: absolute;
   transform-origin: 50% 100%;
-  transform: translateX(-8vh) translateY(-21vh) rotateX(-75deg);
+}
+
+.emojishadow {
+  color: rgba(0,0,0,.002);
+  text-shadow: 0px 0px rgba(0,0,0,.25);
+  position: absolute;
+  transform-origin: 50% 100%;
+}
+
+.tree {
+  font: 19vh/24vh a;
+  transform: translateX(-8vh) translateY(-20vh) rotateX(-75deg);
 }
 
 .treeshadow {
-  color: rgba(0,0,0,.002);
-  text-shadow: 0px 0px rgba(0,0,0,.25);
   font: 19vh/19vh a;
-  position: absolute;
-  transform-origin: 50% 100%;
   transform: translateX(-8vh) translateY(-16vh) translateZ(2vh) rotateZ(144deg) scaleY(1.5);
+}
+
+.apple {
+  font: 6vh/8vh a;
+  transform: translateY(-5vh) rotateX(-60deg);
+}
+
+.appleshadow {
+  font: 6vh/8vh a;
+  transform: translateY(-6vh) translateZ(1vh) rotateZ(144deg);
 }
 
 /**************************************************************/
@@ -275,7 +295,7 @@ input[type=range] {
 
 
 .hub #scene {
-  transition: 4s ease-in;
+  transition: 6s ease-in;
   width: 217vh;
   height: 216vh;
   background: radial-gradient(10vh at 50% 50%, #000 40%, transparent 50%), radial-gradient(15vh at 50% 50%, #640 40%, transparent 50%), radial-gradient(#4F8D2F,#136321);

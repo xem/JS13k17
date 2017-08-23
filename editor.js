@@ -157,9 +157,9 @@ onload = function(){
   }
 
   // playing
-  playing = 0;
+  playing = puzzling = 0;
   test.onclick = function(){
-    playing = 1;
+    playing = puzzling = 1;
     b.className = "editor playing";
   }
   
@@ -168,7 +168,7 @@ onload = function(){
     
     // Quit playing
     if(playing){
-      playing = 0;
+      playing = puzzling = 0;
       b.className = "editor";
       resetsnake();
       checkgrid();
@@ -180,14 +180,11 @@ onload = function(){
     }
   }
   
-  /////////////////////////////////////////////////////////////////////////////
+  // DEBUG
   
   // Camera rotation
-  rot = 0;
   move_scene = function(){
     scene.style.transform = "rotateX(38deg)translateX(-18vh)rotateZ(" + rot + "rad)";
   }
   move_scene();
-  b_rl.onclick = function(){rot -= Math.PI/4; move_scene()};
-  b_rr.onclick = function(){rot += Math.PI/4; move_scene()};
 }

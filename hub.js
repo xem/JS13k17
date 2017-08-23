@@ -4,20 +4,26 @@
 // When the page loads
 onload = function(){
   
-  debug = 0;
+  debug = 1;
   
-  emoji = [
+  emojis = [
     [24,22,"tree"],
     [7,7,"tree"],
+    [9,6,"apple"],
+    [5,8,"apple"],
+    [22,22,"apple"],
+    [24,21,"apple"],
   ];
   
-  for(i in emoji){
+  for(i in emojis){
+    var emoji = {tree: "🌳", apple: "🍎"}[emojis[i][2]];
+    
     objects.innerHTML += 
-    `<div class="emoji ${emoji[i][2]}" style="left:${emoji[i][0]*sidesize}vh;top:${emoji[i][1]*sidesize}vh">🌳</div><div class="emojishadow ${emoji[i][2]}shadow" style="left:${emoji[i][0]*sidesize}vh;top:${emoji[i][1]*sidesize}vh">🌳`;
+    `<div id=emoji${i} class="emoji ${emojis[i][2]}" style="left:${emojis[i][0]*sidesize}vh;top:${emojis[i][1]*sidesize}vh">${emoji}</div><div id=emojishadow${i} class="emojishadow ${emojis[i][2]}shadow" style="left:${emojis[i][0]*sidesize}vh;top:${emojis[i][1]*sidesize}vh">`+emoji;
   }
   
   if(debug){
-    scene.style.transition='.2s';resetsnake();movesnake();advance();snakez[0]++;movesnake();
+    scene.style.transition='.2s';resetsnake();movesnake();snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push(0);snakeangle.push(snakeangle[head]);head++;movesnake();
   }
   
   else{
@@ -29,24 +35,22 @@ onload = function(){
     setTimeout('resetsnake();movesnake();snakecubemove0.style.transition=".5s"',2000);
     
     // Head goes out of the ground
-    setTimeout("advance();snakez[0]++;movesnake()",4000);
+    setTimeout("snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push(0);snakeangle.push(snakeangle[head]);head++;movesnake()",6000);
     
     // Shake head and shadow
-    setTimeout("snakecubemove0.style.transition='';snakeshadow0.style.transition=snakecuberotate0.style.transition='.2s';snakeshadow0.style.transform=snakecuberotate0.style.transform='rotateZ("+-Math.PI/4+"rad)'",4500);
-    setTimeout("snakeshadow0.style.transform=snakecuberotate0.style.transform='rotateZ("+Math.PI/4+"rad)'",5000);
-    setTimeout("snakeshadow0.style.transform=snakecuberotate0.style.transform='';",5500);
+    setTimeout("snakecubemove0.style.transition='';snakeshadow0.style.transition=snakecuberotate0.style.transition='.2s';snakeshadow0.style.transform=snakecuberotate0.style.transform='rotateZ("+-Math.PI/4+"rad)'",6500);
+    setTimeout("snakeshadow0.style.transform=snakecuberotate0.style.transform='rotateZ("+Math.PI/4+"rad)'",7000);
+    setTimeout("snakeshadow0.style.transform=snakecuberotate0.style.transform='';",7500);
     
     // Reset custom transitions and unlock keyboard
-    setTimeout("scene.style.transition='.2s';snakeshadow0.style.transition=snakecuberotate0.style.transition='';lock=0",7000);
+    setTimeout("scene.style.transition='.2s';snakeshadow0.style.transition=snakecuberotate0.style.transition='';lock=0",9000);
   }
   
+  
+  // DEBUG
   
   // Camera rotation
-  rot = 0;
   move_scene = function(){
-    scene.style.transform = "translateX(-"+snakex[0]*sidesize+"vh)translateY(-"+snakey[0]*sidesize+"vh)translateZ(30vh)rotateX(35deg)rotateZ(" + rot + "rad)";
+    scene.style.transform = "translateX(-"+snakex[head]*sidesize+"vh)translateY(-"+snakey[head]*sidesize+"vh)translateZ(40vh)rotateX(40deg)rotateZ(" + rot + "rad)";
   }
-  b_rl.onclick = function(){rot -= Math.PI/4; move_scene()};
-  b_rr.onclick = function(){rot += Math.PI/4; move_scene()};
-
 }
