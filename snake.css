@@ -47,7 +47,8 @@ input[type=range]::-moz-range-thumb {
   left: 50vw;
 }
 
-.hub #perspective {
+.hub #perspective,
+.hub2 #perspective {
   top: 50vh;
   left: 50vw;
 }
@@ -150,6 +151,10 @@ input[type=range]::-moz-range-thumb {
   height: 100%;
   transition: .15s;
   position: absolute;
+}
+
+.snakecubemove.hidden {
+  display: none;
 }
 
 .snakecuberotate {
@@ -255,7 +260,7 @@ input[type=range] {
 
 /**************************************************************/
 
-/* Emoji */
+/* Emoji / Objects */
 
 .emoji {
   position: absolute;
@@ -289,6 +294,48 @@ input[type=range] {
   transform: translateY(-6vh) translateZ(1vh) rotateZ(144deg);
 }
 
+.floor {
+  position: absolute;
+  width: 21vh;
+  height: 21vh;
+  background: green;
+}
+
+.door {
+  position: absolute;
+  transform-origin: 0% 100%;
+  width: 0;
+  height: 0;
+}
+
+.door .path {
+  position: absolute;
+  width: 21vh;
+  height: 21vh;
+  background: linear-gradient(transparent, #640 50%);
+  top:-14vh;
+  left:-14vh;
+}
+
+.door .realdoor {
+  position: absolute;
+  width: 21vh;
+  height: 25vh;
+  background: radial-gradient(2vh at 90% 50%, gold 35%, transparent 40%), brown;
+  border-radius: 1vh 1vh 0 0;
+  transform-origin: 0% 100%;
+  transform: translateX(-14vh) translateY(-18vh) rotateX(-90deg);
+  text-align: center;
+  font-size: 8vh;
+  line-height: 12vh;
+  color: #fff;
+  transition: 1s;
+}
+
+.door.open .realdoor {
+  transform: translateX(-14vh) translateY(-18vh) rotateX(-90deg) rotateY(90deg);
+}
+
 /**************************************************************/
 
 /* Hub */
@@ -296,12 +343,20 @@ input[type=range] {
 
 .hub #scene {
   transition: 6s ease-in;
-  width: 217vh;
-  height: 216vh;
-  background: radial-gradient(10vh at 50% 50%, #000 40%, transparent 50%), radial-gradient(15vh at 50% 50%, #640 40%, transparent 50%), radial-gradient(#4F8D2F,#136321);
+  width: 210vh;
+  height: 210vh;
+  background: radial-gradient(10vh at 52% 51%, #000 40%, transparent 50%), radial-gradient(15vh at 52% 51%, #640 40%, transparent 50%), radial-gradient(#4F8D2F,#136321);
   /* radial-gradient(20vh at 50% 0%, #def 25%, transparent 50%), radial-gradient(20vh at 0% 50%, #ff9 25%, transparent 50%), */
   
-  border-radius: 10%;
+  border-radius: 3vh;
+}
+
+.hub2 #scene {
+  transition: 6s ease-in;
+  width: 210vh;
+  height: 210vh;
+  background: radial-gradient(#4F8D2F,#136321);
+  border-radius: 3vh;
 }
 
 /**************************************************************/
