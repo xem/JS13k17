@@ -1,0 +1,48 @@
+﻿<!doctype html>
+<title>SNAKE</title>
+<link rel=stylesheet href=snake.css>
+<body id=b class=editor>
+<div id=form>
+  <label>Grid</label> <input id=gridsize type=range value=5 min=5 max=8 step=1>
+  <span id=gridval>5</span>
+  <br>
+  <label>Snake</label> <input id=snakesize type=range value=5 min=5 max=30 step=1>
+  <span id=snakeval>5</span>
+  <br>
+  <input type=checkbox id=ground> <label for=ground>Ground</label>
+  <input type=checkbox id=wall> <label for=wall>Wall</label>
+  <input type=checkbox id=wrap> <label for=wrap>Wrap</label> 
+  <br>
+  <button id=test>Test</button>
+  <button id=share>Share</button>
+  <button id=reset>Reset</button>
+  <button id=quit>Quit</button>
+  <div id=perspective>
+    <div id=scene>
+      <div class="cube wrap">
+        <div class=left></div>
+        <div class=right></div>
+        <div id=down class=down></div>
+        <div id=back class=back></div>
+        <div class=up></div>
+        <div class=front></div>
+      </div>
+      <div id=snake></div>
+      <div class=grass>
+        <div class="emoji tree" style="left:170vh;top:19vh">🌳</div>
+        <div class="emojishadow treeshadow" style="left:170vh;top:19vh">🌳</div>
+        <div class=sun></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="position: fixed; bottom: 5px; left: 5px; width: 200px">
+  <button id=b_rr>↻</button>
+  <button id=b_rl>↺</button>
+</div>
+
+<script src=init.js></script>
+<script src=gameplay.js></script>
+<script>
+
+</script>

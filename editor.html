@@ -29,8 +29,8 @@
       </div>
       <div id=snake></div>
       <div class=grass>
-        <div class=tree style="left:170vh;top:19vh">🌳</div>
-        <div class=treeshadow style="left:170vh;top:19vh">🌳</div>
+        <div class="emoji tree" style="left:170vh;top:19vh">🌳</div>
+        <div class="emojishadow treeshadow" style="left:170vh;top:19vh">🌳</div>
         <div class=sun></div>
       </div>
     </div>
@@ -41,27 +41,44 @@
   <button id=b_rl>↺</button>
 </div>
 
-<script src=snake.js></script>
+<script src=init.js></script>
+<script src=gameplay.js></script>
 <script>
 
 // When the page loads
 onload = function(){
   
-  // Startup 
+  // Startup
+  currentpuzzle = 0;
   
   // Set default values to the form
-  gridsize.value = snakesize.value = 5;
+  gridsize.value = snakesize.value = snakelength = 5;
   ground.checked = true;
+  hasground = 1;
   wall.checked = false;
   wrap.checked = false;
 
   // Puzzle (ground/wall) checkboxes can't be both disabled
   ground.onclick = function(e){
-    if(ground.checked == false) wall.checked = true;
+    if(ground.checked){
+      hasground = 1;
+    }
+    else {
+      hasground = 0;
+      haswall = 1;
+      wall.checked = true;
+    }
   }
   
   wall.onclick = function(e){
-    if(wall.checked == false) ground.checked = true
+    if(wall.checked){
+      haswall = 1;
+    }
+    else {
+      haswall = 0;
+      hasground = 1;
+      ground.checked = true;
+    }
   }
   
   wrap.onclick = function(e){
@@ -79,6 +96,7 @@ onload = function(){
     // Update range indicator
     snakeval.innerHTML = snakelength = +snakesize.value;
     resetsnake();
+    movesnake();
   }
   
   
@@ -121,8 +139,8 @@ onload = function(){
     // Fill grids HTML
     for(i = 0; i < size; i++){
       for(j = 0; j < size; j++){
-        whtml += `<div class=cell id=w${i}${j} style='width:${cellsize}%;padding-top:${cellsize}%' onmousedown='paint(${i},${j},this,0)' onmousemove='paint(${i},${j},this,0,1)'></div>`;
-        ghtml += `<div class=cell id=g${i}${j} style='width:${cellsize}%;padding-top:${cellsize}%' onmousedown='paint(${i},${j},this,1)' onmousemove='paint(${i},${j},this,1,1)'></div>`;
+        whtml += `<div class=cell id=w${cellprefix}-${i}-${j} style='width:${cellsize}%;padding-top:${cellsize}%' onmousedown='paint(${i},${j},this,0)' onmousemove='paint(${i},${j},this,0,1)'></div>`;
+        ghtml += `<div class=cell id=g${cellprefix}-${i}-${j} style='width:${cellsize}%;padding-top:${cellsize}%' onmousedown='paint(${i},${j},this,1)' onmousemove='paint(${i},${j},this,1,1)'></div>`;
       }
     }
     down.innerHTML += ghtml;
@@ -211,6 +229,7 @@ onload = function(){
       playing = puzzling = 0;
       b.className = "editor";
       resetsnake();
+      movesnake();
       checkgrid();
     }
     

@@ -1,76 +1,27 @@
 ﻿<!doctype html>
 <link rel=stylesheet href=snake.css>
-<script src=snake.js></script>
+<script src=init.js></script>
+<script src=gameplay.js></script>
 <script>
 
 // When the page loads
 onload = function(){
   
-  // Create hub page
-  inithtml("hub");
+  // Go to the last room (hub by default)
+  pagename = localStorage["page"] || "hub";
+  
+  // Draw html structure
+  inithtml();
   
   // Disable cinematics
   debug = 1;
-  
-  // Emoji (x, y, name)
-  emojis = [
-    [24,22, "tree"],
-    [7,7, "tree"],
-    [9,6, "apple"],
-    [5,8, "apple"],
-    [22,22, "apple"],
-  ];
-  
-  // Doors
-  // 0: x,
-  // 1: y
-  // 2: angle
-  // 3: min length
-  // 4: min puzzles
-  // 5: open
-  // 6: page to load
-  // 7: show door
-  // 8: x in new page
-  // 9: y in new page
-  doors = [
-    [31, 15, Math.PI / 2, 5, 0, 0, 8, 1, 0, 15],
-    [15, -1, 0, 16, 0, 0, 16, 1, 0, 0],
-  ];
-  
-  drawobjects();
-  
-  // Opening cinematic
-  if(!localStorage["snakex"]){
-  
-    if(debug){
-      scene.style.transition='.8s';resetsnake();movesnake();snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push(0);snakeangle.push(snakeangle[head]);head++;movesnake();
-    }
-    
-    else{
-      
-      // Lock controls
-      lock = 1;
 
-      // Resize and place snake at the right place, slow it down
-      setTimeout('resetsnake();movesnake();snakecubemove0.style.transition=".5s"',2000);
-      
-      // Head goes out of the ground
-      setTimeout("snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push(0);snakeangle.push(snakeangle[head]);head++;movesnake()",6000);
-      
-      // Shake head and shadow
-      setTimeout("snakecubemove0.style.transition='';snakeshadow0.style.transition=snakecuberotate0.style.transition='.2s';snakeshadow0.style.transform=snakecuberotate0.style.transform='rotateZ("+-Math.PI/4+"rad)'",6500);
-      setTimeout("snakeshadow0.style.transform=snakecuberotate0.style.transform='rotateZ("+Math.PI/4+"rad)'",7000);
-      setTimeout("snakeshadow0.style.transform=snakecuberotate0.style.transform='';",7500);
-      
-      // Reset custom transitions and unlock keyboard
-      setTimeout("scene.style.transition='.8s';snakeshadow0.style.transition=snakecuberotate0.style.transition='';lock=0",9000);
-    }
-  }
+  //localStorage.clear();
   
-  // Return to hub
-  else{
-    scene.style.transition='.8s';resetsnake();movesnake();
-  }
+  localStorage["appleappearedhub0"] = 1;
+  
+  // Enter room
+  enterroom();
 
 }
 </script>

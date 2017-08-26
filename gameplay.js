@@ -1,62 +1,13 @@
-// GAMEPLAY
+﻿// GAMEPLAY
 
 // Snake
 
-// Reset the snake's positions and angles
-resetsnake = function(noresethistory){
-  
-  // Delete the snake
-  snake.innerHTML = "";
-      
-  if(!noresethistory){
-    // Reset positions & angles
-    snakex = [];
-    snakey = [];
-    snakez = [];
-    snakeangle = [];
-  }
-  
-  // Compute cubes sizes in vh (editor only)
-  if(top["size"]){
-    sidesize = 32 / size;
-  }
-  
-  head = snakelength - 1;
-  
-  if(!noresethistory){
-    if(b.className == "editor"){
-      for(i = 0; i < snakelength; i++){
-        snakex[head - i] = -i;
-        snakey[head - i] = ~~(size/2);
-        snakez[head - i] = 0;
-        snakeangle[head - i] = -Math.PI/2;
-      }
-    }
-    
-    if(b.className == "hub"){
-      for(i = 0; i < snakelength; i++){
-        snakex[head - i] = 15;
-        snakey[head - i] = 15;
-        snakez[head - i] = -i - 1;
-        snakeangle[head - i] = 0;
-      }
-    }
-  }
-  
-  // Draw all snake's cubes
-  // The first one (the head) has a tongue (Y) and eyes (👀)
-  // DOM for each cube: #snakecubemove${i} > #snakecuberotate${i} > #snakecube${i} > 6 * div
-  for(i = 0; i < 16; i++){
-    snake.innerHTML += `<div id=snakecubemove${i} class=snakecubemove style="transform:translateX(50vh)translateY(50vh)translateZ(-10vh);width:${sidesize-1}vh;height:${sidesize-1}vh"><div class=snakeshadow id=snakeshadow${i}></div><div id=snakecuberotate${i} class=snakecuberotate><div class="cube snake" id=snakecube${i}>${i<1?"<div class=tongue>Y</div>":""}<div class=front>${i<1?"‿":""}</div><div class=up style="font-size:${sidesize*.5}vh;line-height:${sidesize*.8}vh">${i<1?"👀":""}</div><div class=right></div><div class=left></div><div class=back></div><div class=down>`;
-  }
-
-  // Put all the cubes at the right place
-  movesnake();
-}
-
 // Move the snake
 // when snakex/y/z and snakeangle have been updated (or reset)
-movesnake = function(e){
+// Also, eat apples
+// Also, open doors
+// Also, enter puzzles
+movesnake = function(){
   
   for(i = 0; i < snakelength; i++){
     
@@ -149,19 +100,97 @@ movesnake = function(e){
     // Shadow
     top["snakeshadow"+i].style.display = snakez[(head - i)] == 0 ? "" : "none";
     
-    // Camera follow
-    if(b.className == "hub"){
-      scene.style.transform="translateX("+(-snakex[head]*sidesize)+"vh)translateY("+(-snakey[head]*sidesize)+"vh)translateZ(20vh)rotateX(40deg)";
-      scene.style.transformOrigin=""+(snakex[head]*sidesize)+"vh "+(snakey[head]*sidesize)+"vh";
+    // no puzzle: camera follows the snake
+    if(b.className != "editor" && b.className != "editor playing"){
+      
+      if(currentpuzzle === null){
+        if(b.className == "hub" || b.className == "hub2"){
+          scene.style.transform="translateX("+(-snakex[head]*sidesize)+"vh)translateY("+(-snakey[head]*sidesize)+"vh)translateZ(-5vh)rotateX(45deg)";
+          scene.style.transformOrigin=""+(snakex[head]*sidesize)+"vh "+(snakey[head]*sidesize)+"vh";
+        }
+      }
+      
+      // Puzzle: fixed camera
+      else{
+        scene.style.transform="translateX(" + (-(puzzles[currentpuzzle][5] + puzzles[currentpuzzle][1]/2) * sidesize + 15) + "vh)translateY(" + (-(puzzles[currentpuzzle][6] + puzzles[currentpuzzle][1]/2) * sidesize + 13) + "vh)translateZ(30vh)rotateX(25deg)";
+        
+        scene.style.transformOrigin = ""+((puzzles[currentpuzzle][5] + puzzles[currentpuzzle][1]/2) * sidesize) +"vh "+((puzzles[currentpuzzle][6] + puzzles[currentpuzzle][1]/2) * sidesize + 13) +"vh";
+      }
     }
   }
-  for(i = snakelength; i < 16; i++){
-    top["snakecubemove"+i].style.transform = `translateX(${snakex[head - snakelength]*sidesize+.5}vh)translateY(${snakey[head - snakelength]*sidesize+.5}vh)translateZ(${-100*sidesize}vh)`;
+  
+  // Doors
+  var x = snakex[head],
+  y = snakey[head],
+  z = snakez[head];
+  
+  for(var i in doors){
+    
+    // Open a door if the snake's length is big enough
+    if(doors[i][3] > 0 && snakelength >= doors[i][3] && Math.hypot(x - doors[i][0], y - doors[i][1]) < 4){
+      top["door"+i].className = "door open";
+      
+      // Save that in localstorage for next visit
+      localStorage["door"+pagename+i] = 1;
+    }
+    
+    // Walk on a door path if the door is open
+    if(top["door"+i].className == "door open" && Math.hypot(x - doors[i][0], y - doors[i][1]) < 2){
+      localStorage["page"] = pagename = doors[i][5];
+      setTimeout(enterroom,1000);
+      
+      // Save snake future position in localstorage
+      localStorage["snakex"] = doors[i][7];
+      localStorage["snakey"] = doors[i][8];
+      localStorage["snakez"] = 0;
+      localStorage["snakeangle"] = snakeangle[head];
+    }
+  }
+  
+  // Puzzles
+  if(b.className != "editor playing"){
+    
+    checkgrid();
+    
+    currentpuzzle = null;
+    
+    dg = [];
+  
+    for(p in puzzles){
+      if(
+        x >= puzzles[p][5]
+        && x < puzzles[p][5] + puzzles[p][0]
+        && y >= puzzles[p][6]
+        && y < puzzles[p][6] + puzzles[p][0]
+      ){
+        
+        currentpuzzle = +p;
+        issolved = 0;
+        if(localStorage["puzzle"+pagename+p]){
+          issolved = 1;
+        }
+        cellprefix = p;
+        hasground = !!puzzles[p][4];
+        haswall = !!puzzles[p][3];
+        leftoffset = puzzles[p][5];
+        topoffset = puzzles[p][6];
+        size = puzzles[p][0];
+        for(i = 0; i < size; i++){
+          dg[i] = [];
+          for(j = 0; j < size; j++){
+            dg[i][j] = +puzzles[p][4][i*puzzles[p][0]+j];
+          }
+        }
+        checkgrid();
+      }
+    }
   }
 };
 
 // Check if a position is free and in bounds
 checkmove = function(x,y,z){
+  
+  stuck = 0;
   
   // Editor map boundaries
   if(b.className == "editor playing"){
@@ -171,33 +200,51 @@ checkmove = function(x,y,z){
   }
   
   // Hub boundaries
-  if(b.className == "hub"){
-    if(x < 0 || x > 30 || y < 0 || y > 30){
+  if(b.className == "hub" || b.className == "hub2"){
+    if(x < 0 || x >= 40 || y < 0 || y >= 20){
       stuck = 1;
     }
   }
   
   // Emoji hitbox
-  for(var i in emojis){
-    if(x == emojis[i][0] && y == emojis[i][1]){
+  for(var i in trees){
+    if(x >= trees[i][0] - 1 && x <= trees[i][0] + 1 && y == trees[i][1]){
+      stuck = 1;
+    }
+  }
+  
+  // Apples
+  for(var i in apples){
+    if(localStorage["appleappeared"+pagename+i] && x == apples[i][0] && y == apples[i][1]){
       
       // Eat an apple
-      if(emojis[i][2] == "apple"){
-        delete emojis[i];
-        top["emoji"+i].remove();
-        top["emojishadow"+i].remove();
-        snakelength++;
-      }
-      
-      // Hit
-      else {
-        stuck = 1;
-      }
+      delete apples[i];
+      top["apple"+i].remove();
+      top["appleshadow"+i].remove();
+      snakelength++;
+      localStorage["snakelength"] = snakelength;
+      localStorage["appleeaten"+pagename+i] = 1;
+    }
+  }
+  
+  // Rock
+  for(var i in cubes){
+    if(x == cubes[i][0] && y == cubes[i][1]){
+      stuck = 1;
+    }
+  }
+  
+  // Doors
+  for(var i in doors){
+    
+    // Walk on a door path if the door is open
+    if(top["door"+i].className == "door open" && Math.hypot(x - doors[i][0], y - doors[i][1]) <= 2){
+      stuck = 0;
     }
   }
   
   // Other snake cubes hitbox
-  // NB: no need to check if the last cube (the tail) is there because when the snake will move, that cube won't be here anymore so we can take its place. Hence the "snakelengthe - 2"
+  // NB: no need to check if the last cube (the tail) is there because when the snake will move, that cube won't be here anymore so we can take its place. Hence the "snakelength - 2"
   for(i = snakelength - 2; i > 0; i--){
     if(snakex[head - i] == x && snakey[head - i] == y && snakez[head - i] == z){
       stuck = 1;
@@ -208,36 +255,51 @@ checkmove = function(x,y,z){
 // Check if the grid is solved
 checkgrid = function(e){
   
+  if(issolved){
+    return;
+  }
+  
+  if(currentpuzzle === null) return;
+  
   solved = 1;
   
   // Repaint everything in black and white
   for(i = 0; i < size; i++){
     for(j = 0; j < size; j++){
-      top[`g${i}${j}`].style.background = dg[i][j] ? "black" : "white";
-      top[`w${i}${j}`].style.background = dw[i][j] ? "black" : "white";
+      if(top[`g${cellprefix}-${i}-${j}`]){
+        top[`g${cellprefix}-${i}-${j}`].style.background = dg[i][j] ? "black" : "white";
+      }
+      if(top[`w${cellprefix}-{i}-${j}`]){
+        top[`w${cellprefix}-{i}-${j}`].style.background = dw[i][j] ? "black" : "white";
+      }
     }
   }
   
+  // If head is not in the puzzle, return
+  if(snakex[head] < leftoffset || snakex[head] > leftoffset + size - 1 || snakey[head] < topoffset || snakey[head] > topoffset + size - 1 || snakez[head] < 0 || snakez[head] > size - 1){
+      return;
+  }
+  
   for(i = 0; i < snakelength; i++){
-    
+ 
     // Paint the good cells in green and the bad ones in red (if they exist, hence the try/catch)
-    try{
-      top[`g${snakey[head - i]}${snakex[head - i]}`].style.background = dg[snakey[head - i]][snakex[head - i]] ? "green" : "red";
-      top[`w${size - 1 - snakez[head - i]}${snakex[head - i]}`].style.background = dw[size - 1 - snakez[head - i]][snakex[head - i]] ? "green" : "red";
+    if(top[`g${cellprefix}-${snakey[head - i] - topoffset}-${snakex[head - i] - leftoffset}`]){
+      top[`g${cellprefix}-${snakey[head - i] - topoffset}-${snakex[head - i] - leftoffset}`].style.background = dg[snakey[head - i] - topoffset][snakex[head - i] - leftoffset] ? "green" : "red";
     }
-    catch(e){}
+    
+    //top[`w${cellprefix}-${size - 1 - snakez[head - i]}-${snakex[head - i]}`].style.background = dw[size - 1 - snakez[head - i]][snakex[head - i]] ? "green" : "red";
   
     // If a snake part is out of the grid, not solved
-    if(snakex[head - i] < 0 || snakex[head - i] > size - 1 || snakey[head - i] < 0 || snakey[head - i] > size - 1 || snakez[head - i] < 0 || snakez[head - i] > size - 1){
+    if(snakex[head - i] < leftoffset || snakex[head - i] > leftoffset + size - 1 || snakey[head - i] < topoffset || snakey[head - i] > topoffset + size - 1 || snakez[head - i] < 0 || snakez[head - i] > size - 1){
       solved = 0;
     }
   
-    // If a snake part is at a place where it shouldn't be, not solved
-    if(ground.checked && dg[snakey[head - i]] && !dg[snakey[head - i]][snakex[head - i]]){
+    // If a snake part is at a place where it shouldn't be (red cell), not solved
+    if(hasground && dg[snakey[head - i] - topoffset] && !dg[snakey[head - i] - topoffset][snakex[head - i] - leftoffset]){
       solved = 0;
     }
     
-    if(wall.checked && dw[size - 1 - snakez[head - i]] && !dw[size - 1 - snakez[head - i]][snakex[head - i]]){
+    if(haswall && dw[size - 1 - snakez[head - i]] && !dw[size - 1 - snakez[head - i]][snakex[head - i] - leftoffset]){
       solved = 0;
     }
   }
@@ -245,19 +307,60 @@ checkgrid = function(e){
   // If a snake part is not at a place where it should be, not solved
   for(i = 0; i < size; i++){
     for(j = 0; j < size; j++){
-      if(ground.checked && top[`g${i}${j}`].style.backgroundColor == "black"){
+      if(hasground && top[`g${cellprefix}-${i}-${j}`].style.backgroundColor == "black"){
         solved = 0;
       }
-      if(wall.checked && top[`w${i}${j}`].style.backgroundColor == "black"){
+      if(haswall && top[`w${cellprefix}-${i}-${j}`].style.backgroundColor == "black"){
         solved = 0;
       }
     }
   }
   
+  // Solved
   if(solved){
-    setTimeout('alert("SOLVED")',300);
+    issolved = 1;
+    localStorage["puzzle"+pagename+currentpuzzle] = 1;
+    for(i = 0; i < size; i++){
+      for(j = 0; j < size; j++){
+        if(top[`g${cellprefix}-${i}-${j}`]){
+          top[`g${cellprefix}-${i}-${j}`].style.background = dg[i][j] ? "green" : "gold";
+        }
+        if(top[`w${cellprefix}-{i}-${j}`]){
+          top[`w${cellprefix}-{i}-${j}`].style.background = dw[i][j] ? "green" : "gold";
+        }
+      }
+    }
   }
 }
+
+// Check if a new apple can appear after a certain snake length or number of puzzles solved, and make it appear
+checkapple = function(e){
+  for(var i in apples){
+    
+    //console.log(i, localStorage["appleappeared"+pagename+i], apples[i][3], snakelength, apples[i][4], totalsolved);
+
+    if(!localStorage["appleappeared"+pagename+i] &&((apples[i][3] > 0 && apples[i][3] == snakelength) || (apples[i][4] > 0 && apples[i][4] == totalsolved))){
+      
+        lock = 1;
+        
+        // Focus on new apple 
+        setTimeout(`scene.style.transform="translateX("+(-apples[`+i+`][0]*sidesize)+"vh)translateY("+(-apples[`+i+`][1]*sidesize)+"vh)translateZ(-5vh)rotateX(25deg)";
+        
+        localStorage["appleappeared"+pagename+"`+i+`"] = 1;
+        
+        scene.style.transformOrigin=""+(apples[`+i+`][0]*sidesize)+"vh "+(apples[`+i+`][1]*sidesize)+"vh";
+
+        // Show apple
+        top["apple"+`+i+`].className = "emoji apple";
+        top["appleshadow"+`+i+`].className = "emojishadow appleshadow";`, 250);
+        
+        // Focus back on snake
+        setTimeout("movesnake();lock=0", 2000);
+
+    }
+  }
+}
+
 
 // On key down
 onkeydown = function(e){
@@ -518,10 +621,10 @@ onkeydown = function(e){
       }
     }
   
-    // If a move key was pressed
+    // If a move key was pressed and snake is not stuck
     if(!stuck && (u || r || d || l || s || c || B)){
         
-      // Update snake position
+      // Update snake & camera position
       movesnake();
       
       // Check grid
@@ -529,8 +632,18 @@ onkeydown = function(e){
         checkgrid();
       }
       
-      lock = 1;
-      setTimeout("lock=0", 100);
+      // Update snake & camera position again if needed
+      movesnake();
+      
+      
+      // Check is a new apple can appear
+      checkapple();
+      
+      // Lock the keys for .1s unless there's an apple animation already locking them
+      if(!lock){
+        lock = 1;
+        setTimeout("lock=0", 100);
+      }
     }
   }
 }

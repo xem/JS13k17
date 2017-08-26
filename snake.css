@@ -62,7 +62,7 @@ input[type=range]::-moz-range-thumb {
   width: 0;
   height: 0;
   transform-origin: 18vh 0%;
-  transition: 1s;
+  transition: transform 1s, trnasform-origin 1s;
 }
 
 .editor #scene {
@@ -136,25 +136,22 @@ input[type=range]::-moz-range-thumb {
 
 #back {
   transform: translateY(-50%) rotateX(-90deg) translateY(-52%);
-  transition: .5s;
+  transition: opacity .5s;
 }
 
 #down {
   background: darkgreen;
   transform: none;
-  transition: .5s;
+  transition: opacity .5s;
 }
 
 .snakecubemove, .snakecuberotate {
   transform-origin: 50% 50%;
   width: 100%;
   height: 100%;
-  transition: .15s;
+  transition: transform .15s;
   position: absolute;
-}
-
-.snakecubemove.hidden {
-  display: none;
+  pointer-events: none;
 }
 
 .snakecuberotate {
@@ -168,7 +165,7 @@ input[type=range]::-moz-range-thumb {
 
 .cube.snake > div {
   background: #FFA500;
-  border: 1px solid #000;
+  box-shadow: 0 0 0 1px #000 inset;
   text-align: center;
 }
 
@@ -178,12 +175,12 @@ input[type=range]::-moz-range-thumb {
 
 .cube.snake .front {
   font-weight: bold;
-  line-height: 4vh;
+  line-height: 4.5vh;
 }
 
 .cube.snake .tongue {
   background: none;
-  border: none;
+  box-shadow: none;
   color: red;
   font-size: 5vh;
   text-align: center;
@@ -232,6 +229,18 @@ input[type=range] {
   pointer-events: all;
 }
 
+.cube.wrap.visible {
+  transform: translateZ(1vh);
+}
+
+.cube.wrap.visible .cell {
+  opacity: 1;
+}
+
+.cube.wrap.visible .down {
+  transform: none;
+}
+
 #ground:checked ~ * #down .cell, #wall:checked ~ * #back .cell {
   opacity: 1;
 }
@@ -275,18 +284,23 @@ input[type=range] {
 }
 
 .tree {
-  font: 19vh/24vh a;
-  transform: translateX(-8vh) translateY(-20vh) rotateX(-75deg);
+  font: 20vh/20vh a;
+  transform: translateX(-8vh) translateY(-15vh) translateZ(1vh) rotateX(-75deg);
 }
 
 .treeshadow {
-  font: 19vh/19vh a;
-  transform: translateX(-8vh) translateY(-16vh) translateZ(2vh) rotateZ(144deg) scaleY(1.5);
+  font: 18vh/19vh a;
+  transform: translateX(-7vh) translateY(-14vh) translateZ(1vh) rotateZ(144deg) scaleY(1.5);
 }
 
 .apple {
   font: 6vh/8vh a;
-  transform: translateY(-5vh) rotateX(-60deg);
+  transform: translateY(-4vh) rotateX(-60deg);
+  transition: opacity .5s .5s;
+}
+
+.apple.hidden, .appleshadow.hidden {
+  opacity: 0;
 }
 
 .appleshadow {
@@ -313,8 +327,8 @@ input[type=range] {
   width: 21vh;
   height: 21vh;
   background: linear-gradient(transparent, #640 50%);
-  top:-14vh;
-  left:-14vh;
+  top: -10.5vh;
+  left: -10.5vh;
 }
 
 .door .realdoor {
@@ -324,16 +338,28 @@ input[type=range] {
   background: radial-gradient(2vh at 90% 50%, gold 35%, transparent 40%), brown;
   border-radius: 1vh 1vh 0 0;
   transform-origin: 0% 100%;
-  transform: translateX(-14vh) translateY(-18vh) rotateX(-90deg);
+  transform: translateX(-10.5vh) translateY(-14.5vh) rotateX(-90deg);
   text-align: center;
   font-size: 8vh;
   line-height: 12vh;
   color: #fff;
-  transition: 1s;
+  transition: transform 1s;
 }
 
 .door.open .realdoor {
-  transform: translateX(-14vh) translateY(-18vh) rotateX(-90deg) rotateY(90deg);
+  transform: translateX(-10.5vh) translateY(-14.5vh) rotateX(-90deg) rotateY(90deg);
+}
+
+.cube.rock div {
+  background: linear-gradient(45deg, #640, #583808);
+}
+
+.cube.rock div.up {
+  background: radial-gradient(#3F7D1F,#034301);
+  background-size: 280vh 140vh;
+  background-position: 50% 50%;
+  width: 7.5vh;
+  height: 7.5vh;
 }
 
 /**************************************************************/
@@ -342,19 +368,19 @@ input[type=range] {
 
 
 .hub #scene {
-  transition: 6s ease-in;
-  width: 210vh;
-  height: 210vh;
-  background: radial-gradient(10vh at 52% 51%, #000 40%, transparent 50%), radial-gradient(15vh at 52% 51%, #640 40%, transparent 50%), radial-gradient(#4F8D2F,#136321);
+  transition: transform 6s ease-in, transform-origin 6s ease-in;
+  width: 280vh;
+  height: 140vh;
+  background: radial-gradient(10vh at 51.3% 51%, #000 40%, transparent 50%), radial-gradient(15vh at 51.3% 51%, #640 40%, transparent 50%), radial-gradient(#4F8D2F,#136321);
   /* radial-gradient(20vh at 50% 0%, #def 25%, transparent 50%), radial-gradient(20vh at 0% 50%, #ff9 25%, transparent 50%), */
   
   border-radius: 3vh;
 }
 
 .hub2 #scene {
-  transition: 6s ease-in;
-  width: 210vh;
-  height: 210vh;
+  transition: transform 6s ease-in, transform-origin 6s ease-in;
+  width: 280vh;
+  height: 140vh;
   background: radial-gradient(#4F8D2F,#136321);
   border-radius: 3vh;
 }
