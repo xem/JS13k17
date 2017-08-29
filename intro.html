@@ -4,6 +4,8 @@
 <center id=s style=font:4vh/5vh'arial';color:#fff>
 <script>
 
+localStorage.clear();
+
 // Blink
 dir = 1;
 setInterval("e.style.opacity=0;setTimeout('e.style.opacity=1;dir=-dir;e.style.transform=`scaleX(`+dir+`)`',150)", 3000);

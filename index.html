@@ -2,26 +2,4 @@
 <link rel=stylesheet href=snake.css>
 <script src=init.js></script>
 <script src=gameplay.js></script>
-<script>
-
-// When the page loads
-onload = function(){
-  
-  // Go to the last room (hub by default)
-  pagename = localStorage["page"] || "hub";
-  
-  // Draw html structure
-  inithtml();
-  
-  // Disable cinematics
-  debug = 0;
-
-  //localStorage.clear();
-  
-  localStorage["appleappearedhub0"] = 1;
-  
-  // Enter room
-  enterroom();
-
-}
-</script>
+<script>onload=index</script>
