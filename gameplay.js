@@ -100,19 +100,17 @@ movesnake = function(){
     // Shadow
     top["snakeshadow"+i].style.display = snakez[(head - i)] == 0 ? "" : "none";
     
-    // no puzzle: camera follows the snake
+    // no puzzle or puzzle already solved: camera follows the snake
     if(b.className != "editor" && b.className != "editor playing"){
       
-      if(currentpuzzle === null){
-        if(b.className == "hub" || b.className == "hub2"){
-          scene.style.transform="translateX("+(-snakex[head]*sidesize)+"vh)translateY("+(-snakey[head]*sidesize)+"vh)translateZ(-5vh)rotateX(45deg)";
-          scene.style.transformOrigin=""+(snakex[head]*sidesize)+"vh "+(snakey[head]*sidesize)+"vh";
-        }
+      if(currentpuzzle === null || localStorage["puzzle"+pagename+currentpuzzle]){
+        scene.style.transform="translateX("+(-snakex[head]*sidesize)+"vh)translateY("+(-snakey[head]*sidesize)+"vh)translateZ(-5vh)rotateX(45deg)";
+        scene.style.transformOrigin=""+(snakex[head]*sidesize)+"vh "+(snakey[head]*sidesize)+"vh";
       }
       
-      // Puzzle: fixed camera
-      else{
-        scene.style.transform="translateX(" + (-(puzzles[currentpuzzle][5] + puzzles[currentpuzzle][1]/2) * sidesize + 15) + "vh)translateY(" + (-(puzzles[currentpuzzle][6] + puzzles[currentpuzzle][1]/2) * sidesize + 13) + "vh)translateZ(30vh)rotateX(25deg)";
+      // Unsolved puzzle: fixed camera
+      else {
+        scene.style.transform="translateX(" + (-(puzzles[currentpuzzle][5] + puzzles[currentpuzzle][1]/2) * sidesize + 15) + "vh)translateY(" + (-(puzzles[currentpuzzle][6] + puzzles[currentpuzzle][1]/2) * sidesize + 13) + "vh)translateZ(" + (80 - (puzzles[currentpuzzle][0] * (sidesize + 2))) + "vh)rotateX(25deg)";
         
         scene.style.transformOrigin = ""+((puzzles[currentpuzzle][5] + puzzles[currentpuzzle][1]/2) * sidesize) +"vh "+((puzzles[currentpuzzle][6] + puzzles[currentpuzzle][1]/2) * sidesize + 13) +"vh";
       }
@@ -148,7 +146,7 @@ movesnake = function(){
   }
   
   // Puzzles
-  if(b.className != "editor playing"){
+  if(b.className != "editor" && b.className != "editor playing"){
     
     checkgrid();
     
@@ -200,7 +198,8 @@ checkmove = function(x,y,z){
   }
   
   // Hub boundaries
-  if(b.className == "hub" || b.className == "hub2"){
+  else {
+    //if(b.className == "hub" || b.className == "hub2"){
     if(x < 0 || x >= 40 || y < 0 || y >= 20){
       stuck = 1;
     }
@@ -330,6 +329,8 @@ checkgrid = function(e){
         }
       }
     }
+    totalsolved++;
+    localStorage['totalsolved'] = totalsolved;
   }
 }
 
@@ -344,13 +345,13 @@ checkapple = function(e){
         lock = 1;
         
         // Focus on new apple 
-        setTimeout(`scene.style.transform="translateX("+(-apples[`+i+`][0]*sidesize)+"vh)translateY("+(-apples[`+i+`][1]*sidesize)+"vh)translateZ(-5vh)rotateX(25deg)";
+        setTimeout(`scene.style.transform="translateX("+(-apples[`+i+`][0]*sidesize)+"vh)translateY("+(-apples[`+i+`][1]*sidesize)+"vh)translateZ(-5vh)rotateX(30deg)";
         
         localStorage["appleappeared"+pagename+"`+i+`"] = 1;
         
         scene.style.transformOrigin=""+(apples[`+i+`][0]*sidesize)+"vh "+(apples[`+i+`][1]*sidesize)+"vh";
 
-        // Show apple
+        // Show apple falling
         top["apple"+`+i+`].className = "emoji apple";
         top["appleshadow"+`+i+`].className = "emojishadow appleshadow";`, 250);
         

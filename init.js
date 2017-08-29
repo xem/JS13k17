@@ -92,7 +92,6 @@ move_scene = function(){
   scene.style.transform = "translateX(-"+(snakex[head]*sidesize)+"vh)translateY(-"+(snakey[head]*sidesize)+"vh)translateZ(40vh)rotateX(40deg)rotateZ(" + rot + "rad)";
 }
 
-
 // Game
 
 // HTML
@@ -122,7 +121,7 @@ drawobjects = function(){
   // Trees
   for(var i in trees){
     objects.innerHTML += 
-    `<div id=tree${i} class="emoji tree" style="left:${trees[i][0]*sidesize}vh;top:${trees[i][1]*sidesize}vh">🌳</div><div id=treeshadow${i} class="emojishadow treeshadow" style="left:${trees[i][0]*sidesize}vh;top:${trees[i][1]*sidesize}vh">🌳`;
+    `<div id=tree${i} class="emoji tree" style="left:${trees[i][0]*sidesize}vh;top:${trees[i][1]*sidesize}vh;transform:translateZ(${trees[i][2]*sidesize+2}vh)translateX(-8vh)translateY(-15vh)rotateX(-75deg)">🌳</div><div id=treeshadow${i} class="emojishadow treeshadow" style="left:${trees[i][0]*sidesize}vh;top:${trees[i][1]*sidesize}vh;transform:translateZ(${trees[i][2]*sidesize}vh)translateX(-7vh)translateY(-14vh)rotateZ(144deg)scaleY(1.5)">🌳`;
     
   }
   
@@ -135,7 +134,7 @@ drawobjects = function(){
       delete apples[i];
     }
    
-    // Others
+    // Apples to eat
     else {
       objects.innerHTML += 
       `<div id=apple${i} class="emoji apple ${((pagename=="hub"&&i==0)||localStorage["appleappeared"+pagename+i])?"":"hidden"}" style="left:${apples[i][0]*sidesize}vh;top:${apples[i][1]*sidesize}vh">🍎</div><div id=appleshadow${i} class="emojishadow appleshadow ${((pagename=="hub"&&i==0)||localStorage["appleappeared"+pagename+i])?"":"hidden"}" style="left:${apples[i][0]*sidesize}vh;top:${apples[i][1]*sidesize}vh">🍎`;
@@ -144,7 +143,7 @@ drawobjects = function(){
   
   // Doors
   for (i in doors){
-    objects.innerHTML+=`<div id=door${i} class="door${(!doors[i][6]||localStorage['door'+pagename+i])?" open":""}" style="left:${(doors[i][0]+.5)*sidesize}vh;top:${(doors[i][1]+.5)*sidesize}vh;transform:rotateZ(${doors[i][2]}rad)translateZ(${doors[i][9]*sidesize-1}vh)"><div class=path></div><div class=realdoor ${doors[i][6]?"":"hidden"}>`+(doors[i][3] || "");
+    objects.innerHTML+=`<div id=door${i} class="door${localStorage['door'+pagename+i]?" open":""}" style="left:${(doors[i][0]+.5)*sidesize}vh;top:${(doors[i][1]+.5)*sidesize}vh;transform:rotateZ(${doors[i][2]}rad)translateZ(${doors[i][9]*sidesize}vh)"><div class=realdoor ${doors[i][6]?"":"hidden"}>`+(doors[i][3] || "")+`</div><div class=path>`;
   }
   
   // Cubes
@@ -205,20 +204,20 @@ enterroom = function(){
   
   b.className = pagename;
   
-  // Hub
+  // Hub (start, tuto, access to 2D, wrap and 3D puzzles)
   if(pagename == "hub"){
   
     // Trees (x, y, z)
     trees = [
       [13,9,0],
-      [5,15,0],
+      [6,13,0],
       [35,8,0],
     ];
 
     // Apples (x, y, z, length, puzzles solved) 
     apples = [
       [11,11,0,0,0],
-      [1,17,0,6,0],
+      [2,12,0,6,0],
       [38,10,0,7,0],
     ];
     
@@ -236,15 +235,15 @@ enterroom = function(){
     doors = [
       [41, 10, Math.PI / 2, 8, 0, "hub2", 1, 0, 10, 0],
       [20, -2, 0, 15, 0, "hub16", 1, 0, 0, 0],
-      [-2, 10, -Math.PI / 2, 6, 0, "hub16", 1, 0, 0, 1],
+      [-2, 11, -Math.PI / 2, 6, 0, "hub16", 1, 0, 0, 1],
     ];
     
     puzzles = [];
     
     cubes = [];
-    for(i = 0; i < 20; i++){
-      for(j = 0; j < 4; j++){
-        if((j == 3 && i == 16) || (j == 2 && i == 17) || (j == 1 && i == 17) || (j == 2 && i == 16) || (j == 1 && i == 16) ){
+    for(i = 9; i < 15; i++){
+      for(j = 0; j < 5; j++){
+        if((j == 2 && i == 14) || (j == 2 && i == 13) || (j == 3 && i == 13) || (j == 3 && i == 12) || (j == 2 && i == 12)){
         }
         else {
           cubes.push([j,i]);          
@@ -267,41 +266,43 @@ enterroom = function(){
         lock = 1;
 
         // Resize and place snake at the right place, slow it down
-        setTimeout('resetsnake();movesnake();snakecubemove0.style.transition=".5s"',2000);
+        setTimeout('resetsnake();movesnake();snakecubemove0.style.transition="transform .5s"',2000);
         
         // Head goes out of the ground
         setTimeout("snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push(0);snakeangle.push(snakeangle[head]);head++;movesnake()",4500);
         
         // Shake head and shadow
-        setTimeout("snakecubemove0.style.transition='';snakeshadow0.style.transition=snakecuberotate0.style.transition='.2s';snakeshadow0.style.transform=snakecuberotate0.style.transform='rotateZ("+-Math.PI/4+"rad)'",5000);
+        setTimeout("snakecubemove0.style.transition='';snakeshadow0.style.transition=snakecuberotate0.style.transition='transform .2s';snakeshadow0.style.transform=snakecuberotate0.style.transform='rotateZ("+-Math.PI/4+"rad)'",5000);
         setTimeout("snakeshadow0.style.transform=snakecuberotate0.style.transform='rotateZ("+Math.PI/4+"rad)'",5500);
         setTimeout("snakeshadow0.style.transform=snakecuberotate0.style.transform='';",6000);
         
         // Reset custom transitions and unlock keyboard
-        setTimeout("scene.style.transition='.8s linear';snakeshadow0.style.transition=snakecuberotate0.style.transition='';lock=0",9000);
+        setTimeout("scene.style.transition='transform .8s, transform-origin .8s linear';snakeshadow0.style.transition=snakecuberotate0.style.transition='';lock=0",9000);
       }
     }
     
     // Return to hub from another room
     else {
-      scene.style.transition = '.8s';
+      scene.style.transition = 'transform .8s, transform-origin .8s linear';
       resetsnake();
       movesnake();
     }
   }
   
-  // Hub2
+  // Hub2 (puzzles 2D length 8)
   else if(pagename == "hub2"){
     
     // Trees
     trees = [
-      [36,7,0],
+      [35,8,0],
     ];
     
     // Apples
     apples = [
-      [33,11,0,0,6],
+      [33,9,0,0,6],
     ];
+    
+    cubes = [];
     
     // Doors
     // 0: x,
@@ -316,7 +317,8 @@ enterroom = function(){
     // 9: z
     doors = [
       [-2, 10, -Math.PI / 2, 8, 0, "hub", 0, 39, 11, 0],
-      [41, 10, Math.PI / 2, 9, 0, "hub3", 1, 0, 10, 0],
+      [41, 10, Math.PI / 2, 9, 0, "hub3", 1, 1, 9, 0],
+      [22, 21, Math.PI, 14, 0, "hub5",0, 22, 1, 0],
     ];
     
     // Puzzles
@@ -329,16 +331,165 @@ enterroom = function(){
       [6,8,0,,"000000000100001100001110001100000000",26,13],
     ];
     
+    drawobjects();
+    
+    scene.style.transition = 'transform .8s, transform-origin .8s linear';
+    resetsnake();
+    movesnake();
+  }
+
+  // Hub3 (puzzles 2D length 9)
+  else if(pagename == "hub3"){
+    
+    // Trees
+    trees = [
+      [35,8,0],
+    ];
+    
+    // Apples
+    apples = [
+      [33,9,0,0,12],
+      [34,10,0,0,12],
+    ];
+    
+    // Doors
+    // 0: x,
+    // 1: y
+    // 2: angle
+    // 3: min length
+    // 4: min puzzles
+    // 5: page to load
+    // 6: show door
+    // 7: x in new page
+    // 8: y in new page
+    // 9: z
+    doors = [
+      [-2, 9, -Math.PI / 2, 8, 0, "hub2", 0, 39, 10, 0],
+      [22, 21, Math.PI, 11, 0, "hub4", 1, 22, 1, 0],
+    ];
+    
+    // Puzzles
+    puzzles = [
+      [6,9,0,,"000000000000001100001110011110000000",2,2],
+      [7,9,0,,"0000000001100000110000010000001100000110000000000",14,2],
+      [6,9,0,,"000000000000011000001110011110000000",26,2],
+      [6,9,0,,"000000001110001110000110000010000000",2,11],
+      [7,9,0,,"0000000000100000011000011100001100000010000000000",14,11],
+      [6,9,0,,"000000011000011000001110000110000000",26,11],
+    ];
+    
     cubes = [];
     
     drawobjects();
     
-    debug = 1;
-    
-    scene.style.transition='transform .8s, transform-origin .8s linear';
+    scene.style.transition = 'transform .8s, transform-origin .8s linear';
     resetsnake();
     movesnake();
   }
+  
+  // Hub4 (puzzles 2D length 11)
+  else if(pagename == "hub4"){
+    
+    // Trees
+    trees = [
+      [35,8,0],
+    ];
+    
+    // Apples
+    apples = [
+      [33,9,0,0,18],
+      [34,10,0,0,18],
+    ];
+    
+    // Doors
+    // 0: x,
+    // 1: y
+    // 2: angle
+    // 3: min length
+    // 4: min puzzles
+    // 5: page to load
+    // 6: show door
+    // 7: x in new page
+    // 8: y in new page
+    // 9: z
+    doors = [
+      [22, -2, 0, 8, 0, "hub3", 0, 22, 19, 0],
+      [-2, 10, -Math.PI / 2, 13, 0, "hub5", 1, 39, 10, 0],
+    ];
+    
+    // Puzzles
+    puzzles = [
+      [6,11,0,,"000000011110011010011110000000000000",2,2],
+      [7,11,0,,"0000000001110000111000001100000110000010000000000",14,2],
+      [6,11,0,,"000000011000011110001010001110000000",26,2],
+      [6,11,0,,"000000011100001110001110001100000000",2,11],
+      [6,11,0,,"000000001110001110001110001010000000",14,11],
+      [6,11,0,,"000000011110011110001100001000000000",26,11],
+    ];
+    
+    cubes = [];
+    
+    drawobjects();
+    
+    scene.style.transition = 'transform .8s, transform-origin .8s linear';
+    resetsnake();
+    movesnake();
+  }
+  
+  // Hub5
+  else if(pagename == "hub5"){
+    
+    // Trees
+    trees = [
+      [35,8,0],
+    ];
+    
+    // Apples
+    apples = [
+      [34,11,0,0,24],
+    ];
+    
+    // Doors
+    // 0: x,
+    // 1: y
+    // 2: angle
+    // 3: min length
+    // 4: min puzzles
+    // 5: page to load
+    // 6: show door
+    // 7: x in new page
+    // 8: y in new page
+    // 9: z
+    doors = [
+      [41, 10, Math.PI / 2, 8, 0, "hub4", 0, 1, 10, 0],
+      [22, -2, 0, 14, 0, "hub2", 1, 22, 19, 0]
+    ];
+    
+    // Puzzles
+    puzzles = [
+      /*[7,13,0,,"0000000000000001111000111100001111000100000000000",2,2],
+      [7,13,0,,"0000000001110000101000011100001110000110000000000",14,2],
+      [6,13,0,,"000000001110011110011010001110000000",26,2],
+      [7,13,0,,"0000000001100000111000011100001110000110000000000",2,11],
+      [7,13,0,,"0000000000000001111100101010011111000000000000000",14,11],
+      [7,13,0,,"0000000000000000001100001110001111001111000000000",26,11],*/
+      
+      // Abandoned puzzles :'(
+      [7,13,0,,"0000000011000001111100011110001100000000000000000",2,2],
+      [6,13,0,,"000000011000011100011110011110000000",14,2],
+      [7,13,0,,"0000000010000001110000111100011110001000000000000",2,11],
+      [7,13,0,,"0000000000000000111000011100011110001110000000000",14,11]
+    ];
+    
+    cubes = [];
+    
+    drawobjects();
+    
+    scene.style.transition = 'transform .8s, transform-origin .8s linear';
+    resetsnake();
+    movesnake();
+  }
+  
 }
 
 // Reset the snake's positions and angles
@@ -401,23 +552,33 @@ resetsnake = function(noresethistory){
       }
       
       // Arrive from top
-      if(y < 2){
-        /*for(i = 0; i < snakelength; i++){
-          snakex[head - i] = x - i;
-          snakey[head - i] = y;
+      else if(y < 2){
+        for(i = 0; i < snakelength; i++){
+          snakex[head - i] = x;
+          snakey[head - i] = y - i;
           snakez[head - i] = z;
-          snakeangle[head - i] = angle;
-        }*/
+          snakeangle[head - i] = 0;
+        }
       }
       
       // Arrive from bottom
-      else if(y > 28){
-        /*for(i = 0; i < snakelength; i++){
-          snakex[head - i] = x + i;
-          snakey[head - i] = y;
+      else if(y > 18){
+        for(i = 0; i < snakelength; i++){
+          snakex[head - i] = x;
+          snakey[head - i] = y + i;
           snakez[head - i] = z;
-          snakeangle[head - i] = angle;
-        }*/
+          snakeangle[head - i] = 0;
+        }
+      }
+      
+      // Debug (when localStorage is corrupted)
+      else {
+        for(i = 0; i < snakelength; i++){
+          snakex[head - i] = 10;
+          snakey[head - i] = 10;
+          snakez[head - i] = -i;
+          snakeangle[head - i] = Math.PI;
+        }
       }
     }
       
@@ -432,7 +593,7 @@ resetsnake = function(noresethistory){
           snakeangle[head - i] = 0;
         }
       }
-    }
+    }   
   }
   
   // Draw 16 snake cubes (or more if snalelength is > 16)

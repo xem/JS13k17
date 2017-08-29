@@ -48,7 +48,11 @@ input[type=range]::-moz-range-thumb {
 }
 
 .hub #perspective,
-.hub2 #perspective {
+.hub2 #perspective,
+.hub3 #perspective,
+.hub4 #perspective,
+.hub5 #perspective,
+.hub6 #perspective {
   top: 50vh;
   left: 50vw;
 }
@@ -284,13 +288,13 @@ input[type=range] {
 }
 
 .tree {
-  font: 20vh/20vh a;
+  font: 18vh/21vh a;
   transform: translateX(-8vh) translateY(-15vh) translateZ(1vh) rotateX(-75deg);
 }
 
 .treeshadow {
   font: 18vh/19vh a;
-  transform: translateX(-7vh) translateY(-14vh) translateZ(1vh) rotateZ(144deg) scaleY(1.5);
+  transform: translateX(-7vh) translateY(-14vh) translateZ(1vh) rotateZ(144deg) scaleY(1.1);
 }
 
 .apple {
@@ -338,7 +342,7 @@ input[type=range] {
   background: radial-gradient(2vh at 90% 50%, gold 35%, transparent 40%), brown;
   border-radius: 1vh 1vh 0 0;
   transform-origin: 0% 100%;
-  transform: translateX(-10.5vh) translateY(-14.5vh) rotateX(-90deg);
+  transform: translateX(-10.5vh) translateY(-14.5vh) translateZ(.5vh) rotateX(-90deg) ;
   text-align: center;
   font-size: 8vh;
   line-height: 12vh;
@@ -347,7 +351,7 @@ input[type=range] {
 }
 
 .door.open .realdoor {
-  transform: translateX(-10.5vh) translateY(-14.5vh) rotateX(-90deg) rotateY(90deg);
+  transform: translateX(-10.5vh) translateY(-14.5vh) translateZ(.5vh) rotateX(-90deg) rotateY(90deg);
 }
 
 .cube.rock div {
@@ -377,7 +381,7 @@ input[type=range] {
   border-radius: 3vh;
 }
 
-.hub2 #scene {
+.hub2 #scene, .hub3 #scene, .hub4 #scene, .hub5 #scene, .hub6 #scene {
   transition: transform 6s ease-in, transform-origin 6s ease-in;
   width: 280vh;
   height: 140vh;
