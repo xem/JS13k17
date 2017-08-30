@@ -38,7 +38,7 @@ input[type=range]::-moz-range-thumb {
 #perspective {
   width: 0;
   height: 0;
-  perspective: 80vh;
+  perspective: 120vh;
   position: fixed;
   top: 50vh;
   left: 50vw;
@@ -271,6 +271,7 @@ input[type=range] {
 .emoji {
   position: fixed;
   transform-origin: 50% 100%;
+  bottom: 0;
 }
 
 .emojishadow {
@@ -278,20 +279,15 @@ input[type=range] {
   text-shadow: 0px 0px rgba(0,0,0,.25);
   position: fixed;
   transform-origin: 50% 100%;
+  bottom: 0;
 }
 
-.tree {
-  font: 18vh/19vh a;
-}
-
-.treeshadow {
-  font: 18vh/19vh a;
-  
+.tree, .treeshadow {
+  font: 17vh/18vh a;
 }
 
 .apple {
   font: 6vh/8vh a;
-  transform: translateY(-4vh) rotateX(-60deg);
   transition: opacity .5s .5s;
 }
 
@@ -301,7 +297,6 @@ input[type=range] {
 
 .appleshadow {
   font: 6vh/8vh a;
-  transform: translateY(-6vh) translateZ(1vh) rotateZ(144deg);
   transition: opacity .5s .5s;
 }
 
@@ -358,8 +353,8 @@ input[type=range] {
 .cube.rock div.up {
   background: radial-gradient(#3F7D1F,#034301);
   background-size: 280vh 140vh;
-  width: 7.5vh;
-  height: 7.5vh;
+  width: 7.4vh;
+  height: 7.4vh;
 }
 
 .hint {
@@ -369,9 +364,13 @@ input[type=range] {
   width: 20vh;
   font: 2.5vh/3.2vh arial;
   transform-origin: 50% 100%;
-  transform: rotateX(-90deg) translateY(-4vh);
   text-align: center;
   box-shadow: 0 0 0 2px #000 inset;
+  bottom: 0;
+}
+
+.hint br {
+  font: 0/0 a
 }
 
 .hint:before {
@@ -402,7 +401,7 @@ input[type=range] {
 
 .hub #scene {
   
-  background: radial-gradient(10vh at 51.3% 51%, #000 40%, transparent 50%), radial-gradient(15vh at 51.3% 51%, #640 40%, transparent 50%), radial-gradient(#4F8D2F,#136321);
+  background: radial-gradient(10vh at 51.3% 52%, #000 40%, transparent 50%), radial-gradient(15vh at 51.3% 52%, #640 40%, transparent 50%), radial-gradient(#4F8D2F,#136321);
   /* radial-gradient(20vh at 50% 0%, #def 25%, transparent 50%), radial-gradient(20vh at 0% 50%, #ff9 25%, transparent 50%), */
 }
 

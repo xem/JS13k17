@@ -1,4 +1,4 @@
 TODO
 replace puzzles[][5 / 6] par leftoffset/top
 replace puzzles[][1] par size
-make doors more visible
+editor: wrap + size=6 = pété

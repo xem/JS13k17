@@ -23,7 +23,6 @@ movesnake = cameraonly => {
         
         // Left
         if(snakex[(head - i) - 1] == leftoffset && snakex[(head - i)] == leftoffset + size - 1){
-          log("wrap");
           wrapping = 1;
           oldx = leftoffset - 1;
           newx = leftoffset + size;
@@ -81,10 +80,10 @@ movesnake = cameraonly => {
       if(wrapping){
         
         // Rotate
-        top["snakecuberotate"+i].style.transform = `rotateZ(${snakeangle[(head - i)]}rad)`;
+        self["snakecuberotate"+i].style.transform = `rotateZ(${snakeangle[(head - i)]}rad)`;
         
         // Disappear after the wrap start
-        top["snakecubemove"+i].style.transform = `translateX(${oldx*sidesize+.5}vh)translateY(${oldy*sidesize+.5}vh)translateZ(${oldz*sidesize+.5}vh)scale(.01)scaleZ(.01)`;
+        self["snakecubemove"+i].style.transform = `translateX(${oldx*sidesize+.5}vh)translateY(${oldy*sidesize+.5}vh)translateZ(${oldz*sidesize+.5}vh)scale(.01)scaleZ(.01)`;
         
         // Disable transitions
         setTimeout("snakecubemove"+i+".style.transition='none'", 150);
@@ -99,15 +98,15 @@ movesnake = cameraonly => {
       // Normal transition (just update snakecubemove and snakecuberotate)
       else{
         try{
-          top["snakecubemove"+i].style.transform = `translateX(${snakex[(head - i)]*sidesize+.5}vh)translateY(${snakey[(head - i)]*sidesize+.5}vh)translateZ(${snakez[(head - i)]*sidesize+.9}vh)`;
-          top["snakecuberotate"+i].style.transform = `rotateZ(${snakeangle[(head - i)]}rad)`;
+          self["snakecubemove"+i].style.transform = `translateX(${snakex[(head - i)]*sidesize+.5}vh)translateY(${snakey[(head - i)]*sidesize+.5}vh)translateZ(${snakez[(head - i)]*sidesize+.9}vh)`;
+          self["snakecuberotate"+i].style.transform = `rotateZ(${snakeangle[(head - i)]}rad)`;
         }
         catch(e){};
       }
       
       // Shadow
       try{
-        top["snakeshadow"+i].style.display = snakez[(head - i)] == 0 ? "" : "none";
+        self["snakeshadow"+i].style.display = snakez[(head - i)] == 0 ? "" : "none";
       }
       catch(e){};
     }
@@ -117,15 +116,15 @@ movesnake = cameraonly => {
     if(!iseditor){
       
       if(currentpuzzle === null || L[P + "puzzle"+pagename+currentpuzzle]){
-        scene.style.transform="translateX("+(-snakex[head]*sidesize)+"vh)translateY("+(-snakey[head]*sidesize) + "vh)translateZ(-5vh)rotateX(50deg)";
+        scene.style.transform="translateX("+(-snakex[head]*sidesize)+"vh)translateY("+(-snakey[head]*sidesize) + "vh)translateZ(15vh)rotateX(40deg)";
         scene.style.transformOrigin = "" + (snakex[head]*sidesize) + "vh " + (snakey[head]*sidesize) + "vh";
       }
       
       // Unsolved puzzle: fixed camera
       else {
-        scene.style.transform = "translateX(" + (-(leftoffset + puzzles[currentpuzzle][0] / 2) * sidesize + 10) + "vh)translateY(" + (-(topoffset + puzzles[currentpuzzle][0] / 2) * sidesize + 8) + "vh)translateZ(" + (60 - (puzzles[currentpuzzle][0] * (sidesize + 3))) + "vh)rotateX(30deg)";
+        scene.style.transform = "translateX(" + (-(leftoffset + puzzles[currentpuzzle][0] / 2) * sidesize + 5) + "vh)translateY(" + (-(topoffset + puzzles[currentpuzzle][0] / 2) * sidesize + 8) + "vh)translateZ(" + (60 - (puzzles[currentpuzzle][0] * (sidesize + 3))) + "vh)rotateX(30deg)";
         
-        scene.style.transformOrigin = ""+((leftoffset + puzzles[currentpuzzle][0] / 2 + 10) * sidesize) +"vh "+((topoffset + puzzles[currentpuzzle][0] / 2 - 1) * sidesize + 8) + "vh";
+        scene.style.transformOrigin = ""+((leftoffset + puzzles[currentpuzzle][0] / 2) * sidesize + 5) +"vh "+((topoffset + puzzles[currentpuzzle][0] / 2 - 1) * sidesize + 8) + "vh";
       }
     }
   }
@@ -138,15 +137,15 @@ movesnake = cameraonly => {
   for(var i in doors){
     
     // Open a door if the snake's length is big enough
-    if(top["door" + pagename + i] && doors[i][3] > 0 && snakelength >= doors[i][3] && Math.hypot(x - doors[i][0], y - doors[i][1]) < 4){
-      top["door" + pagename + i].className = "door open";
+    if(self["door" + pagename + i] && doors[i][3] > 0 && snakelength >= doors[i][3] && Math.hypot(x - doors[i][0], y - doors[i][1]) < 4){
+      self["door" + pagename + i].className = "door open";
       
       // Save that in L for next visit
       L[P + "door" + pagename + i] = 1;
     }
     
     // Walk on a door path if the door is open
-    if(top["door" + pagename + i] && top["door" + pagename + i].className == "door open" && Math.hypot(x - doors[i][0], y - doors[i][1]) < 2){
+    if(self["door" + pagename + i] && self["door" + pagename + i].className == "door open" && Math.hypot(x - doors[i][0], y - doors[i][1]) < 2){
       L[P + "page"] = pagename = doors[i][5];
       setTimeout(enterroom, 600);
       
@@ -215,10 +214,9 @@ checkmove = (x,y,z) => {
     }
   }
   
-  // Hub boundaries
+  // Room boundaries
   else {
-    //if(b.className == "hub" || b.className == "hub2"){
-    if(x < 0 || x >= 40 || y < 0 || y >= 20){
+    if(x < 0 || x >= w || y < 0 || y >= h){
       stuck = 1;
     }
   }
@@ -230,17 +228,35 @@ checkmove = (x,y,z) => {
     }
   }
   
+  // Hints hitbox
+  for(var i in hints){
+    if(hints[i][4]){
+      if(x >= hints[i][1] && x <= hints[i][1] + 2 && y == hints[i][2]){
+        stuck = 1;
+      }
+    }
+  }
+  
   // Apples
   for(var i in apples){
     if(L[P + "appleappeared" + pagename + i] && x == apples[i][0] && y == apples[i][1]){
       
       // Eat an apple
       delete apples[i];
-      top["apple" + i].remove();
-      top["appleshadow" + i].remove();
+      self["apple" + i].remove();
+      self["appleshadow" + i].remove();
       snakelength++;
       L[P + "snakelength"] = snakelength;
       L[P + "appleeaten" + pagename + i] = 1;
+      
+      // Room 2-2 easter-egg
+      if(pagename == "2-2" && snakelength == 16){
+        lock = 1;
+        easteregg = 1;
+        scene.style.transition = "5s";
+        scene.style.transform = "translateX(-266vh) translateY(-110vh) translateZ(-400vh) rotateX(0deg) rotateZ(180deg)";
+        setTimeout("scene.style.transition='.8s';lock=easteregg=0",5000);
+      }
     }
   }
   
@@ -255,7 +271,7 @@ checkmove = (x,y,z) => {
   for(var i in doors){
     
     // Walk on a door path if the door is open
-    if(top["door" + pagename + i] && top["door" + pagename + i].className == "door open" && Math.hypot(x - doors[i][0], y - doors[i][1]) <= 2){
+    if(self["door" + pagename + i] && self["door" + pagename + i].className == "door open" && Math.hypot(x - doors[i][0], y - doors[i][1]) <= 2){
       stuck = 0;
     }
   }
@@ -283,11 +299,11 @@ checkgrid = e => {
   // Repaint everything in black and white
   for(i = 0; i < size; i++){
     for(j = 0; j < size; j++){
-      if(top[`g${cellprefix}-${i}-${j}`]){
-        top[`g${cellprefix}-${i}-${j}`].style.background = dg[i][j] ? "#000" : "#fff";
+      if(self[`g${cellprefix}-${i}-${j}`]){
+        self[`g${cellprefix}-${i}-${j}`].style.background = dg[i][j] ? "#000" : "#fff";
       }
-      if(top[`w${cellprefix}-{i}-${j}`]){
-        top[`w${cellprefix}-{i}-${j}`].style.background = dw[i][j] ? "#000" : "#fff";
+      if(self[`w${cellprefix}-{i}-${j}`]){
+        self[`w${cellprefix}-{i}-${j}`].style.background = dw[i][j] ? "#000" : "#fff";
       }
     }
   }
@@ -300,9 +316,9 @@ checkgrid = e => {
   for(i = 0; i < snakelength; i++){
  
     // Paint the good cells in green and the bad ones in red (if they exist, hence the try/catch)
-    if(top[`g${cellprefix}-${snakey[head - i] - topoffset}-${snakex[head - i] - leftoffset}`]){
-      top[`g${cellprefix}-${snakey[head - i] - topoffset}-${snakex[head - i] - leftoffset}`].style.background = dg[snakey[head - i] - topoffset][snakex[head - i] - leftoffset] ? "#080" : "#F00";
-      //top[`w${cellprefix}-${size - 1 - snakez[head - i]}-${snakex[head - i]}`].style.background = dw[size - 1 - snakez[head - i]][snakex[head - i]] ? "green" : "red";
+    if(self[`g${cellprefix}-${snakey[head - i] - topoffset}-${snakex[head - i] - leftoffset}`]){
+      self[`g${cellprefix}-${snakey[head - i] - topoffset}-${snakex[head - i] - leftoffset}`].style.background = dg[snakey[head - i] - topoffset][snakex[head - i] - leftoffset] ? "#080" : "#F00";
+      //self[`w${cellprefix}-${size - 1 - snakez[head - i]}-${snakex[head - i]}`].style.background = dw[size - 1 - snakez[head - i]][snakex[head - i]] ? "green" : "red";
     }
     
     // If a snake part is out of the grid, not solved
@@ -325,10 +341,10 @@ checkgrid = e => {
   for(i = 0; i < size; i++){
     for(j = 0; j < size; j++){
       try{
-        if(hasground && top[`g${cellprefix}-${i}-${j}`].style.backgroundColor.match(/0/g).length == 3){
+        if(hasground && self[`g${cellprefix}-${i}-${j}`].style.backgroundColor.match(/0/g).length == 3){
           solved = 0;
         }
-        if(haswall && top[`w${cellprefix}-${i}-${j}`].style.backgroundColor.match(/0/g).length == 3){
+        if(haswall && self[`w${cellprefix}-${i}-${j}`].style.backgroundColor.match(/0/g).length == 3){
           solved = 0;
         }
       }
@@ -342,11 +358,11 @@ checkgrid = e => {
     L[P + "puzzle" + pagename + currentpuzzle] = 1;
     for(i = 0; i < size; i++){
       for(j = 0; j < size; j++){
-        if(top[`g${cellprefix}-${i}-${j}`]){
-          top[`g${cellprefix}-${i}-${j}`].style.background = dg[i][j] ? "green" : "gold";
+        if(self[`g${cellprefix}-${i}-${j}`]){
+          self[`g${cellprefix}-${i}-${j}`].style.background = dg[i][j] ? "#44c" : "fd0";
         }
-        if(top[`w${cellprefix}-{i}-${j}`]){
-          top[`w${cellprefix}-{i}-${j}`].style.background = dw[i][j] ? "green" : "gold";
+        if(self[`w${cellprefix}-{i}-${j}`]){
+          self[`w${cellprefix}-{i}-${j}`].style.background = dw[i][j] ? "#44c" : "#fd0";
         }
       }
     }
@@ -357,14 +373,14 @@ checkgrid = e => {
     var cubetoremove = 1;
     for(var j in cubes){
       if(
-        cubes[j][0] >= puzzles[p][5]
-        && cubes[j][0]  < puzzles[p][5] + puzzles[p][0]
-        && cubes[j][1]  >= puzzles[p][6]
-        && cubes[j][1]  < puzzles[p][6] + puzzles[p][0]
+        cubes[j][0] >= puzzles[currentpuzzle][5]
+        && cubes[j][0]  < puzzles[currentpuzzle][5] + puzzles[currentpuzzle][0]
+        && cubes[j][1]  >= puzzles[currentpuzzle][6]
+        && cubes[j][1]  < puzzles[currentpuzzle][6] + puzzles[currentpuzzle][0]
       ){
         delete cubes[j];
         cubetoremove++;
-        setTimeout('top["cube'+j+'"].remove()',cubetoremove * 200);
+        setTimeout('self["cube' + j + '"].remove()', cubetoremove * 200);
       }
     }       
   }
@@ -376,7 +392,7 @@ checkapple = e => {
     
     //console.log(i, L[P + "appleappeared"+pagename+i], apples[i][3], snakelength, apples[i][4], totalsolved);
 
-    if(!L[P + "appleappeared"+pagename+i] &&((apples[i][3] > 0 && apples[i][3] == snakelength) || (apples[i][4] > 0 && apples[i][4] == totalsolved))){
+    if(!L[P + "appleappeared" + pagename + i] &&((apples[i][3] > 0 && apples[i][3] == snakelength) || (apples[i][4] > 0 && apples[i][4] == totalsolved))){
       
       lock = 1;
       
@@ -388,8 +404,8 @@ checkapple = e => {
       scene.style.transformOrigin=""+(apples[`+i+`][0]*sidesize)+"vh "+(apples[`+i+`][1]*sidesize)+"vh";
 
       // Show apple falling
-      top["apple"+`+i+`].className = "emoji apple";
-      top["appleshadow"+`+i+`].className = "emojishadow appleshadow";`, 250);
+      self["apple"+`+i+`].className = "emoji apple";
+      self["appleshadow"+`+i+`].className = "emojishadow appleshadow";`, 250);
       
       // Focus back on snake
       setTimeout("movesnake();lock=0", 2000);
@@ -403,7 +419,7 @@ checkapple = e => {
 onkeydown = e => {
   
   // Update u/d/l/r flags
-  top['lurd************************l**r************l*d***u**u'[e.which - 37]] = 1;
+  self['lurd************************l**r************l*d***u**u'[e.which - 37]] = 1;
   
   // Backspace = 8 / Alt = 18
   if(e.which == 8 || e.which == 18){
@@ -419,6 +435,24 @@ onkeydown = e => {
   if(e.which == 17){
     c = 1;
   }
+  
+  // R = 82
+  if(e.which == 82){
+    console.log(head, exithead, snakex, snakey, snakez, snakeangle);
+    if(exithead > snakelength && exithead <= head){
+      for(var i = exithead; i <= head; i++){
+        snakex.pop();
+        snakey.pop();
+        snakez.pop();
+        snakeangle.pop();
+      }
+    }
+    head = exithead - 1;
+    exithead = 0;
+    movesnake();
+    console.log(head, exithead, snakex, snakey, snakez, snakeangle);
+    return;
+  }
 
   // Allow F5 = 116 / Ctrl = 17 / R = 82, F12 = 123, disable the other keys that can ruin the gameplay (space, backspace, scroll, etc...)
   if(e.keyCode != 116 && e.keyCode != 82 && e.keyCode != 17 && e.keyCode != 123){
@@ -428,6 +462,12 @@ onkeydown = e => {
   var inbounds = 0;
   if(playing && puzzling && snakex[head] >= leftoffset && snakex[head] < leftoffset + puzzles[currentpuzzle][1] && snakey[head] >= topoffset && snakey[head] < topoffset + puzzles[currentpuzzle][1] && snakez[head] >= 0 && snakez[head] < size){
     inbounds = 1;
+    if(!exithead){
+      exithead = head - 1;
+    }
+  }
+  else{
+    exithead = 0;
   }
   
   if(playing && !lock){
@@ -660,7 +700,7 @@ onkeydown = e => {
     }
   
     // If a move key was pressed and snake is not stuck
-    if(!stuck && (u || r || d || l || s || c || B)){
+    if(!stuck && !easteregg && (u || r || d || l || s || c || B)){
         
       // Update snake & camera position
       movesnake();
@@ -682,6 +722,19 @@ onkeydown = e => {
         lock = 1;
         setTimeout("lock=0", 100);
       }
+
+      // Editor
+      if(pagename == "hub" && snakelength >= 14 && snakex[head] == 20 && snakey[head] == 10){
+        lock = 1;
+        var z = 0;
+        for(i = 0; i < snakelength; i++){
+          z--;
+          setTimeout("snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push("+z+");snakeangle.push(snakeangle[head]);head++;movesnake()", i * 150);
+        }
+        setTimeout("location='editor.html'", i * 150);
+        L[P + "snakex"] = 20;
+        L[P + "snakey"] = 10;
+      }
     }
   }
 }
@@ -689,3 +742,4 @@ onkeydown = e => {
 onkeyup = e => {
   u = r = d = l = s = c = B = 0;
 }
+
