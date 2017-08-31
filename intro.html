@@ -1,7 +1,7 @@
 ﻿<title>LOSSST</title>
-<body bgcolor=0>
+<body bgcolor=0 style=overflow:hidden>
 <center id=e style='font:20vh/80vh a;margin:100vh 0 0;transition:margin 1s'>👀</center>
-<center id=s style=font:4vh/5vh'arial';color:#fff>
+<center id=text style=font:5vh'arial';color:#fff;position:fixed;bottom:9vh;left:0;width:100vw></center>
 <script>
 
 localStorage.clear();
@@ -12,13 +12,8 @@ setInterval("e.style.opacity=0;setTimeout('e.style.opacity=1;dir=-dir;e.style.tr
 
 // Text
 setTimeout("e.style.margin=0", 500);
-setTimeout("s.innerHTML=`I'm lossst!`", 2000);
-setTimeout("s.innerHTML=``", 3000);
-setTimeout("s.innerHTML=`And I don't say that just to respect the theme...`", 4000);
-setTimeout("s.innerHTML=``", 7000);
-setTimeout("e.style.margin='-10vh 0 10vh';s.innerHTML=`Oh, I think there's an exit up there!`", 8000);
-setTimeout("s.innerHTML=``", 11000);
-setTimeout("e.style.margin='-80vh 0 0'", 12000);
-setTimeout("location='index.html'", 13000);
-
+setTimeout("text.innerHTML=`I lossst my son!`", 2000);
+setTimeout("text.innerHTML=``", 5000);
+setTimeout("e.style.margin='-80vh 0 0'", 7000);
+setTimeout("location='index.html'", 9000);
 </script>

@@ -129,6 +129,28 @@ movesnake = cameraonly => {
     }
   }
   
+  // Fall if all the cubes are in the air
+  //if(!inbounds){
+    var flying = 1;
+    for(i = 0; i < snakelength; i++){
+      if(snakez[head - i] <= 0){
+        flying = 0;
+        break;
+      }
+      for(j in cubes){
+        if(cubes[j][0] == snakex[head - i] && cubes[j][1] == snakey[head - i] && snakez[head - i] == 1){
+          flying = 0;
+        }
+      }
+    }
+    if(flying){
+      for(i = 0; i < snakelength; i++){
+        snakez[head - i]--;
+      }
+      movesnake();
+    }
+  //}
+  
   // Doors
   var x = snakex[head],
   y = snakey[head],
@@ -166,6 +188,7 @@ movesnake = cameraonly => {
     currentpuzzle = null;
     
     dg = [];
+    dw = [];
   
     for(p in puzzles){
       if(
@@ -192,8 +215,14 @@ movesnake = cameraonly => {
         size = puzzles[p][0];
         for(i = 0; i < size; i++){
           dg[i] = [];
+          dw[i] = [];
           for(j = 0; j < size; j++){
-            dg[i][j] = +puzzles[p][4][i * puzzles[p][0] + j];
+            if(puzzles[p][3]){
+              dw[i][j] = +puzzles[p][3][i * puzzles[p][0] + j];
+            }
+            if(puzzles[p][4]){
+              dg[i][j] = +puzzles[p][4][i * puzzles[p][0] + j];
+            }
           }
         }
         checkgrid();
@@ -249,20 +278,20 @@ checkmove = (x,y,z) => {
       L[P + "snakelength"] = snakelength;
       L[P + "appleeaten" + pagename + i] = 1;
       
-      // Room 2-2 easter-egg
+      // Room 2-2: easter-egg
       if(pagename == "2-2" && snakelength == 16){
         lock = 1;
         easteregg = 1;
         scene.style.transition = "5s";
-        scene.style.transform = "translateX(-266vh) translateY(-110vh) translateZ(-400vh) rotateX(0deg) rotateZ(180deg)";
-        setTimeout("scene.style.transition='.8s';lock=easteregg=0",5000);
+        scene.style.transform = "translateX(-256vh)translateY(-95vh)translateZ(-400vh)rotateX(0deg)rotateZ(180deg)";
+        setTimeout("scene.style.transition='.8s';lock=easteregg=0;movesnake()",10000);
       }
     }
   }
   
   // Rock
   for(var i in cubes){
-    if(x == cubes[i][0] && y == cubes[i][1]){
+    if(x == cubes[i][0] && y == cubes[i][1] && z == 0){
       stuck = 1;
     }
   }
@@ -282,6 +311,34 @@ checkmove = (x,y,z) => {
     if(snakex[head - i] == x && snakey[head - i] == y && snakez[head - i] == z){
       stuck = 1;
     }
+  }
+  
+  // Room 2-5: find son
+  if(pagename == "2-5" && x == 18 && !son){
+    stuck = 1;
+    lock = 1;
+    easteregg = son = 1;
+    L[P + "son"] = 1;
+    L[P + "snakelength"] = snakelength = 5;
+    for(i = 0; i < 21; i ++){
+      cubes.push([snakex[head - i], snakey[head - i]]);
+      self["snakecubemove" + i].id = "";
+      self["snakecuberotate" + i].id = "";
+      self["snakeshadow" + i].id = "";
+      self["snakecube" + i].id = "";
+    }
+    scene.style.transition = "2s";
+    resetsnake();
+    movesnake();
+    scene.style.transform = "translateX(-142vh)translateY(-70vh)translateZ(80vh)rotateX(45deg)";
+    scene.style.transformOrigin = "140vh 70vh";
+    setTimeout('snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push(0);snakeangle.push(snakeangle[head]);head++;movesnake()', 3000);
+    setTimeout("text.innerHTML='Daddy!'", 4000);
+    setTimeout("text.innerHTML=''", 6000);
+    setTimeout("text.innerHTML='I lossst my basketball!'", 7000);
+    setTimeout("text.innerHTML=''", 9000);
+    setTimeout("text.innerHTML='But I found new moves!'", 10000);
+    setTimeout("text.innerHTML='';easteregg=lock=0;scene.style.transition='.8s';movesnake();checkapple()", 13000);
   }
 }
 
@@ -355,11 +412,12 @@ checkgrid = e => {
   // Solved
   if(solved){
     issolved = 1;
+    self["puzzle" + currentpuzzle].classList.remove("wrapvisible");
     L[P + "puzzle" + pagename + currentpuzzle] = 1;
     for(i = 0; i < size; i++){
       for(j = 0; j < size; j++){
         if(self[`g${cellprefix}-${i}-${j}`]){
-          self[`g${cellprefix}-${i}-${j}`].style.background = dg[i][j] ? "#44c" : "fd0";
+          self[`g${cellprefix}-${i}-${j}`].style.background = dg[i][j] ? "#44c" : "#fd0";
         }
         if(self[`w${cellprefix}-{i}-${j}`]){
           self[`w${cellprefix}-{i}-${j}`].style.background = dw[i][j] ? "#44c" : "#fd0";
@@ -389,8 +447,6 @@ checkgrid = e => {
 // Check if a new apple can appear after a certain snake length or number of puzzles solved, and make it appear
 checkapple = e => {
   for(var i in apples){
-    
-    //console.log(i, L[P + "appleappeared"+pagename+i], apples[i][3], snakelength, apples[i][4], totalsolved);
 
     if(!L[P + "appleappeared" + pagename + i] &&((apples[i][3] > 0 && apples[i][3] == snakelength) || (apples[i][4] > 0 && apples[i][4] == totalsolved))){
       
@@ -436,10 +492,21 @@ onkeydown = e => {
     c = 1;
   }
   
+  // Test if we're inside a puzzle, and save that for when we press R
+  var inbounds = 0;
+  if(playing && puzzling && snakex[head] >= leftoffset && snakex[head] < leftoffset + puzzles[currentpuzzle][1] && snakey[head] >= topoffset && snakey[head] < topoffset + puzzles[currentpuzzle][1] && snakez[head] >= 0 && snakez[head] < size){
+    inbounds = 1;
+    if(!exithead){
+      exithead = head - 1;
+    }
+  }
+  else{
+    exithead = 0;
+  }
+  
   // R = 82
-  if(e.which == 82){
-    console.log(head, exithead, snakex, snakey, snakez, snakeangle);
-    if(exithead > snakelength && exithead <= head){
+  if(e.which == 82 && inbounds){
+    if(exithead <= head){
       for(var i = exithead; i <= head; i++){
         snakex.pop();
         snakey.pop();
@@ -450,24 +517,12 @@ onkeydown = e => {
     head = exithead - 1;
     exithead = 0;
     movesnake();
-    console.log(head, exithead, snakex, snakey, snakez, snakeangle);
     return;
   }
 
   // Allow F5 = 116 / Ctrl = 17 / R = 82, F12 = 123, disable the other keys that can ruin the gameplay (space, backspace, scroll, etc...)
   if(e.keyCode != 116 && e.keyCode != 82 && e.keyCode != 17 && e.keyCode != 123){
     e.preventDefault();
-  }
-  
-  var inbounds = 0;
-  if(playing && puzzling && snakex[head] >= leftoffset && snakex[head] < leftoffset + puzzles[currentpuzzle][1] && snakey[head] >= topoffset && snakey[head] < topoffset + puzzles[currentpuzzle][1] && snakez[head] >= 0 && snakez[head] < size){
-    inbounds = 1;
-    if(!exithead){
-      exithead = head - 1;
-    }
-  }
-  else{
-    exithead = 0;
   }
   
   if(playing && !lock){
@@ -546,7 +601,7 @@ onkeydown = e => {
   
     // Forwards (Up)
     else if(u){
-      
+        
       // Wrap
       if(haswrap && inbounds && snakey[head] == topoffset){
         checkmove(snakex[head], topoffset + size - 1, snakez[head]);
@@ -613,7 +668,18 @@ onkeydown = e => {
     }
     
     // Upwards (shift)
-    else if(haswall && s){
+    else if((son || haswall) && s){
+      
+      // Can't go upper than snake's height (or snake's height + 1 if standing on a cube) if not in a puzzle
+      if(!inbounds){
+         var maxheight = snakelength - 1;
+         for(var i in cubes){
+           if(cubes[i][0] == snakex[head] && cubes[i][1] == snakey[head]){
+             maxheight++;
+           }
+         }
+         if(snakez[head] == maxheight) return;
+      }
       
       // Wrap
       if(haswrap && inbounds && snakez[head] == size - 1){
@@ -647,7 +713,7 @@ onkeydown = e => {
     }
     
     // Downwards (ctrl)
-    else if(haswall && c){
+    else if((son || haswall) && c){
       
       // Wrap
       if(haswrap && inbounds && snakez[head] == 0){
@@ -699,7 +765,7 @@ onkeydown = e => {
       }
     }
   
-    // If a move key was pressed and snake is not stuck
+    // If a move key was pressed and snake is not stuck and easteregg/son sinematic is not playing
     if(!stuck && !easteregg && (u || r || d || l || s || c || B)){
         
       // Update snake & camera position
@@ -720,7 +786,7 @@ onkeydown = e => {
       // Lock the keys for .1s unless there's an apple animation already locking them
       if(!lock){
         lock = 1;
-        setTimeout("lock=0", 100);
+        setTimeout("lock=0", 150);
       }
 
       // Editor
@@ -731,7 +797,7 @@ onkeydown = e => {
           z--;
           setTimeout("snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push("+z+");snakeangle.push(snakeangle[head]);head++;movesnake()", i * 150);
         }
-        setTimeout("location='editor.html'", i * 150);
+        setTimeout("location='editor.html'", i * 100);
         L[P + "snakex"] = 20;
         L[P + "snakey"] = 10;
       }

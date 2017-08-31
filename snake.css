@@ -87,7 +87,7 @@ input[type=range]::-moz-range-thumb {
 }
 
 .cube .down {
-  transform: rotateY(-180deg)
+  transform: rotateY(-180deg);
 }
 
 .cube .left {
@@ -114,7 +114,7 @@ input[type=range]::-moz-range-thumb {
 }
 
 .cube.wrap > div {
-  background: none;
+  background: transparent;
   pointer-events: none;
 }
 
@@ -135,8 +135,8 @@ input[type=range]::-moz-range-thumb {
   transition: opacity .5s;
 }
 
-#down {
-  background: darkgreen;
+.cube.wrap .down {
+  background: #060;
   transform: none;
   transition: opacity .5s;
 }
@@ -160,13 +160,9 @@ input[type=range]::-moz-range-thumb {
 }
 
 .cube.snake > div {
-  background: #FFA500;
+
   box-shadow: 0 0 0 1px #000 inset;
   text-align: center;
-}
-
-.cube.snake .up {
-  background: #dF8500;
 }
 
 .cube.snake .front {
@@ -175,12 +171,34 @@ input[type=range]::-moz-range-thumb {
 }
 
 .cube.snake .tongue {
-  background: none;
+  background: none !important;
   box-shadow: none;
   color: red;
   font-size: 5vh;
   text-align: center;
   transform: rotateZ(180deg) translateY(-4.5vh) translateZ(2.5vh);
+}
+
+#snake .cube.snake > div {
+  background: #FFA500;
+}
+
+#snake .cube.snake .up {
+  background: #dF8500;
+}
+
+#snake2 .cube.snake > div,
+#wall:checked ~ * .cube.snake > div {
+  background: #444;
+}
+
+#snake2 .cube.snake .up,
+#wall:checked ~ * .cube.snake .up {
+  background: #333;
+}
+
+#snake2 .cube.snake .front {
+  color: #fff;
 }
 
 .snakeshadow {
@@ -362,7 +380,7 @@ input[type=range] {
   background: #fff;
   padding: 1vh;
   width: 20vh;
-  font: 2.5vh/3.2vh arial;
+  font: 2.5vh/3vh arial;
   transform-origin: 50% 100%;
   text-align: center;
   box-shadow: 0 0 0 2px #000 inset;
@@ -381,6 +399,8 @@ input[type=range] {
   position: absolute;
   bottom: -4vh;
   left: 7.5vh;
+  border-left: 2px solid;
+  border-right: 2px solid;
 }
 /**************************************************************/
 
@@ -399,7 +419,8 @@ input[type=range] {
   background: none;
 }
 
-.hub #scene {
+.hub #scene,
+[class="2-5"] #scene {
   
   background: radial-gradient(10vh at 51.3% 52%, #000 40%, transparent 50%), radial-gradient(15vh at 51.3% 52%, #640 40%, transparent 50%), radial-gradient(#4F8D2F,#136321);
   /* radial-gradient(20vh at 50% 0%, #def 25%, transparent 50%), radial-gradient(20vh at 0% 50%, #ff9 25%, transparent 50%), */

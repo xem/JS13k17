@@ -10,8 +10,8 @@
   <span id=snakeval>5</span>
   <br>
   <input type=checkbox id=ground> <label for=ground>Ground</label>
-  <input type=checkbox id=wall> <label for=wall>Wall</label>
-  <input type=checkbox id=wrap> <label for=wrap>Wrap</label> 
+  <script>if(localStorage["lossst_snakelength"]>=17)document.write("<input type=checkbox id=wall> <label for=wall>Wall</label>")</script>
+  <script>if(localStorage["lossst_snakelength"]>=14)document.write("<input type=checkbox id=wrap> <label for=wrap>Wrap</label>")</script> 
   <br>
   <button id=test>Test</button>
   <button id=share>Share</button>
@@ -43,4 +43,4 @@
 
 <script src=init.js></script>
 <script src=gameplay.js></script>
-<script>iseditor=1;onload=editor</script>
+<script>onload=editor</script>
