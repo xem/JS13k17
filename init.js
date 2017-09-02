@@ -94,6 +94,7 @@ topoffset = 0,
 size = 0,
 totalsolved = +L[P + "totalsolved"] || 0,
 exithead = 0,
+inbounds = 0,
 
 // Stuck
 stuck = 0,
@@ -150,7 +151,7 @@ enterroom = () => {
     // 7: x in new page
     // 8: y in new page
     // 9: z (path center)
-    // 10: color (0: orange / 1: red)
+    // 10: color (0: orange / 1: black)
     doors = [
       [41, 10, Math.PI / 2, 8, 0, "1-1", 1, 0, 10, 0, 0],
       [20, -2, 0, 14, 0, "2-1", 1, 10, 19, 0, 0],
@@ -761,13 +762,13 @@ enterroom = () => {
     
     // Puzzles
     puzzles = [
-      [4,5,0,"0000000001100110","0000011001100000", 7, 7],
-      [5,5,0,"0000000100001000010001100","0000000000011000100000000", 7, 7],
-      [4,5,0,"0000011001000100","0000010001100000", 7, 7],
-      [5,5,0,"0000000000000000111001010","0000000000011000011000000", 7, 7],
-      [4,5,0,"0000000001100110","0100011000100000", 7, 7],
-      [5,5,0,"0000000000000000010001110","0000000000001100110000000", 7, 7],
-      [4,5,0,"0000010001100100","0000011001100000", 7, 7],
+      [4,5,0,"0000000001100110","0000011001100000", 12, 2],
+      [4,5,0,"0000010001100100","0000011001100000", 12, 13],
+      [4,5,0,"0000011001000100","0000010001100000", 12, 24],
+      [5,5,0,"0000000000000000111001010","0000000000011000011000000", 2, 2],
+      [4,5,0,"0000000001100110","0100011000100000", 2, 13],
+      [5,5,0,"0000000000000000010001110","0000000000001100110000000", 2, 24],
+      
     ];
     
     // Hints
@@ -786,7 +787,7 @@ enterroom = () => {
   // 3-3 (3D puzzles, length 8, wall)
   else if(pagename == "3-3"){
     
-    w = 30;
+    w = 20;
     h = 30;
     
     // Trees
@@ -812,12 +813,12 @@ enterroom = () => {
     
     // Puzzles
     puzzles = [
-      [6,5,0,"000000000000000000000000011110010010",, 7, 7],
-      [5,5,0,"0000000000010000110001110",, 7, 7],
-      [6,5,0,"000000000000000000000100001110011000",, 7, 7],
-      [5,5,0,"0000000000011000111000100",, 7, 7],
-      [5,5,0,"0000000000010000111001000",, 7, 7],
-      [5,5,0,"0000000000001000111001010",, 7, 7],
+      [6,5,0,"000000000000000000000000011110010010",, 12, 2],
+      [5,5,0,"0000000000010000110001110",, 12, 13],
+      [6,5,0,"000000000000000000000100001110011000",, 12, 24],
+      [5,5,0,"0000000000011000111000100",, 2, 2],
+      [5,5,0,"0000000000010000111001000",, 2, 13],
+      [5,5,0,"0000000000001000111001010",, 2, 24],
     ];
     
     // Hints
@@ -836,7 +837,7 @@ enterroom = () => {
   // 3-4 (3D puzzles, length 8, wall + ground)
   else if(pagename == "3-4"){
     
-    w = 30;
+    w = 20;
     h = 30;
     
     // Trees
@@ -862,12 +863,12 @@ enterroom = () => {
     
     // Puzzles
     puzzles = [
-      [4,5,0,"0000000001100110","0000011001100000", 7, 7],
-      [4,5,0,"0000001001100110","0000001001100000", 7, 7],
-      [5,5,0,"0000000000000000010001110","0000000100001100110000000", 7, 7],
-      [4,5,0,"0000011001000100","0000011001100000", 7, 7],
-      [5,5,0,"0000000000000000101001110","0000001110010100000000000", 7, 7],
-      [5,5,0,"0000000000000000011001100","0000001110011000010000000", 7, 7],
+      [4,5,0,"0000000001100110","0000011001100000", 12, 2],
+      [4,5,0,"0000001001100110","0000001001100000", 12, 13],
+      [5,5,0,"0000000000000000010001110","0000000100001100110000000", 12, 24],
+      [4,5,0,"0000011001000100","0000011001100000", 2, 2],
+      [5,5,0,"0000000000000000101001110","0000001110010100000000000", 2, 13],
+      [5,5,0,"0000000000000000011001100","0000001110011000010000000", 2, 24],
     ];
     
     // Hints
@@ -1173,7 +1174,7 @@ index = () => {
 
 </div></div>
 <center id=text style=font:5vh'arial';color:#fff;position:fixed;bottom:9vh;left:0;width:100vw></center>
-<div style="position:fixed;bottom:5px;left:5px;width:700px">
+<div style="position:fixed;bottom:5px;left:5px;width:900px">
 <button style="width:30px";float:none onclick="rot+=Math.PI/4;move_scene()">↻</button>
 <button style="width:30px;float:none" onclick="rot-=Math.PI/4;move_scene()">↺</button>
 <button style="width:30px;float:none" onclick="L.clear()">clear</button>
@@ -1190,6 +1191,10 @@ Room
 <button style="width:30px;float:none" onclick="L[P+'snakelength']=20;L[P+'snakex']=L[P+'snakey']=19;L[P+'snakez']=0;L[P+'page']='2-4';location=location">2-4</button>
 <button style="width:30px;float:none" onclick="L[P+'snakelength']=21;L[P+'snakex']=L[P+'snakey']=1;L[P+'snakez']=0;L[P+'page']='2-5';location=location">2-5</button>
 <button style="width:30px;float:none" onclick="L[P+'son']=1;L[P+'snakelength']=6;L[P+'snakex']=L[P+'snakey']=16;L[P+'snakez']=0;L[P+'page']='hub';location=location">hub2</button>
+<button style="width:30px;float:none" onclick="L[P+'son']=1;L[P+'snakelength']=6;L[P+'snakex']=L[P+'snakey']=16;L[P+'snakez']=0;L[P+'page']='3-1';location=location">3-1</button>
+<button style="width:30px;float:none" onclick="L[P+'son']=1;L[P+'snakelength']=6;L[P+'snakex']=L[P+'snakey']=16;L[P+'snakez']=0;L[P+'page']='3-2';location=location">3-2</button>
+<button style="width:30px;float:none" onclick="L[P+'son']=1;L[P+'snakelength']=8;L[P+'snakex']=L[P+'snakey']=16;L[P+'snakez']=0;L[P+'page']='3-3';location=location">3-3</button>
+<button style="width:30px;float:none" onclick="L[P+'son']=1;L[P+'snakelength']=8;L[P+'snakex']=L[P+'snakey']=16;L[P+'snakez']=0;L[P+'page']='3-4';location=location">3-4</button>
 `;
   
   // Disable cinematics (debug only)
@@ -1231,14 +1236,16 @@ editor = () => {
     
     if(self.wall && wall.checked){
       haswall = 1;
+      puzzles[0][3] = 1;
     }
     else {
       haswall = 0;
       hasground = 1;
       ground.checked = true;
+      puzzles[0][3] = 0;
     }
 
-    haswrap = puzzles[3] = self.wrap && wrap.checked;
+    haswrap = puzzles[0][2] = (self.wrap && wrap.checked) || 0;
   }
 
   // Data arrays for wall and ground puzzle

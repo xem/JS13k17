@@ -232,7 +232,7 @@ movesnake = cameraonly => {
 };
 
 // Check if a position is free and in bounds
-checkmove = (x,y,z) => {
+checkmove = (x, y, z) => {
   
   stuck = 0;
   
@@ -313,6 +313,29 @@ checkmove = (x,y,z) => {
     }
   }
   
+  // Puzzle with wall and no wrap: wall hitbox (todo fix)
+  for(p in puzzles){
+    console.log(puzzles[p][3], !puzzles[p][2], x >= puzzles[p][5], x < puzzles[p][5] + size);
+
+    if(
+      puzzles[p][3]
+      && !puzzles[p][2]
+      && x >= puzzles[p][5]
+      && x < puzzles[p][5] + size
+      && (
+        (
+          y == puzzles[p][6] - 1  && snakey[head] == puzzles[p][6]
+         ) 
+        ||
+        (
+          y == puzzles[p][6] && snakey[head] == puzzles[p][6] - 1
+        )
+      )
+    ){
+      stuck = 1;
+    }
+  }
+  
   // Room 2-5: find son
   if(pagename == "2-5" && x == 18 && !son){
     stuck = 1;
@@ -351,7 +374,8 @@ checkgrid = e => {
   
   if(currentpuzzle === null) return;
   
-  solved = 1;
+ 
+ solved = 1;
   
   // Repaint everything in black and white
   for(i = 0; i < size; i++){
@@ -359,8 +383,8 @@ checkgrid = e => {
       if(self[`g${cellprefix}-${i}-${j}`]){
         self[`g${cellprefix}-${i}-${j}`].style.background = dg[i][j] ? "#000" : "#fff";
       }
-      if(self[`w${cellprefix}-{i}-${j}`]){
-        self[`w${cellprefix}-{i}-${j}`].style.background = dw[i][j] ? "#000" : "#fff";
+      if(self[`w${cellprefix}-${i}-${j}`]){
+        self[`w${cellprefix}-${i}-${j}`].style.background = dw[i][j] ? "#000" : "#fff";
       }
     }
   }
@@ -370,12 +394,16 @@ checkgrid = e => {
     return;
   }
   
+  // For each snake cube
   for(i = 0; i < snakelength; i++){
  
-    // Paint the good cells in green and the bad ones in red (if they exist, hence the try/catch)
+    // Paint the good cells in green and the bad ones in red (if they exist)
     if(self[`g${cellprefix}-${snakey[head - i] - topoffset}-${snakex[head - i] - leftoffset}`]){
-      self[`g${cellprefix}-${snakey[head - i] - topoffset}-${snakex[head - i] - leftoffset}`].style.background = dg[snakey[head - i] - topoffset][snakex[head - i] - leftoffset] ? "#080" : "#F00";
-      //self[`w${cellprefix}-${size - 1 - snakez[head - i]}-${snakex[head - i]}`].style.background = dw[size - 1 - snakez[head - i]][snakex[head - i]] ? "green" : "red";
+      self[`g${cellprefix}-${snakey[head - i] - topoffset}-${snakex[head - i] - leftoffset}`].style.background = dg[snakey[head - i] - topoffset][snakex[head - i] - leftoffset] ? "#080" : "#f00";
+    }
+    
+    if(self[`w${cellprefix}-${size - 1 - snakez[head - i]}-${snakex[head - i] - leftoffset}`]){
+      self[`w${cellprefix}-${size - 1 - snakez[head - i]}-${snakex[head - i] - leftoffset}`].style.background = dw[size - 1 - snakez[head - i]][snakex[head - i] - leftoffset] ? "#080" : "#f00";
     }
     
     // If a snake part is out of the grid, not solved
@@ -419,8 +447,8 @@ checkgrid = e => {
         if(self[`g${cellprefix}-${i}-${j}`]){
           self[`g${cellprefix}-${i}-${j}`].style.background = dg[i][j] ? "#44c" : "#fd0";
         }
-        if(self[`w${cellprefix}-{i}-${j}`]){
-          self[`w${cellprefix}-{i}-${j}`].style.background = dw[i][j] ? "#44c" : "#fd0";
+        if(self[`w${cellprefix}-${i}-${j}`]){
+          self[`w${cellprefix}-${i}-${j}`].style.background = dw[i][j] ? "#44c" : "#fd0";
         }
       }
     }
@@ -493,7 +521,7 @@ onkeydown = e => {
   }
   
   // Test if we're inside a puzzle, and save that for when we press R
-  var inbounds = 0;
+  inbounds = 0;
   if(playing && puzzling && snakex[head] >= leftoffset && snakex[head] < leftoffset + puzzles[currentpuzzle][1] && snakey[head] >= topoffset && snakey[head] < topoffset + puzzles[currentpuzzle][1] && snakez[head] >= 0 && snakez[head] < size){
     inbounds = 1;
     if(!exithead){

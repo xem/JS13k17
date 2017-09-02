@@ -130,7 +130,7 @@ input[type=range]::-moz-range-thumb {
   transform: translateY(52%) rotateX(-90deg) translateY(-50%);
 }
 
-#back {
+.cube.wrap .back {
   transform: translateY(-50%) rotateX(-90deg) translateY(-52%);
   transition: opacity .5s;
 }
