@@ -883,6 +883,204 @@ enterroom = () => {
     cubes = [
     ];
   }
+
+  // 3-5 (3D puzzles, length 8, wrap)
+  else if(pagename == "3-5"){
+    
+    w = 20;
+    h = 30;
+    
+    // Trees
+    trees = [];
+    
+    // Apples (x, y, z, length, puzzles solved) 
+    apples = [];
+    
+    // Doors
+    // 0: x,
+    // 1: y
+    // 2: angle
+    // 3: min length
+    // 4: min puzzles
+    // 5: page to load
+    // 6: show door
+    // 7: x in new page
+    // 8: y in new page
+    // 9: z
+    // 10: color
+    doors = [
+    ];
+    
+    // Puzzles
+    puzzles = [
+      [4,5,1,"0110011001100110","0110000000000110", 12, 2],
+      [4,5,1,"1001000000001001","1001000000001001", 12, 13],
+      [4,5,1,"0000010011110010","0000111101100000", 12, 24],
+      [4,5,1,"0100010001000100","0100010000000100", 2, 2],
+      [4,5,1,"0110010000000011","0000011100110000", 2, 13],
+      [4,5,1,"1101000000000001","1101000000010001", 2, 24],
+    ];
+    
+    // Hints
+    // 0: Message
+    // 1: x
+    // 2: y
+    // 3: min snake length
+    // 4: max snake length
+    hints = [
+    ];
+    
+    cubes = [
+    ];
+  }
+
+  // 3-6 (3D puzzles, length 12, all kinds)
+  else if(pagename == "3-6"){
+    
+    w = 20;
+    h = 30;
+    
+    // Trees
+    trees = [];
+    
+    // Apples (x, y, z, length, puzzles solved) 
+    apples = [];
+    
+    // Doors
+    // 0: x,
+    // 1: y
+    // 2: angle
+    // 3: min length
+    // 4: min puzzles
+    // 5: page to load
+    // 6: show door
+    // 7: x in new page
+    // 8: y in new page
+    // 9: z
+    // 10: color
+    doors = [
+    ];
+    
+    // Puzzles
+    puzzles = [
+      [5,5,0,"0000000000001001111100100",, 12, 2],
+      [4,5,0,"0000010001100000",, 12, 13],
+      [5,5,0,"0000000110000110111000010",, 12, 24],
+      [5,5,0,"0000000000001000111011111","0000000000111001111100000", 2, 2],
+      [4,5,0,"1000110011101111","0000001111110000", 2, 13],
+      [4,5,0,"0000100011001110","1110110010000000", 2, 24],
+      [4,5,1,"1000100110010001","0000100110010000", 2, 24],
+      [4,5,1,"1001100110011001","1001100110011001", 2, 24],
+      [5,5,1,"1101110001000001000011000","1100010000000001000111011", 2, 24],
+    ];
+    
+    // Hints
+    // 0: Message
+    // 1: x
+    // 2: y
+    // 3: min snake length
+    // 4: max snake length
+    hints = [
+    ];
+    
+    cubes = [
+    ];
+  }
+  
+  // 3-7 (3D puzzles, length 14, all kinds)
+  else if(pagename == "3-7"){
+    
+    w = 20;
+    h = 30;
+    
+    // Trees
+    trees = [];
+    
+    // Apples (x, y, z, length, puzzles solved) 
+    apples = [];
+    
+    // Doors
+    // 0: x,
+    // 1: y
+    // 2: angle
+    // 3: min length
+    // 4: min puzzles
+    // 5: page to load
+    // 6: show door
+    // 7: x in new page
+    // 8: y in new page
+    // 9: z
+    // 10: color
+    doors = [
+    ];
+    
+    // Puzzles
+    puzzles = [
+      [5,5,0,"1101101010011100010000000",, 12, 13],
+      [5,5,0,"0000100011001100110011000","0000100011001100110011000", 12, 2],
+      [5,5,1,"1100010001000011000111000","0000011000110010000000000", 12, 24],
+    ];
+    
+    // Hints
+    // 0: Message
+    // 1: x
+    // 2: y
+    // 3: min snake length
+    // 4: max snake length
+    hints = [
+    ];
+    
+    cubes = [
+    ];
+  }
+  
+  // 3-8 (3D puzzles, length 20, wrap) TO TEST
+  else if(pagename == "3-8"){
+    
+    w = 20;
+    h = 30;
+    
+    // Trees
+    trees = [];
+    
+    // Apples (x, y, z, length, puzzles solved) 
+    apples = [];
+    
+    // Doors
+    // 0: x,
+    // 1: y
+    // 2: angle
+    // 3: min length
+    // 4: min puzzles
+    // 5: page to load
+    // 6: show door
+    // 7: x in new page
+    // 8: y in new page
+    // 9: z
+    // 10: color
+    doors = [
+    ];
+    
+    // Puzzles
+    puzzles = [
+      [5,5,1,"1111110000110111000011111","1011110111100001011110111", 12, 13],
+      [5,5,1,"1000011100110011001110000","1110010001001111000111100", 12, 13],
+      [5,5,1,"0011110011110001001100111","1111010100100011101100000", 12, 13],
+      [5,5,1,"1000011110111101111010000","1111110000101101011010000", 12, 13],
+    ];
+    
+    // Hints
+    // 0: Message
+    // 1: x
+    // 2: y
+    // 3: min snake length
+    // 4: max snake length
+    hints = [
+    ];
+    
+    cubes = [
+    ];
+  }
   
   scene.style.width = w * sidesize + "vh";
   scene.style.height = h * sidesize + "vh";
