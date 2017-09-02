@@ -379,7 +379,7 @@ input[type=range] {
   position: fixed;
   background: #fff;
   padding: 1vh;
-  width: 20vh;
+  width: 25vh;
   font: 2.5vh/3vh arial;
   transform-origin: 50% 100%;
   text-align: center;
@@ -398,7 +398,7 @@ input[type=range] {
   background: #750;
   position: absolute;
   bottom: -4vh;
-  left: 7.5vh;
+  left: 10vh;
   border-left: 2px solid;
   border-right: 2px solid;
 }

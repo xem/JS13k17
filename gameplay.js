@@ -315,7 +315,7 @@ checkmove = (x, y, z) => {
   
   // Puzzle with wall and no wrap: wall hitbox (todo fix)
   for(p in puzzles){
-    console.log(puzzles[p][3], !puzzles[p][2], x >= puzzles[p][5], x < puzzles[p][5] + size);
+    //console.log(puzzles[p][3], !puzzles[p][2], x >= puzzles[p][5], x < puzzles[p][5] + size);
 
     if(
       puzzles[p][3]
@@ -440,6 +440,12 @@ checkgrid = e => {
   // Solved
   if(solved){
     issolved = 1;
+    
+    // Editor
+    if(iseditor){
+      setTimeout(`share.disabled=0;playing=puzzling=0;b.className="editor";resetsnake();movesnake();checkgrid()`,1000);
+    }
+    
     self["puzzle" + currentpuzzle].classList.remove("wrapvisible");
     L[P + "puzzle" + pagename + currentpuzzle] = 1;
     for(i = 0; i < size; i++){
@@ -818,7 +824,7 @@ onkeydown = e => {
       }
 
       // Editor
-      if(pagename == "hub" && snakelength >= 14 && snakex[head] == 20 && snakey[head] == 10){
+      if(pagename == "hub" && (son || snakelength >= 14) && snakex[head] == 20 && snakey[head] == 10){
         lock = 1;
         var z = 0;
         for(i = 0; i < snakelength; i++){
