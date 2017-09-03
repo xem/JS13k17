@@ -130,26 +130,43 @@ movesnake = cameraonly => {
   }
   
   // Fall if all the cubes are in the air
-  //if(!inbounds){
-    var flying = 1;
-    for(i = 0; i < snakelength; i++){
-      if(snakez[head - i] <= 0){
+  var flying = 1;
+  for(i = 0; i < snakelength; i++){
+    if(snakez[head - i] <= 0){
+      flying = 0;
+      break;
+    }
+    for(j in cubes){
+      if(cubes[j][0] == snakex[head - i] && cubes[j][1] == snakey[head - i] && snakez[head - i] == 1){
         flying = 0;
-        break;
-      }
-      for(j in cubes){
-        if(cubes[j][0] == snakex[head - i] && cubes[j][1] == snakey[head - i] && snakez[head - i] == 1){
-          flying = 0;
-        }
       }
     }
-    if(flying){
-      for(i = 0; i < snakelength; i++){
-        snakez[head - i]--;
-      }
+  }
+  
+  if(flying){
+    
+    // Fall
+    for(i = 0; i < snakelength; i++){
+      snakez[head - i]--;
+    }
+    
+    // in wrap puzzles, the snake can get stuck in an infinite loop. If it happens, backtrack 5 times
+    try{
       movesnake();
     }
-  //}
+    
+    catch(e){
+      for(var j = snakelength * 2; j--;){
+        snakex.pop();
+        snakey.pop();
+        snakez.pop();
+        snakeangle.pop();
+        head--;
+      }
+      exithead = 0;
+      movesnake();
+    }
+  }
   
   // Doors
   var x = snakex[head],
@@ -159,7 +176,7 @@ movesnake = cameraonly => {
   for(var i in doors){
     
     // Open a door if the snake's length is big enough
-    if(self["door" + pagename + i] && doors[i][3] > 0 && snakelength >= doors[i][3] && Math.hypot(x - doors[i][0], y - doors[i][1]) < 4){
+    if(((doors[i][10] && son) || (!doors[i][10] && !son)) && self["door" + pagename + i] && doors[i][3] > 0 && snakelength >= doors[i][3] && Math.hypot(x - doors[i][0], y - doors[i][1]) < 4){
       self["door" + pagename + i].className = "door open";
       
       // Save that in L for next visit
@@ -182,7 +199,7 @@ movesnake = cameraonly => {
   // Puzzles
   if(!iseditor){
     
-    checkgrid();
+    if(currentpuzzle !== null) checkgrid();
     
     puzzling = 0;
     currentpuzzle = null;
@@ -259,11 +276,9 @@ checkmove = (x, y, z) => {
   
   // Hints hitbox
   for(var i in hints){
-    if(hints[i][4]){
-      if(x >= hints[i][1] && x <= hints[i][1] + 2 && y == hints[i][2]){
+      if(x >= hints[i][1] && x <= hints[i][1] + 3 && y == hints[i][2] && snakelength >= hints[i][3] && (!hints[i][4] || snakelength <= hints[i][4]) && ((son && hints[i][5]) || (!son && !hints[i][5]))){
         stuck = 1;
       }
-    }
   }
   
   // Apples
@@ -313,21 +328,23 @@ checkmove = (x, y, z) => {
     }
   }
   
-  // Puzzle with wall and no wrap: wall hitbox (todo fix)
+  // Puzzle with wall and no wrap: wall hitbox
   for(p in puzzles){
-    //console.log(puzzles[p][3], !puzzles[p][2], x >= puzzles[p][5], x < puzzles[p][5] + size);
 
     if(
-      puzzles[p][3]
-      && !puzzles[p][2]
-      && x >= puzzles[p][5]
-      && x < puzzles[p][5] + size
+      puzzles[p][3] // wall
+      && !puzzles[p][2] // no wrap
+      && x >= puzzles[p][5] // x betwee left and right
+      && x < puzzles[p][5] + puzzles[p][0]
       && (
         (
-          y == puzzles[p][6] - 1  && snakey[head] == puzzles[p][6]
+          // head trying to pass from top line to after the wall
+          y == puzzles[p][6] - 1  && snakey[head] == puzzles[p][6] 
          ) 
         ||
         (
+        
+          // Head trying to pass from after the wall to first line
           y == puzzles[p][6] && snakey[head] == puzzles[p][6] - 1
         )
       )
@@ -375,7 +392,7 @@ checkgrid = e => {
   if(currentpuzzle === null) return;
   
  
- solved = 1;
+  solved = 1;
   
   // Repaint everything in black and white
   for(i = 0; i < size; i++){
@@ -397,12 +414,12 @@ checkgrid = e => {
   // For each snake cube
   for(i = 0; i < snakelength; i++){
  
-    // Paint the good cells in green and the bad ones in red (if they exist)
+    // Paint the good cells in green and the bad ones in red (if they exist, and if the snake part is in the puzzle)
     if(self[`g${cellprefix}-${snakey[head - i] - topoffset}-${snakex[head - i] - leftoffset}`]){
       self[`g${cellprefix}-${snakey[head - i] - topoffset}-${snakex[head - i] - leftoffset}`].style.background = dg[snakey[head - i] - topoffset][snakex[head - i] - leftoffset] ? "#080" : "#f00";
     }
     
-    if(self[`w${cellprefix}-${size - 1 - snakez[head - i]}-${snakex[head - i] - leftoffset}`]){
+    if(snakey[head - i] >= topoffset && snakey[head - i] < topoffset + size && self[`w${cellprefix}-${size - 1 - snakez[head - i]}-${snakex[head - i] - leftoffset}`]){
       self[`w${cellprefix}-${size - 1 - snakez[head - i]}-${snakex[head - i] - leftoffset}`].style.background = dw[size - 1 - snakez[head - i]][snakex[head - i] - leftoffset] ? "#080" : "#f00";
     }
     
@@ -504,6 +521,22 @@ checkapple = e => {
   }
 }
 
+testinbounds = () => {
+  
+  // Test if we're inside a puzzle, and save when we entered, to return there when we press R
+  inbounds = 0;
+  if(!iseditor){
+    currentpuzzle = null;
+  }
+  
+  for(p in puzzles){
+    if(snakex[head] >= puzzles[p][5] && snakex[head] < puzzles[p][5] + puzzles[p][0] && snakey[head] >= puzzles[p][6] && snakey[head] < puzzles[p][6] + puzzles[p][0] && snakez[head] >= 0 && snakez[head] < puzzles[p][0]){
+      currentpuzzle = +p;
+      inbounds = 1;
+    }
+  }
+}
+
 
 // On key down
 onkeydown = e => {
@@ -526,15 +559,11 @@ onkeydown = e => {
     c = 1;
   }
   
-  // Test if we're inside a puzzle, and save that for when we press R
-  inbounds = 0;
-  if(playing && puzzling && snakex[head] >= leftoffset && snakex[head] < leftoffset + puzzles[currentpuzzle][1] && snakey[head] >= topoffset && snakey[head] < topoffset + puzzles[currentpuzzle][1] && snakez[head] >= 0 && snakez[head] < size){
-    inbounds = 1;
-    if(!exithead){
-      exithead = head - 1;
-    }
+  testinbounds();
+  if(inbounds){
+    checkgrid();
   }
-  else{
+  else {
     exithead = 0;
   }
   
@@ -551,6 +580,7 @@ onkeydown = e => {
     head = exithead - 1;
     exithead = 0;
     movesnake();
+    checkgrid();
     return;
   }
 
@@ -567,7 +597,7 @@ onkeydown = e => {
     if(l){
       
       // Wrap
-      if(haswrap && inbounds && snakex[head] == leftoffset){
+      if(!issolved && haswrap && inbounds && snakex[head] == leftoffset){
 
         checkmove(leftoffset + size - 1, snakey[head], snakez[head]);
         
@@ -602,7 +632,7 @@ onkeydown = e => {
     else if(r){
       
       // Wrap
-      if(haswrap && inbounds && snakex[head] == leftoffset + size - 1){
+      if(!issolved && haswrap && inbounds && snakex[head] == leftoffset + size - 1){
         
         checkmove(leftoffset, snakey[head], snakez[head]);
         
@@ -637,7 +667,7 @@ onkeydown = e => {
     else if(u){
         
       // Wrap
-      if(haswrap && inbounds && snakey[head] == topoffset){
+      if(!issolved && haswrap && inbounds && snakey[head] == topoffset){
         checkmove(snakex[head], topoffset + size - 1, snakez[head]);
         
         if(!stuck){
@@ -671,7 +701,7 @@ onkeydown = e => {
     else if(d){
       
       // Wrap
-      if(haswrap && inbounds && snakey[head] == topoffset + size - 1){
+      if(!issolved && haswrap && inbounds && snakey[head] == topoffset + size - 1){
         checkmove(snakex[head], topoffset, snakez[head]);
         
         if(!stuck){
@@ -716,7 +746,7 @@ onkeydown = e => {
       }
       
       // Wrap
-      if(haswrap && inbounds && snakez[head] == size - 1){
+      if(!issolved && haswrap && inbounds && snakez[head] == size - 1){
         checkmove(snakex[head], snakey[head], 0);
         
         if(!stuck){
@@ -750,7 +780,7 @@ onkeydown = e => {
     else if((son || haswall) && c){
       
       // Wrap
-      if(haswrap && inbounds && snakez[head] == 0){
+      if(!issolved && haswrap && inbounds && snakez[head] == 0){
         checkmove(snakex[head], snakey[head], size - 1);
         
         if(!stuck){
@@ -802,16 +832,18 @@ onkeydown = e => {
     // If a move key was pressed and snake is not stuck and easteregg/son sinematic is not playing
     if(!stuck && !easteregg && (u || r || d || l || s || c || B)){
         
+      checkgrid();
+      
       // Update snake & camera position
       movesnake();
       
-      // Check grid
+      // Check grid in editor
       if(iseditor && playing){
         checkgrid();
       }
       
       // Update camera position again if needed
-      movesnake(1);
+      movesnake(1); // 1 = camera update only
       
       
       // Check is a new apple can appear
@@ -834,6 +866,14 @@ onkeydown = e => {
         setTimeout("location='editor.html'", i * 100);
         L[P + "snakex"] = 20;
         L[P + "snakey"] = 10;
+      }
+      
+      
+      // Save reset head if entering in bounds
+      testinbounds();
+      
+      if(inbounds && !exithead){
+        exithead = head - 1;
       }
     }
   }

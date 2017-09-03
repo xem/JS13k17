@@ -423,8 +423,13 @@ input[type=range] {
 [class="2-5"] #scene {
   
   background: radial-gradient(10vh at 51.3% 52%, #000 40%, transparent 50%), radial-gradient(15vh at 51.3% 52%, #640 40%, transparent 50%), radial-gradient(#4F8D2F,#136321);
-  /* radial-gradient(20vh at 50% 0%, #def 25%, transparent 50%), radial-gradient(20vh at 0% 50%, #ff9 25%, transparent 50%), */
 }
+
+.load #scene {
+  
+  background: radial-gradient(10vh at 12.5% 52%, #000 40%, transparent 50%), radial-gradient(15vh at 12.5% 52%, #640 40%, transparent 50%), radial-gradient(#4F8D2F,#136321);
+}
+
 
 /**************************************************************/
 
