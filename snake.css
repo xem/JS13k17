@@ -7,9 +7,15 @@
   vertical-align: middle;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent;
   user-select: none;
   -moz-user-select: none;
   cursor: pointer;
+
 }
 
 html, body {
@@ -301,7 +307,7 @@ input[type=range] {
 }
 
 .tree, .treeshadow {
-  font: 17vh/18vh a;
+  font: 15vh/16vh a;
 }
 
 .apple {
@@ -451,4 +457,81 @@ input[type=range] {
 
 .playing #perspective {
   top: 60vh
+}
+
+/**************************************************************/
+
+/* Intro */
+
+#e { margin:100vh 0 0;transition:margin 1s; font:10vh/80vh a; }
+#itext { font:5vh arial,sans-serif;color:#fff;position:fixed;bottom:9vh;left:0;width:100vw }
+#menu { color:#fff;position:fixed;top:50%;transform:translateY(-50%);left:0;width:100vw }
+#menu span { font:7vh/15vh arial,sans-serif; }
+#menu h1 { font:15vh/18vh arial,sans-serif; }
+
+
+/**************************************************************/
+
+/* Mobile */
+#mobilecontrols button {
+  position: fixed;
+  width: 10vh;
+  height: 10vh;
+  text-align: center;
+  font: 6vh/10vh a; 
+}
+
+#mobilecontrols button.hidden {
+  display: none;
+}
+
+#k_up {
+  right: 14vh;
+  bottom: 14vh;
+}
+
+#k_down {
+  right: 14vh;
+  bottom: 2vh;
+}
+
+#k_left {
+  right: 26vh;
+  bottom: 2vh;
+}
+
+#k_right {
+  right: 2vh;
+  bottom: 2vh;
+}
+
+#k_top {
+  left: 2vh;
+  top: 2vh;
+}
+
+#k_bottom {
+  left: 2vh;
+  top: 14vh;
+}
+
+#k_backtrack {
+  bottom: 2vh;
+  left: 2vh;
+}
+
+#k_reset {
+  bottom: 14vh;
+  left: 2vh;
+}
+
+
+#k_camleft {
+  top: 2vh;
+  right: 14vh;
+}
+
+#k_camright {
+  top: 2vh;
+  right: 2vh;
 }

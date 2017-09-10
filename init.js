@@ -24,6 +24,7 @@ L = localStorage,
 P = "lossst_",
 easteregg = 0,
 son = +L[P + "son"] || 0,
+mobile = +L[P + "mobile"] || 0,
 
 // Snake
 //=======
@@ -47,6 +48,7 @@ snakeangle = [],
 // Snake length in cubes (default: 5)
 // Synchronized with localStorage
 snakelength = L[P + "snakelength"] = +L[P + "snakelength"] || 5,
+zzz=log(snakelength),
 
 // Game
 //=======
@@ -203,10 +205,10 @@ enterroom = () => {
     // 5: son?
     // 6: z
     hints = [
-      ["Move with arrow keys or WASD/ZQSD", 19, 5, 0, 13, 0],
-      ["Use the Alt key to backtrack", 1, 9, 0, 13, 0, 1],
+      ["Move with arrow keys" + (mobile ? "" : " or WASD/ZQSD"), 19, 5, 0, 13, 0],
+      ["Use the " + (mobile ? "⤺" : "Alt") + " key to backtrack", 1, 9, 0, 13, 0, 1],
       ["Doors indicate the snake size required to open them", 35, 14, 0, 13, 0],
-      ["2D puzzle editor<br>↓", 19, 8, 14, 0, 0],
+      ["2D puzzle editor<br>↓", 18, 8, 14, 0, 0],
       ["↑<br>New puzzles!", 22, 3, 14, 0, 0],
       ["New ! Puzzle editor with wraps<br>↓", 19, 8, 6, 7, 1],
       ["←<br>New puzzles!", 1, 9, 6, 7, 1, 1],
@@ -227,14 +229,14 @@ enterroom = () => {
     
     // Trees
     trees = [
-      [35,13,0],
+      [35,15,0],
     ];
     
     // Apples (x, y, z, length, puzzles solved) 
     apples = [
-      [33,14,0,0,6],
-      [34,15,0,0,6],
-      [37,13,0,0,6],
+      [33,16,0,0,6],
+      [34,17,0,0,6],
+      [37,15,0,0,6],
     ];
     
     cubes = [
@@ -277,8 +279,8 @@ enterroom = () => {
     // 4: max snake length
     hints = [
       ["Cover the black shapes to solve puzzles", 9, 9, 1, 0],
-	  ["Solve all the puzzles in the room to get new apples", 21, 9, 1, 0],
-	  ["Your progress is saved automatically", 34, 9, 1, 0],
+      ["Solve all the puzzles in the room to get new apples", 21, 9, 1, 0],
+      ["Your progress is saved automatically", 34, 9, 1, 0],
     ];
     
   }
@@ -289,6 +291,10 @@ enterroom = () => {
   // ----
   
   else if(pagename == "1-3"){
+    
+    // Show mobile button Reset
+    k_reset.className = "";
+    L[P + "reset"] = 1;
     
     w = 40;
     h = 20;
@@ -338,7 +344,7 @@ enterroom = () => {
     // 3: min snake length
     // 4: max snake length
     hints = [
-      ["If you get stuck, press R to exit a puzzle", 35, 9, 1, 0],
+      ["If you get stuck, " + (mobile ? "click ×" : "press R") + " to exit a puzzle", 35, 9, 1, 0],
     ];
     
     cubes = [
@@ -399,7 +405,7 @@ enterroom = () => {
     // 3: min snake length
     // 4: max snake length
     hints = [
-      ["↑<br>After this room, return to the hub to try a puzzle editor and a new kind of puzzles!", 25, 1, 13, 1, 0],
+      ["↑<br>After this room, go north to test a puzzle editor and a new kind of puzzles!", 22, 11, 13, 1, 0],
     ];
     
     cubes = [
@@ -518,10 +524,10 @@ enterroom = () => {
     
     // Puzzles
     puzzles = [
-      [7,14,1,,"1000001000000000000000010100011011011000111000001", 3, 3],
-      [6,14,1,,"110011100001000000100001100001110011", 3, 17],
-      [5,14,1,,"1100111001100011001110011", 17, 3],
-      [6,14,1,,"000011000011110001110001000011000011", 17, 17],
+      [7,14,1,,"1000001000000000000000010100011011011000111000001", 15, 3],
+      [6,14,1,,"110011100001000000100001100001110011", 15, 17],
+      [5,14,1,,"1100111001100011001110011", 3, 3],
+      [6,14,1,,"000011000011110001110001000011000011", 3, 17],
     ];
     
     // Hints
@@ -531,7 +537,7 @@ enterroom = () => {
     // 3: min snake length
     // 4: max snake length
     hints = [
-      ["Reminder: use<br>Alt to backtrack,<br>R to exit a puzzle.", 11, 12, 1, 0, 0], 
+      ["Reminder:<br>use " + (mobile ? "⤺" : "Alt") + " to backtrack,<br>" + (mobile ? "×" : "R") + " to exit a puzzle.", 11, 12, 1, 0, 0], 
     ];
     
     cubes = [
@@ -763,7 +769,7 @@ enterroom = () => {
     // 4: max snake length
     hints = [
       ["Guess what, you finished the first half of the game!", 5, 9, 1, 0],
-      ["Little snake can move up and down with Shift and Ctrl keys, and open black doors", 30, 9, 1, 0],
+      ["Little snake can move up and down with " + (mobile ? "⬆︎ and ⬇︎" : "Shift and Ctrl keys") + ", and open black doors", 30, 9, 1, 0],
     ];
     
     cubes = [
@@ -845,7 +851,6 @@ enterroom = () => {
     hints = [
       ["You now have to match the patterns on the walls...", 10, 2, 1, 0, 1],
       ["... and on the floor too!", 10, 40, 1, 0, 1],
-      ["You can rotate the camera with the keys 1, 2 and 3", 2, 68, 1, 0, 1],
     ];
     
     cubes = [
@@ -857,6 +862,10 @@ enterroom = () => {
   // Puzzles solved after: 59
   else if(pagename == "3-3"){
     
+    // Show mobile button Reset
+    k_camleft.className = k_camright.className = "";
+    L[P + "camera"] = 1;
+
     w = 20;
     h = 75;
     
@@ -920,8 +929,9 @@ enterroom = () => {
     // 4: max snake length
     // 5: son
     hints = [
+      ["You can rotate the camera with " + (mobile ? "<br>↻ and ↺" : "the keys 1, 2 and 3"), 15, 68, 1, 0, 1],
       ["Can you imagine what's coming next?", 7, 54, 1, 0, 1],
-      ["Of course... 3D puzzles with wrap! Use Shift and Ctrl to shift up and down", 7, 24, 1, 0, 1],
+      ["Of course... 3D puzzles with wrap! Use " + (mobile ? "⬆︎ and ⬇︎" : "Shift and Ctrl") + " to wrap between top and bottom", 7, 24, 1, 0, 1],
     ];
     
     cubes = [
@@ -1237,30 +1247,23 @@ enterroom = () => {
   
   // Hub's opening cinematic
   if(pagename == "hub" && !L[P + "snakex"]){
-    
-    if(debug){
-      scene.style.transition='transform .8s linear, transform-origin .8s linear';resetsnake();movesnake();snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push(0);snakeangle.push(snakeangle[head]);head++;movesnake();
-    }
-    
-    else{
       
-      // Lock controls
-      lock = 1;
+    // Lock controls
+    lock = 1;
 
-      // Resize and place snake at the right place, slow it down
-      setTimeout('resetsnake();movesnake();snakecubemove0.style.transition="transform .5s"',2000);
-      
-      // Head goes out of the ground
-      setTimeout("snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push(0);snakeangle.push(snakeangle[head]);head++;movesnake()",4500);
-      
-      // Shake head and shadow
-      setTimeout("snakecubemove0.style.transition='';snakeshadow0.style.transition=snakecuberotate0.style.transition='transform .2s';snakeshadow0.style.transform=snakecuberotate0.style.transform='rotateZ("+-Math.PI/4+"rad)'",5000);
-      setTimeout("snakeshadow0.style.transform=snakecuberotate0.style.transform='rotateZ("+Math.PI/4+"rad)'",5500);
-      setTimeout("snakeshadow0.style.transform=snakecuberotate0.style.transform='';",6000);
-      
-      // Reset custom transitions and unlock keyboard
-      setTimeout("scene.style.transition='transform .8s, transform-origin .8s linear';snakeshadow0.style.transition=snakecuberotate0.style.transition='';lock=0",9000);
-    }
+    // Resize and place snake at the right place, slow it down
+    setTimeout('resetsnake();movesnake();snakecubemove0.style.transition="transform .5s"',2000);
+    
+    // Head goes out of the ground
+    setTimeout("snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push(0);snakeangle.push(snakeangle[head]);head++;movesnake()",4500);
+    
+    // Shake head and shadow
+    setTimeout("snakecubemove0.style.transition='';snakeshadow0.style.transition=snakecuberotate0.style.transition='transform .2s';snakeshadow0.style.transform=snakecuberotate0.style.transform='rotateZ("+-Math.PI/4+"rad)'",5000);
+    setTimeout("snakeshadow0.style.transform=snakecuberotate0.style.transform='rotateZ("+Math.PI/4+"rad)'",5500);
+    setTimeout("snakeshadow0.style.transform=snakecuberotate0.style.transform='';",6000);
+    
+    // Reset custom transitions, unlock keyboard, show mobile controls
+    setTimeout("scene.style.transition='transform .8s, transform-origin .8s linear';snakeshadow0.style.transition=snakecuberotate0.style.transition='';lock=0;if(mobile){k_up.className=k_down.className=k_left.className=k_right.className='';L[P+'wasd']=1}",9000);
   }
   
   // Return to hub, or enter other rooms
@@ -1426,10 +1429,29 @@ index = (n) => {
   
   // Draw html structure
   document.body.outerHTML =
-`<body id=b class="${pagename}"><div id=perspective><div id=scene style="transform:translateX(-140vh)translateY(-72vh)rotateZ(90deg)translateZ(119vh);transform-origin:142vh 72vh"><div id=objects></div><div id=puzzle></div><div id=snake></div><div id=snake2></div>
+`<body id=b class="${pagename}">
+<div id=perspective>
+  <div id=scene style="transform:translateX(-140vh)translateY(-72vh)rotateZ(90deg)translateZ(119vh);transform-origin:142vh 72vh">
+    <div id=objects></div>
+    <div id=puzzle></div>
+    <div id=snake></div>
+    <div id=snake2></div>
+  </div>
+</div>
+<center id=mobilecontrols style='font:5vh arial;color:#fff;position:fixed;bottom:9vh;left:0;width:100vw'>
+  <button id=k_up class=hidden onmousedown="window.onkeydown({which:38});window.onkeyup()">↑</button>
+  <button id=k_down class=hidden onmousedown="window.onkeydown({which:40});window.onkeyup()">↓</button>
+  <button id=k_left class=hidden onmousedown="window.onkeydown({which:37});window.onkeyup()">←</button>
+  <button id=k_right class=hidden onmousedown="window.onkeydown({which:39});window.onkeyup()">→</button>
+  <button id=k_top class=hidden onmousedown="window.onkeydown({which:16});window.onkeyup()">⬆︎</button>
+  <button id=k_bottom class=hidden onmousedown="window.onkeydown({which:17});window.onkeyup()">⬇︎</button>
+  <button id=k_backtrack class=hidden onmousedown="window.onkeydown({which:18});window.onkeyup()">⤺</button>
+  <button id=k_reset class=hidden onmousedown="window.onkeydown({which:82});window.onkeyup()">×</button>
+  <button id=k_camleft class=hidden onmousedown="window.onkeydown({which:49});window.onkeyup()">↻</button>
+  <button id=k_camright class=hidden onmousedown="window.onkeydown({which:51});window.onkeyup()">↺</button>
+</center>
 
-</div></div>
-<center id=text style=font:5vh'arial';color:#fff;position:fixed;bottom:9vh;left:0;width:100vw></center>`
+<center id=text style='font:5vh arial;color:#fff;position:fixed;bottom:9vh;left:0;width:100vw'></center>`
 
 + (pagename == "load" || window.location.toString().indexOf("free.fr") > 0 ? "" : `
 
@@ -1460,13 +1482,32 @@ Room
 `);
   
   // Disable cinematics (debug only)
-  debug = 0;
+  debug = 1;
   
   // Make the first apple appear (when the game starts only)
   L[P + "appleappearedhub0"] = 1;
   
   // Enter room
   enterroom();
+  
+  // Show buttons that already appeared before
+  if(L[P+"wasd"]){
+    k_up.className = k_down.className = k_left.className = k_right.className = '';
+  }
+  if(L[P+"backtrack"]){
+    k_backtrack.className = "";
+  }
+  if(L[P+"reset"]){
+    k_reset.className = "";
+  }
+  if(L[P+"topbottom"]){
+    k_top.className = "";
+    k_bottom.className = "";
+  }
+  if(L[P+"camera"]){
+    k_camleft.className = "";
+    k_camright.className = "";
+  }
 },
 
 // Editor

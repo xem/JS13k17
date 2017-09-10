@@ -3,11 +3,7 @@ compter mouvements
 compter temps
 les afficher à la fin
 deco
+fix MacOS
 controles mobile
-ecran de départ:
- - Mobile / PC
- - Nouvelle partie
- - Continuer
- - Twitter levels
  
 musique
