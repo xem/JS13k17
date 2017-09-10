@@ -84,19 +84,19 @@ movesnake = (cameraonly) => {
         self["snakecubemove"+i].style.transform = `translateX(${oldx*sidesize+.5}vh)translateY(${oldy*sidesize+.5}vh)translateZ(${oldz*sidesize+.5}vh)scale(.01)scaleZ(.01)`;
         
         // Disable transitions
-        setTimeout("snakecubemove"+i+".style.transition='none'", 150);
+        setTimeout("snakecubemove"+i+".style.transition='none'", 75);
         
         // Move cube at the position before the end of the wrap
-        setTimeout("snakecubemove"+i+".style.transform=`translateX(${"+newx+"*sidesize+.5}vh)translateY(${"+newy+"*sidesize+.5}vh)translateZ(${"+newz+"*sidesize+.5}vh)scale(.01)`", 175);
+        setTimeout("snakecubemove"+i+".style.transform=`translateX(${"+newx+"*sidesize+.5}vh)translateY(${"+newy+"*sidesize+.5}vh)translateZ(${"+newz+"*sidesize+.5}vh)scale(.01)`", 100);
         
         // Reenable transitions and finish the wrap
-        setTimeout("snakecubemove"+i+".style.transition='';snakecubemove"+i+".style.transform=`translateX(${snakex["+(head-i)+"]*sidesize+.5}vh)translateY(${snakey["+(head-i)+"]*sidesize+.5}vh)translateZ(${snakez["+(head-i)+"]*sidesize+.5}vh)`", 200);
+        setTimeout("snakecubemove"+i+".style.transition='';snakecubemove"+i+".style.transform=`translateX(${snakex["+(head-i)+"]*sidesize+.5}vh)translateY(${snakey["+(head-i)+"]*sidesize+.5}vh)translateZ(${snakez["+(head-i)+"]*sidesize+.5}vh)`", 150);
       }
       
       // Normal transition (just update snakecubemove and snakecuberotate)
       else{
         try{
-          self["snakecubemove"+i].style.transform = `translateX(${snakex[(head-i)]*sidesize+.5}vh)translateY(${snakey[(head-i)]*sidesize+.5}vh)translateZ(${snakez[(head-i)]*sidesize+.2}vh)`;
+          self["snakecubemove"+i].style.transform = `translateX(${snakex[(head-i)]*sidesize+.25}vh)translateY(${snakey[(head-i)]*sidesize}vh)translateZ(${snakez[(head-i)]*sidesize}vh)`;
           self["snakecuberotate"+i].style.transform = `rotateZ(${snakeangle[(head-i)]}rad)`;
         }
         catch(e){};
@@ -113,7 +113,7 @@ movesnake = (cameraonly) => {
   //if(typeof scene !== "undefined"){
     
     if(iseditor){
-      scene.style.transform = "translateX(-140vh)translateY(-60vh)translateZ(-35vh)rotateX(25deg)";
+      scene.style.transform = "translateX(-100vh)translateY(-37vh)translateZ(-5vh)rotateX(33deg)";
     }
     
     // no puzzle or puzzle already solved: camera follows the snake
@@ -208,11 +208,13 @@ movesnake = (cameraonly) => {
     if(currentpuzzle !== null) checkgrid();
     
     puzzling = 0;
-    currentpuzzle = null;
+    if(!iseditor) currentpuzzle = null;
     
-    dg = [];
-    dw = [];
-  
+    if(!iseditor){
+      dg = [];
+      dw = [];
+    }
+
     for(p in puzzles){
       if(
         x >= puzzles[p][5]
@@ -289,19 +291,29 @@ checkmove = (x, y, z) => {
   
   // Apples
   for(var i in apples){
-    if(L[P+"appleappeared" + pagename + i] && x == apples[i][0] && y == apples[i][1]){
+    if(L[P+"appleappeared" + pagename + i] && x == apples[i][0] && y == apples[i][1] && snakez[head] == 0){
       
       // Ending easter egg
       if(pagename == "3-8"){
         lock = 1;
         
-        setTimeout("move_scene(Math.PI/2);appleshadow0.remove();apple0.style.transform='translateY(319vh)translateZ(2vh)rotateX(-65deg)rotateY(90deg)';apple0.style.transition=scene.style.transition='10s';apple0.style.transform='translateY(15vh)translateZ(2vh)rotateX(-65deg)';scene.style.transform='translateX(-207vh)translateY(-320vh)translateZ(-300vh)rotateX(0deg)rotateZ(1.5708rad)'", 200);
+        setTimeout(`move_scene(Math.PI/2);appleshadow0.remove();apple0.style.transform='translateY(319vh)translateZ(2vh)rotateX(-65deg)rotateY(90deg)';apple0.style.transition=scene.style.transition='10s';apple0.style.transform='translateY(15vh)translateZ(2vh)rotateX(-65deg)';scene.style.transform='${mobile?'translateX(-133vh)translateY(-249vh)translateZ(-373vh)rotateZ(90deg)':'translateX(-144vh)translateY(-249vh)translateZ(-340vh)rotateZ(90deg)'}'`, 200);
         
         for(i in puzzles){
           setTimeout("back"+i+".style.transition='.5s';back"+i+".style.transform='translateY(-125%)'", [1450, 2500, 3900, 5500][i]);
         }
         
-        setTimeout(`clearInterval(int_time);L[P+'ended']=1;L[P+'editorfull']=1;b.style.background='#000';b.innerHTML='<div id=perspective style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=https://twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ahttp%3A%2F%2Fjs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>1265 seconds, 3071 moves<br><br>You can now create 3D puzzles<br>in the editor!<br><br><a href=index.html style=font-size:4vh>TITLE SCREEN</a>'`,15000);
+        setTimeout(`clearInterval(int_time);L[P+'editorfull']=1;b.style.background='#000';b.innerHTML='<div id=perspective style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=https://twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ahttp%3A%2F%2Fjs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>1265 seconds, 3071 moves<br><br>You can now create 3D puzzles<br>in the editor!<br><br><a href=index.html style=font-size:4vh>TITLE SCREEN'`,15000);
+        
+        var z = document.querySelectorAll(".cell");
+        for(i in z){
+          try{
+            if(z[i].style.backgroundColor.match(/68/g).length == 2){
+              setTimeout("self['" + z[i].id + "'].style.background='#a00'", 8000 + i * 10);
+            }
+          }
+          catch(e){}
+        }
         
       }
       
@@ -319,8 +331,17 @@ checkmove = (x, y, z) => {
           lock = 1;
           easteregg = 1;
           scene.style.transition = "5s";
-          scene.style.transform = "translateX(-256vh)translateY(-95vh)translateZ(-400vh)rotateX(0deg)rotateZ(180deg)";
-          setTimeout("scene.style.transition='1s';lock=easteregg=0;movesnake()",10000);
+          scene.style.transform = `translateX(-162vh)translateY(-53vh)translateZ(${mobile?-422:-180}vh)rotateZ(180deg)`;
+          setTimeout("scene.style.transition='1s';lock=easteregg=0;movesnake();objects.innerHTML+='<div class=hint style=left:190vh;transform:translateY(50vh)rotateX(-70deg)translateY(-4vh)>←<br>Exit'",10000);
+          var z = document.querySelectorAll(".cell");
+          for(i in z){
+            try{
+              if(z[i].id.match(/g\d-/) && z[i].style.backgroundColor.match(/68/g).length == 2){
+                setTimeout("self['" + z[i].id + "'].style.background='#a00'", 5500 + i * 10);
+              }
+            }
+            catch(e){}
+          }
         }
       }
     }
@@ -333,12 +354,12 @@ checkmove = (x, y, z) => {
     }
   }
   
-  /*// Emoji
+  // Emoji
   for(var i in emoji){
     if(pagename != "1-4" && x == emoji[i][1] && y == emoji[i][2] && z == 0){
       stuck = 1;
     }
-  }*/
+  }
   
   // Doors
   for(var i in doors){
@@ -398,7 +419,7 @@ checkmove = (x, y, z) => {
     scene.style.transition = "2s";
     resetsnake();
     movesnake();
-    scene.style.transform = "translateX(-142vh)translateY(-70vh)translateZ(80vh)rotateX(45deg)";
+    scene.style.transform = "translateX(-105vh)translateY(-51vh)translateZ(80vh)rotateX(45deg)";
     scene.style.transformOrigin = "140vh 70vh";
     setTimeout('snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push(0);snakeangle.push(snakeangle[head]);head++;movesnake()', 3000);
     setTimeout("text.innerHTML='Daddy!'", 4000);
@@ -421,21 +442,28 @@ checkgrid = e => {
   
  
   solved = 1;
+  if(iseditor){
+    share.disabled = 0;
+  }
   
   // Repaint everything in black and white
   for(i = 0; i < size; i++){
     for(j = 0; j < size; j++){
-      if(self[`g${cellprefix}-${i}-${j}`]){
-        self[`g${cellprefix}-${i}-${j}`].style.background = dg[i][j] ? "#000" : "#fff";
+      try{
+        if(self[`g${cellprefix}-${i}-${j}`]){
+          self[`g${cellprefix}-${i}-${j}`].style.background = dg[i][j] ? "#000" : "#fff";
+        }
+        if(self[`w${cellprefix}-${i}-${j}`]){
+          self[`w${cellprefix}-${i}-${j}`].style.background = dw[i][j] ? "#000" : "#fff";
+        }
       }
-      if(self[`w${cellprefix}-${i}-${j}`]){
-        self[`w${cellprefix}-${i}-${j}`].style.background = dw[i][j] ? "#000" : "#fff";
-      }
+      catch(e){}
     }
   }
   
   // If head is not in the puzzle, return
   if(snakex[head] < leftoffset || snakex[head] > leftoffset + size - 1 || snakey[head] < topoffset || snakey[head] > topoffset + size - 1 || snakez[head] < 0 || snakez[head] > size - 1){
+    if(iseditor)share.disabled = 1;
     return;
   }
   
@@ -452,7 +480,8 @@ checkgrid = e => {
     }
     
     // If a snake part is out of the grid, not solved
-    if(snakex[head-i] < leftoffset || snakex[head-i] > leftoffset + size - 1 || snakey[head-i] < topoffset || snakey[head-i] > topoffset + size - 1 || snakez[head-i] < 0 || snakez[head-i] > size - 1){
+    if(snakex[head-i] < leftoffset || snakex[head-i] > leftoffset + size - 1 || snakey[head-i] < topoffset || snakey[head-i] > topoffset + size - 1 || snakez[head-i] > size - 1){
+      if(iseditor)share.disabled = 1;
       solved = 0;
     }
   
@@ -508,17 +537,25 @@ checkgrid = e => {
     
     for(i = 0; i < size; i++){
       for(j = 0; j < size; j++){
-        if(self[`g${cellprefix}-${i}-${j}`]){
+        try{
+        //if(self[`g${cellprefix}-${i}-${j}`]){
           self[`g${cellprefix}-${i}-${j}`].style.background = dg[i][j] ? "#44c" : "#fd0";
+        //}
         }
-        if(self[`w${cellprefix}-${i}-${j}`]){
+        catch(e){}
+        try{
+        //if(self[`w${cellprefix}-${i}-${j}`]){
           self[`w${cellprefix}-${i}-${j}`].style.background = dw[i][j] ? "#44c" : "#fd0";
+        //}
         }
+        catch(e){}
       }
     }
-    totalsolved++;
-    L[P+'totalsolved'] = totalsolved;
-    
+    if(!iseditor){
+      totalsolved++;
+      L[P+'totalsolved'] = totalsolved;
+    }
+
     // Remove rock cubes that are on the puzzle
     var cubetoremove = 1;
     for(var j in cubes){
@@ -605,7 +642,7 @@ onkeydown = function(e) {
     
     // 1 = 49 / 97
     if(e.which == 49 || e.which == 97){
-      rot = -1;
+      if(rot > -1) rot--;
       move_scene();
     }
     
@@ -617,7 +654,7 @@ onkeydown = function(e) {
     
     // 3 = 51 / 99
     if(e.which == 51 || e.which == 99){
-      rot = 1;
+      if(rot < 1) rot++;
       move_scene();
     }
   }
@@ -918,10 +955,10 @@ onkeydown = function(e) {
       // Check is a new apple can appear
       checkapple();
       
-      // Lock the keys for .1s unless there's an apple animation already locking them
+      // Lock the keys for .15s unless there's an apple animation already locking them
       if(!lock){
         lock = 1;
-        setTimeout("lock=0;movesnake()", 150);
+        setTimeout("lock=0;", 150);
       }
 
       // Editor
@@ -932,7 +969,7 @@ onkeydown = function(e) {
           z--;
           setTimeout("snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push("+z+");snakeangle.push(snakeangle[head]);head++;movesnake()", i * 150);
         }
-        setTimeout("location='editor.html'", i * 100);
+        setTimeout('index("editor")', i * 160);
         L[P+"snakex"] = 20;
         L[P+"snakey"] = 10;
       }

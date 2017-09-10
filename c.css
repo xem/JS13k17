@@ -1,9 +1,7 @@
-/*
 @keyframes move {
   0%,100% { transform:rotateY(-10deg) }
   50% { transform:rotateY(10deg) }
 }
-*/
 
 /* All */
 
@@ -159,6 +157,7 @@ input[type=range]::-moz-range-thumb {
   transform:translateY(-50%)rotateX(-90deg)translateY(-52%);
 }
 
+.cube.wrap.wrapvisible .down,
 .cube.wrap .down {
   transition: opacity .5s;
   background: #0c5b0c;
@@ -207,12 +206,12 @@ input[type=range]::-moz-range-thumb {
 }
 
 #snake2 .cube.snake > div,
-#wall:checked ~ * .cube.snake > div {
+#scene.haswall .cube.snake > div {
   background: #444;
 }
 
 #snake2 .cube.snake .up,
-#wall:checked ~ * .cube.snake .up {
+#scene.haswall .cube.snake .up {
   background: #333;
 }
 
@@ -225,7 +224,7 @@ input[type=range]::-moz-range-thumb {
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,.25);
-  transform:translateX(11%)translateY(11%)translateZ(-.2vh);
+  transform:translateX(14%)translateY(14%)translateZ(.2vh);
 }
 
 /**************************************************************/
@@ -273,6 +272,12 @@ input[type=range] {
   transform: none;
 }
 
+.cube.wrap.wrapvisible > div {
+  background: linear-gradient(45deg, rgba(200,200,200,.1), rgba(200,200,200,.3));
+  box-shadow: 0 0 .1vh rgba(255,255,255,.5);
+}
+
+
 /*#ground:checked ~ * #down .cell, #wall:checked ~ * #back .cell {
   opacity: 1;
 }
@@ -310,11 +315,9 @@ input[type=range] {
   bottom: 0;
 }
 
-/*
 .emojimove {
   animation: move 3s infinite;
 }
-*/
 
 .emojishadow {
   color: rgba(0,0,0,.002);
@@ -343,6 +346,10 @@ input[type=range] {
   transition: opacity .5s .5s;
 }
 
+.animal, .animal * {
+  font: 5vh/6vh a;
+}
+
 .apple.hidden, .appleshadow.hidden {
   opacity: 0;
 }
@@ -357,10 +364,8 @@ input[type=range] {
 
 .mac .appleshadow,
 .fx .appleshadow,
-.mobile .appleshadow,
-.mac .animalshadow,
-.fx .animalshadow,
-.mobile .animalshadow {
+.fx .snakeshadow,
+.mobile .appleshadow {
   display: none;
 }
 
@@ -408,10 +413,15 @@ input[type=range] {
 }
 
 .cube.rock div.up {
+  transform: rotateY(90deg)translateX(-5.4vh)rotateY(-90deg);
   background: radial-gradient(#3F7D1F,#034301);
   background-size: 280vh 140vh;
-  width: 5.1vh;
-  height: 5.1vh;
+  width: 5.3vh;
+  height: 5.3vh;
+}
+
+.fx .rock.back {
+  display: none;
 }
 
 .hint {
@@ -511,11 +521,11 @@ label { text-align: left }
 #menu {
   color:#fff;
   width: 55vh;
-  transform:translateX(-27vh)translateY(-24vh)rotateX(-18deg);
+  transform:translateX(-27vh)translateY(-20vh)rotateX(-17deg);
 }
 
 #menu span {
-  font:7vh/13vh arial,sans-serif;
+  font:7vh/12vh arial,sans-serif;
   text-shadow: .1vh -.1vh #777, .2vh -.2vh #777, .3vh -.3vh #777;
 }
 
@@ -525,7 +535,7 @@ label { text-align: left }
 }
 
 #menu h1 {
-  font:13vh/13vh arial,sans-serif;
+  font:13vh/16vh arial,sans-serif;
   text-shadow: .1vh -.1vh #777, .2vh -.2vh #777, .3vh -.3vh #777;
 }
 

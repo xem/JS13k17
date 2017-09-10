@@ -2,8 +2,8 @@ L.clear();
 
 L[P+"snakex"]=0;L[P+"snakey"]=0;L[P+"snakez"]=0;L[P+"page"]="3-8";L[P+"son"]=1;L[P+"snakelength"]=20;L[P+"totalsolved"]=75;location=location;
 
-son => collisionne pas avec son panneau en 2-5
-échanger quelques puzzles en 1-4, 2-15
-easter egg: highlight lettres + panneau pour dire où est la suite
-bug cubes ok?
-open doors and focus on them when all apples are found
+
+factorize draw hints and call it after easter egg 2-2
+patternalist
+fix editor with wrap
+fx intro

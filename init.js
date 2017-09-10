@@ -83,7 +83,7 @@ hints = [],
 // Puzzles
 puzzles = [],
 currentpuzzle = null,
-cellprefix = 'e',
+cellprefix = '0',
 dg = [],
 dw = [],
 hasground = 0,
@@ -152,11 +152,12 @@ enterroom = () => {
     
     // Puzzles (size, snakesize, wrap, wall, ground, x, y)
     puzzles = [
-      [5,5,0,,"0000000000000000000000000",16,9]
+      [5,5,1,,"0000000000000000000000000",16,9]
     ];
     snakelength = 5;
     son = 0;
     hints = [ ];
+    emoji = [ ];
   }
   
   
@@ -175,10 +176,10 @@ enterroom = () => {
     puzzles[0][5] = puzzles[0][6] = 8; 
     son = !!puzzles[0][3];
     hints = [
-      //["Move: arrow keys<br>"+(son?"Up/Down: Shift/Ctrl<br>":"")+"backtrack: Alt<br>Reset: R", 1, 5, 1, 0, son, 0],
+      ["Move: arrow keys<br>"+(son?"Up/Down: Shift/Ctrl<br>":"")+"backtrack: Alt<br>Reset: R", 1, 5, 1, 0, son, 0],
     ];
     if(L[P+"puzzleload0"]) delete L[P+"puzzleload0"];
-    //L[P+"doorload0"] = 1;
+    emoji = [];
   }
   
   // Hub (start, tuto, access to 2D, wrap and 3D puzzles)
@@ -247,17 +248,17 @@ enterroom = () => {
       ["Move with<br>arrow keys" + (mobile ? "" : " or WASD/ZQSD"), 19, 5, 0, 13, 0],
       ["Use the " + (mobile ? "↩" : "Alt") + " key to backtrack", 1, 9, 0, 13, 0, 1],
       ["Approach red doors with the right length to open them", 35, 14, 0, 13, 0],
-      ["2D puzzle editor<br>↓", 18, 8, 14, 0, 0],
-      ["↑<br>New puzzles !", 22, 3, 14, 0, 0],
+      ["2D puzzle editor<br>↓", 19, 8, 14, 0, 0],
+      ["↑<br>New puzzles !", 16, 6, 14, 0, 0],
       ["New ! Puzzle editor with wraps<br>↓", 19, 8, 6, 7, 1],
       ["←<br>New puzzles !", 1, 9, 6, 7, 1, 1],
-      ["Full puzzle editor (2D, 3D & wraps !)<br>↓", 19, 8, 7, 0, 1],
     ];
     
-    /*emoji = [
-      ["🐿️", 37, 7],
+    emoji = [
+      ["🐿️", 30, 7],
+      ["🌰️", 29, 7],
     ];
-    */
+    
   }
   
   // 1-1 (puzzles 2D length 8)
@@ -320,13 +321,13 @@ enterroom = () => {
     // 4: max snake length
     hints = [
       ["Cover the black shapes to solve puzzles", 9, 9, 1, 0],
-      ["Solve all the puzzles in the room to get new apples and open a new door", 21, 9, 1, 0],
+      ["Solve all the puzzles in the room to get new apples and unlock a new door", 21, 9, 1, 0],
       ["Your progress is saved automatically", 34, 9, 1, 0],
     ];
     
-    /*emoji = [
+    emoji = [
       ["🐌", 11, 10],
-    ]*/
+    ]
     
   }
   
@@ -400,9 +401,9 @@ enterroom = () => {
       [21,16],
     ];
     
-    /*emoji = [
+    emoji = [
       ["🐈", 4, 14],
-    ]*/
+    ]
   }
   
   // 1-4 (2D puzzles length 13)
@@ -484,9 +485,9 @@ enterroom = () => {
       [7,5],
     ];
     
-    /*emoji = [
+    emoji = [
       ["🦋<br><br>", 29, 13],
-    ]*/
+    ]
   }
   
   // 2-1 (2D puzzle with wrap, length 14)
@@ -544,9 +545,9 @@ enterroom = () => {
       cubes.push([i, 10]);
     }
     
-    /*emoji = [
+    emoji = [
       ["🐐", 12, 2],
-    ]*/
+    ]
   }
   
   // 2-15 (2D, wrap, length 14)
@@ -586,9 +587,9 @@ enterroom = () => {
     
     // Puzzles
     puzzles = [
-      [7,14,1,,"1000001000000000000000010100011011011000111000001", 15, 3],
+      [7,14,1,,"1000001000000000000000010100011011011000111000001", 3, 3],
       [6,14,1,,"110011100001000000100001100001110011", 15, 17],
-      [5,14,1,,"1100111001100011001110011", 3, 3],
+      [5,14,1,,"1100111001100011001110011", 16, 4],
       [6,14,1,,"000011000011110001110001000011000011", 3, 17],
     ];
     
@@ -599,16 +600,16 @@ enterroom = () => {
     // 3: min snake length
     // 4: max snake length
     hints = [
-      ["Reminder:<br>use " + (mobile ? "↩" : "Alt") + " to backtrack,<br>" + (mobile ? "×" : "R") + " to exit a puzzle.", 11, 12, 1, 0, 0], 
+      ["Reminder:<br>use " + (mobile ? "↩" : "Alt") + " to backtrack,<br>" + (mobile ? "×" : "R") + " to exit a puzzle.", 11, 14, 1, 0, 0], 
     ];
     
     cubes = [
     ];
     
-    /*emoji = [
+    emoji = [
       ["🐒", 12, 20],
-    ]*/
-    
+    ]
+   
   }
   
   // 2-2 (2D puzzle with wrap, length 15, easter egg)
@@ -672,11 +673,12 @@ enterroom = () => {
     // 4: max snake length
     hints = [
       ["This room hides a surprise !", 72, 2, 0, 15, 0],
+      ["←<br>Exit", 38, 9, 16, 0, 0],
     ];
     
     cubes = [];
     
-    //emoji = [];
+    emoji = [];
     
   }
   
@@ -720,7 +722,7 @@ enterroom = () => {
     
     // Puzzles
     puzzles = [
-      [6,16,1,,"001000011000011100111111001110001000", 7, 6],
+      [6,16,1,,"001000001110111111011100011000001000", 7, 6],
       [6,16,1,,"110001100001000111000111100001110001", 7, 18],
     ];
     
@@ -736,9 +738,9 @@ enterroom = () => {
     
     cubes = [];
     
-    /*emoji = [
+    emoji = [
       ["🐁", 9, 14],
-    ];*/
+    ];
   }
   
   // 2-4 (2D puzzle with wrap, length 20)
@@ -792,9 +794,9 @@ enterroom = () => {
     
     cubes = [];
     
-    /*emoji = [
+    emoji = [
       ["🦆", 9, 14],
-    ];*/
+    ];
   }
   
   // 2-5 (change snake)
@@ -850,9 +852,9 @@ enterroom = () => {
     for(i=0;i<7;i++) cubes.push([31, i]);
     for(i=31;i<40;i++) cubes.push([i, 6]);
     
-    /*emoji = [
+    emoji = [
       ["🐢", 13, 14],
-    ]*/
+    ]
   }
   
   // 3-1 (3D puzzles, length 6, wall and wall+gtound)
@@ -915,13 +917,14 @@ enterroom = () => {
     hints = [
       ["You now have to match the patterns on the walls...", 10, 2, 1, 0, 1],
       ["... and on the floor too !", 10, 40, 1, 0, 1],
+      ["Beware the gravity: you can't fly !", 2, 68, 1, 0, 1],
     ];
     
     cubes = [ ];
     
-    /*emoji = [
+    emoji = [
       ["🦉", 10, 14],
-    ]*/
+    ]
   }
   
   // 3-3 (3D puzzles, length 8, wall and full and wrap)
@@ -999,15 +1002,15 @@ enterroom = () => {
     // 5: son
     hints = [
       ["You can rotate the camera with " + (mobile ? "<br>↻ and ↺" : "the keys 1, 2 and 3"), 15, 68, 1, 0, 1],
-      ["Can you imagine what's coming next?", 7, 54, 1, 0, 1],
+      ["Can you guess what's coming next?", 7, 54, 1, 0, 1],
       ["Yep... 3D puzzles with wrap ! Use " + (mobile ? "⬆︎ and ⬇︎" : "Shift and Ctrl") + " to wrap between top and bottom", 7, 24, 1, 0, 1],
     ];
     
     cubes = [ ];
     
-    /*emoji = [
+    emoji = [
       ["🐞", 3, 70],
-    ]*/
+    ]
   }
 
 
@@ -1078,9 +1081,9 @@ enterroom = () => {
       [6, 12],
     ];
     
-    /*emoji = [
+    emoji = [
       ["🐝", 3, 20],
-    ];*/
+    ];
   }
   
   // 3-7 (3D puzzles, length 14, all kinds)
@@ -1103,7 +1106,7 @@ enterroom = () => {
       [10, 9, 0, 0, 71],
       [11, 10, 0, 0, 71],
       [12, 11, 0, 0, 71],
-      [13, 12, 0, 0, 71],
+      [7, 12, 0, 0, 71],
     ];
     
     // Doors
@@ -1140,9 +1143,9 @@ enterroom = () => {
     
     cubes = [ ];
     
-    /*emoji = [
+    emoji = [
       ["🐓", 1, 14],
-    ];*/
+    ];
   }
   
   // 3-8 (3D puzzles, length 20, wrap)
@@ -1197,9 +1200,9 @@ enterroom = () => {
     
     cubes = [ ];
     
-    /*emoji = [
+    emoji = [
       ["🐉", 13, 46],
-    ];*/
+    ];
   }
   
   scene.style.width = w * sidesize + "vh";
@@ -1216,7 +1219,7 @@ enterroom = () => {
   // Trees
   for(var i in trees){
     objects.innerHTML += 
-    `<div id=tree${i} class="emoji tree" style="left:${trees[i][0]*sidesize}vh;transform:translateX(-9vh)translateY(${trees[i][1]*sidesize+4}vh)rotateX(-75deg)">🌳</div><div id=treeshadow${i} class="emojishadow treeshadow" style="left:${trees[i][0]*sidesize}vh;transform:translateX(-9vh)translateY(${trees[i][1]*sidesize+4}vh)rotateZ(144deg)scaleY(1.5)">🌳`;
+    `<div id=tree${i} class="emoji tree" style="left:${trees[i][0]*sidesize}vh;transform:translateX(-7vh)translateY(${trees[i][1]*sidesize+4}vh)rotateX(-75deg)">🌳</div><div id=treeshadow${i} class="emojishadow treeshadow" style="left:${trees[i][0]*sidesize}vh;transform:translateX(-7.5vh)translateY(${trees[i][1]*sidesize+3.5}vh)rotateZ(144deg)scaleY(1.5)">🌳`;
   }
   
   // Apples
@@ -1235,10 +1238,10 @@ enterroom = () => {
   }
   
   // Emoji
-  /*for(i in emoji){
+  for(i in emoji){
     objects.innerHTML += 
-    `<div class="emoji animal" style="left:${emoji[i][1]*sidesize}vh;transform:translateY(${emoji[i][2]*sidesize+4}vh) rotateX(-65deg)"><div class=emojimove>${emoji[i][0]}</div></div><div class="emojishadow animalshadow" style="left:${emoji[i][1]*sidesize}vh;transform:scaleX(-1)translateY(${emoji[i][2]*sidesize+3}vh)rotateZ(212deg)">${emoji[i][0]}`;
-  }*/
+    `<div class="emoji animal" style=left:${emoji[i][1]*sidesize}vh;transform:translateY(${emoji[i][2]*sidesize+4}vh)rotateX(-65deg)><div class=emojimove>${emoji[i][0]}`;
+  }
   
   // Doors
   for (i in doors){
@@ -1262,7 +1265,7 @@ enterroom = () => {
   }
   
   for (i in cubes){
-    objects.innerHTML+=`<div id=cube${i} class="cube rock" style="left:${cubes[i][0]*sidesize}vh;top:${cubes[i][1]*sidesize}vh;width:5.1vh;height:5.1vh"><div class=front></div><div class=up style="background-position:${-300-cubes[i][0]*sidesize}vh ${-140-cubes[i][1]*sidesize}vh"></div><div class=right></div><div class=left>`;
+    objects.innerHTML+=`<div id=cube${i} class="cube rock" style="left:${cubes[i][0]*sidesize}vh;top:${cubes[i][1]*sidesize}vh;width:5.2vh;height:5.2vh"><div class=front></div><div class=up style="background-position:${-300-cubes[i][0]*sidesize}vh ${-140-cubes[i][1]*sidesize}vh"></div><div class=right></div><div class=left></div><div class=back>`;
   }
   
   // Hints
@@ -1287,8 +1290,7 @@ enterroom = () => {
   // puzzles
   for(var p in puzzles){
     
-    console.log(puzzles);
-size = puzzles[p][0];
+    size = puzzles[p][0];
     
     var whtml = '';
     var ghtml = '';
@@ -1325,7 +1327,7 @@ size = puzzles[p][0];
   
   // The end
   if(pagename == "3-8"){
-    objects.innerHTML += "<div style='position:fixed;transform:rotateZ(-90deg)translateX(-113vh)translateY(22vh)translateZ(317vh);font:30vh/30vh a'>THE<br><br>END";
+    objects.innerHTML += "<div style='position:fixed;transform:rotateZ(-90deg)translateX(-73vh)translateY(21vh)translateZ(338vh);font:30vh/30vh a'>THE<br><br>END";
   }
   
   
@@ -1345,11 +1347,14 @@ size = puzzles[p][0];
     currentpuzzle = 0;
     movesnake(1);
     hasground = 1;
+    haswall = 0;
+    haswrap = 0;
     issolved = 0;
+    puzzles[0][2] = 0;
     
     // Resize the grid
     // Called when the grid size input is changed
-    gridsize.onchange =
+    (gridsize.onchange =
     gridsize.oninput = 
     resetgrid = e => {
 
@@ -1388,7 +1393,7 @@ size = puzzles[p][0];
       }
       if(hasground) down0.innerHTML += ghtml;
       if(haswall) back0.innerHTML += whtml;
-    }
+    })();
     
     
     // Reset and resize the snake (when the snake size range changes)
@@ -1412,7 +1417,7 @@ size = puzzles[p][0];
         haswall = 1;
         wall.checked = true;
       }
-      
+      scene.className = haswall ? "haswall" : "";
       resetgrid();
     }
    
@@ -1430,7 +1435,7 @@ size = puzzles[p][0];
           ground.checked = true;
           puzzles[0][3] = 0;
         }
-      
+        scene.className = haswall ? "haswall" : "";
         resetgrid();
         
         /*for(i of document.querySelectorAll("#down0 .cell")){
@@ -1458,10 +1463,39 @@ size = puzzles[p][0];
     if(self.wrap){
       wrap.onclick = e => {
         haswrap = puzzles[0][2] = wrap.checked || 0;
+        puzzle0.className = "cube wrap visible " + (haswrap ? "wrapvisible" : "");
+        resetgrid();
       }
     }
     
-    
+    // Share a puzzle
+    // Generates an url with the hash "#gridsize,snakesize,wrap,wall,ground".
+    print = a => {
+      var r = "";
+      for(i=0;i<size;i++){
+        for(j=0;j<size;j++){
+          if(self[a+"0-"+i+"-"+j].style.background && self[a+"0-"+i+"-"+j].style.background.match(/255/)){
+            r+=0;
+          }
+          else{
+            r+=1;
+          }
+        }
+      }
+      return r;
+    }
+
+    share.onclick = () => {
+      var r = [];
+      r.push(size)
+      r.push(snakelength);
+      r.push(haswrap ? 1 : 0);
+      r.push(haswall ? print("w") : '')
+      r.push(ground.checked ? print("g") : '')
+      window.open("//twitter.com/intent/tweet?text=I%20made%20a%20level%20for%20@MaximeEuziere's%20%23js13k%20game%20LOSSST!%0APlay%20here:%20http%3A%2F%2Fjs13kgames.com%2Fentries%2Flossst%0AMy%20level:%20http%3A%2F%2Fjs13kgames.com%2Fgames%2Flossst%2Findex.html%23"+r+"%0A%23LOSSSTlevels");
+    }
+
+
   }
   
   
@@ -1477,7 +1511,7 @@ size = puzzles[p][0];
     setTimeout('resetsnake();movesnake();snakecubemove0.style.transition="transform .5s"',2000);
     
     // Head goes out of the ground
-    setTimeout("snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push(0);snakeangle.push(snakeangle[head]);head++;movesnake()",5000);
+    setTimeout("snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push(0);snakeangle.push(snakeangle[head]);head++;movesnake()",5500);
     
     // Shake head and shadow
     setTimeout("snakecubemove0.style.transition='';snakeshadow0.style.transition=snakecuberotate0.style.transition='transform .2s';snakeshadow0.style.transform=snakecuberotate0.style.transform='rotateZ("+-Math.PI/4+"rad)'",6500);
@@ -1485,7 +1519,7 @@ size = puzzles[p][0];
     setTimeout("snakeshadow0.style.transform=snakecuberotate0.style.transform=''",7500);
     
     // Reset custom transitions, unlock keyboard, show mobile controls
-    setTimeout("b.innerHTML+=`<div style='position:fixed;font:8vh a;top:3vh;right:3vh' onclick=location=location>×</div>`;scene.style.transition='transform 1s,transform-origin 1s';snakeshadow0.style.transition=snakecuberotate0.style.transition='';lock=0;L[P+'snakex']=20;L[P+'snakey']=10;if(mobile){k_up.className=k_down.className=k_left.className=k_right.className='';L[P+'wasd']=1}",9000);
+    setTimeout("b.innerHTML+=`<div style='position:fixed;font:8vh a;top:3vh;right:3vh' onclick=location='index.html'>×</div>`;scene.style.transition='transform 1s,transform-origin 1s';snakeshadow0.style.transition=snakecuberotate0.style.transition='';lock=0;L[P+'snakex']=20;L[P+'snakey']=10;if(mobile){k_up.className=k_down.className=k_left.className=k_right.className='';L[P+'wasd']=1}",9000);
   }
   
   // Return to hub, or enter other rooms
@@ -1554,7 +1588,7 @@ resetsnake = noresethistory => {
       var z = +L[P+"snakez"];
       
       // Return to hub from 3-1: z = 1
-      if(pagename == "hub" && snakex < 2){
+      if(pagename == "hub" && snakex[head] < 2){
         z = L[P+"snakez"] = 1;
       }
       
@@ -1647,6 +1681,7 @@ index = (n, cross) => {
   if(n == "editor"){
     iseditor = 1;
     delete L[P+"puzzleeditor0"];
+    currentpuzzle = 0;
   }
   
   // Go to the last saved room (or hub by default)
@@ -1661,8 +1696,8 @@ index = (n, cross) => {
 `
 
 + (iseditor?
-`<div class=hint style=width:60vh;transform:translateX(99vh)translateY(9vh)translateZ(2vh)rotateX(-27deg)>
-Create a pattern with the snake and share it !
+`<div class=hint style=width:60vh;transform:translateX(70vh)translateY(1vh)translateZ(2vh)rotateX(-42deg)>
+<label style=width:100%;text-align:center>Create a pattern with the snake and share it !</label>
 <br style=line-height:6vh>
 <label>Grid</label> <input id=gridsize type=range value=5 min=3 max=8 step=1>
 <span id=gridval>5</span>
@@ -1670,9 +1705,9 @@ Create a pattern with the snake and share it !
 <label>Snake</label> <input id=snakesize type=range value=5 min=5 max=30 step=1>
 <span id=snakeval>5</span>
 <br>
-<input type=checkbox id=ground checked> <label for=ground id=groundlabel>Ground</label>
-${(L[P+"editorfull"]||(L[P+"son"]&&L[P+"snakelength"]>6))?"<input type=checkbox id=wall> <label for=wall>Wall</label>":""}
-${(L[P+"editorfull"]||L[P+"son"])?"<input type=checkbox id=wrap> <label for=wrap>Wrap</label>":""}
+<input type=checkbox id=ground checked> <label for=ground id=groundlabel>ground</label>
+${(L[P+"editorfull"]||(L[P+"son"]&&L[P+"snakelength"]>6))?"<input type=checkbox id=wall> <label for=wall>wall</label>":""}
+${(L[P+"editorfull"]||L[P+"son"])?"<input type=checkbox id=wrap> <label for=wrap>wrap</label>":""}
 <br>
 <center>
 <button id=share disabled>Share</button>
@@ -1732,7 +1767,7 @@ ${(L[P+"editorfull"]||L[P+"son"])?"<input type=checkbox id=wrap> <label for=wrap
   }
     
   if(cross){
-    b.innerHTML+=`<div style='position:fixed;font:8vh a;top:3vh;right:3vh'onclick=location=location>×`;
+    b.innerHTML+=`<div style='position:fixed;font:8vh a;top:3vh;right:3vh'onclick=location='index.html'>×`;
   }
 },
 
@@ -1948,7 +1983,7 @@ touchend = (n) => {
     r.push(self.wrap && wrap.checked ? 1 : 0);
     r.push(self.wall && wall.checked ? print(dw) : '')
     r.push(ground.checked ? print(dg) : '')
-    window.open("//twitter.com/intent/tweet?text=I%20made%20a%20level%20for%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere!%0Ahttp%3A%2F%2Fjs13kgames.com%2Fentries%2Flossst/index.html%23"+r)
+    window.open("//twitter.com/intent/tweet?text=I%20made%20a%20level%20for%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere!%0Ahttp%3A%2F%2Fjs13kgames.com%2Fgames%2Flossst/index.html%23"+r)
   }
   
   // Mouse inputs
@@ -2006,7 +2041,7 @@ touchend = (n) => {
 onload = () => {
   
   if(location.hash.length > 1){
-    index("load");
+    index("load",1);
     return;
   }
   
@@ -2016,7 +2051,11 @@ onload = () => {
 <center id=itext></center>
 <div id=perspective style=perspective:30vh>
 <center id=menu>
-<h1>LOSSST</h1><span onclick=a()>New game</span><br>` + (L[P+"start"] ? (L[P+'ended'] ? '' : '<span onclick=index(0,1)>Continue</span><br>') + `<span onclick=index("editor")>Puzzle editor</span><br>` : "") + `<span onclick="location='//twitter.com/search?q=%23LOSSSTjs13k'">Twitter levels</span><br><span onclick=location='//maximeeuziere.itch.io'>Other games`;
+<h1>LOSSST</h1>
+<span onclick=a()>New game</span><br>
+` 
+
++ (L[P+"start"] ? (L[P+'ended'] ? '' : '<span onclick=index(0,1)>Continue</span><br>') + `<span onclick=index("editor")>Puzzle editor</span><br>` : "") + `<span onclick=window.open('//xem.github.io/JS13k17/bonus')>Bonus`;
 
   // New game
   a = () => {
@@ -2151,9 +2190,9 @@ onload = () => {
       M.p = 0.2; // pling volume
       M.b = 0.2; // bass volume
       M.t=1.1e-4; // tempo
-    })
+    })*/
 
-  }
+  //}
 
-  Music();*/
+  //Music();
 }
