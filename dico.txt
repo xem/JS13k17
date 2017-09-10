@@ -1,0 +1,111 @@
+Localstorage keys:
+
+s = son
+m = mobile
+t = time
+M = moves
+S = snakelength
+T = totalsolved
+p+room+puzzleid = puzzle+room+puzzleid
+d+room+puzzleid = door+room+puzzleid
+a+room+n = appleeaten+room+n
+A+room+n = appleappeared+room+n
+x = snakex
+y = snakey
+z = snakez
+a = snakeangle?
+p = page
+w = wasd
+b = backtrack
+r = reset
+B = topbottom
+c = camera
+e = editorfull
+u = menu
+
+classnames:
+
+m = mac
+f = fx
+M = mobile
+e = emoji
+s = emojishadow
+E = emojimove
+a = apple
+A = appleshadow
+n = animal
+N = animalshadow
+h = hidden
+h+x+y = hint+x+y
+r = realdoor
+p = path
+d+n = door+n
+o = open
+c = cube
+k = rock
+F = front
+L = left
+R = right
+D = down
+B = back
+U = up
+w = wrap
+v = visible
+W = wrapvisible
+C = cell
+s = snake
+t = tongue
+o = editor
+P = playing
+
+ids:
+
+s = scene
+S = snake
+N = snake2
+o = objects
+p = puzzle
+a+n = apple+n
+A+n = appleshadow+n
+d+x+y = door+x+y
+D+p = down+p
+B+p = back+p
+M+i = snakecubemove+i
+R+i = snakecuberotate+i
+S+i = snakeshadow+i
+T+i = snakecube+i
+U = k_up
+D = k_down
+L = k_left
+R = k_right
+T = k_top
+B = k_bottom
+b = k_backtrack
+r = k_reset
+l = k_camleft 
+s = k_camright
+t = text
+S = share
+G = ground
+g = groundlabel
+z = gridsize
+w = wall
+W = wrap
+Z = snakesize
+v = snakeval
+A = reset
+gxyz = gx-y-z
+wxyz = wx-y-z
+V = perspective
+x = itext
+a = grass
+
+
+pagename:
+
+l = load
+h = hub
+1-1 to 3-8: A B C D E F G H I J K L
+
+functions:
+

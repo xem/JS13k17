@@ -1,55 +1,6 @@
 ﻿<title>LOSSST</title>
-<meta name=viewport content="width=device-width, user-scalable=no">
+<meta content="width=device-width,user-scalable=no"name=viewport>
 <link rel=stylesheet href=snake.css>
 <script src=init.js></script>
 <script src=gameplay.js></script>
-<body id=b style=background:#000>
-<center id=e>👀</center>
-<center id=itext></center>
-<center id=menu></center>
-<script>
-// Menu 1
-menu.innerHTML='<h1>LOSSST</h1><span onclick=a()>New game</span><br>' + (localStorage.lossst_start ? '<span onclick=lo()>Load game</span><br>' : "") + '<span onclick="location=`//twitter.com/search?q=%23LOSSSTjs13k`">Twitter levels</span>';
-
-// New game
-a = () => {
-  for(i in localStorage){
-    if(i.indexOf("lossst") == 0){
-      delete localStorage[i];
-    }
-  }
-  localStorage.lossst_start = 1;
-  menu.innerHTML='<span onclick=intro(0)>Desssktop</span><br><span onclick=intro(1)>Mobile</span>';
-}
-
-// Load
-lo = () => {
-  index();
-}
-
-// Intro
-intro = function(m) {
-
-  localStorage.lossst_mobile = mobile = m;
-  localStorage.lossst_snakelength = snakelength = 5;
-  
-  if(m){
-    //let d = window.document.documentElement;
-    //(d.requestFullscreen || d.mozRequestFullScreen || d.webkitRequestFullScreen).call(d);
-  }
-  localStorage.lossst_moves = 0;
-  localStorage.lossst_time = 0;
-  menu.innerHTML = "";
-  
-  // Eyes
-  setTimeout("e.style.margin=0", 500);
-  dir = 1;
-  inter = setInterval("e.style.opacity=0;setTimeout('e.style.opacity=1;dir=-dir;e.style.transform=`scaleX(`+dir+`)`',150)", 3000);
-  
-  // text
-  //setTimeout("itext.innerHTML=`I lossst my son!`", 2000);
-  //setTimeout("itext.innerHTML=``", 5000);
-  setTimeout("clearInterval(inter);e.style.margin='-80vh 0 0'", 100);// 7000);
-  setTimeout("index()", 200);//7500);
-}
-</script>
+<body id=b style=background:#000 onload=mainmenu()>
