@@ -1,3 +1,3 @@
 L.clear();
 
-L[P+"x"]=0;L[P+"y"]=0;L[P+"z"]=0;L[P+"p"]="3-8";L[P+"s"]=1;L[P+"S"]=20;L[P+"T"]=75;location=location;
+L[P+"x"]=0;L[P+"y"]=0;L[P+"z"]=0;L[P+"p"]="N";L[P+"s"]=1;L[P+"S"]=20;L[P+"T"]=75;location=location;

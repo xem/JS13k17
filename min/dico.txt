@@ -1,104 +1,114 @@
 Localstorage keys:
 
-ok a+room+n = appleeaten+room+n
-ok b = backtrack
-ok c = camera
-ok d+room+puzzleid = door+room+puzzleid
-ok e = editorfull
-ok m = mobile
-ok p+room+puzzleid = puzzle+room+puzzleid
-ok p = page
-ok r = reset
-ok s = son
-ok t = time
-ok w = wasd
-ok x = snakex
-ok y = snakey
-ok z = snakez
-ok A+room+n = appleappeared+room+n
-ok B = topbottom
-ok M = moves
-ok S = snakelength
-ok T = totalsolved
+a+room+n = appleeaten+room+n
+b = backtrack
+c = camera
+d+room+puzzleid = door+room+puzzleid
+e = editorfull
+m = mobile
+p+room+puzzleid = puzzle+room+puzzleid
+p = page
+r = reset
+s = son
+t = time
+w = wasd
+x = snakex
+y = snakey
+z = snakez
+A+room+n = appleappeared+room+n
+B = topbottom
+M = moves
+S = snakelength
+T = totalsolved
 
 classnames: (JS + CSS)
 
 a = apple
 c = cube
 d = hidden
+d = door
 d+n = door+n
 e = emoji
 f = fx
-h = height
 h+x+y = hint+x+y
 k = rock
+l = editor
 m = mac
 n = animal
 o = open
-l = editor
 p = path
 q = emojishadow
 r = realdoor
 s = snake
 t = tongue
+u = tree
 v = visible
-w = width
-x = wrap
-A = appleshadow
-B = back
-C = cell
-D = down
-E = emojimove
-F = front
-L = left
-M = mobile
-N = animalshadow
-P = playing
-R = right
-U = up
-W = wrapvisible
+w = wrap
+x = treeshadow
+_A = appleshadow
+_B = back
+_C = cell
+_D = down
+_E = emojimove
+_F = front
+_L = left
+_M = mobile
+_N = animalshadow
+_P = playing
+_R = right
+_S = snakeshadow
+_U = up
+_W = wrapvisible
+_X = snakecubemove
+_Y = snakecuberotate
+_Z = grass
 
-ids & globals:
+ids & globals / functions:
 
-a = grass
 a+n = apple+n
 b = k_backtrack
-c = ctrl
-d = down
+c (var: ctrl)
+d (var: down)
 d+x+y = door+x+y
+e = mobilecontrols
 g = groundlabel
 gxyz = gx-y-z
-l = left
+h (var: height)
+h+x+y = hint+x+y
+l (var:left)
 m = k_camleft
+n = shift
 o = objects
 p = puzzle
 p+x+y = puzzle+x+y
-s = scene
 q = k_reset
-r = right
-s = shift
+r (var: right)
+s = scene
 t = text
-u = up
-z = gridsize
-w = wall
-Z = snakesize
+t+i = tree+i
+u+i = treeshadow+i
+u (var: up)
 v = snakeval
+w (var: width)
 wxyz = wx-y-z
-x = itext
-z = share
+x = wall
+z = gridsize
 A = reset
 A+n = appleshadow+n
-B = backspace/alt
+B (var: backspace/alt)
 B+p = back+p
 C = k_bottom
 D = k_down
 D+p = down+p
+E = back
 F = k_left
 G = ground
-L = localStorage
+H = down
+L (var: localStorage)
 M+i = snakecubemove+i
 N = snake2
-P = "lossst_"
+O = quit
+P (var: "lossst_")
 Q = k_camright
 R = k_right
 R+i = snakecuberotate+i
@@ -109,13 +119,27 @@ T+i = snakecube+i
 U = k_up
 V = perspective
 W = wrap
+X = itext
+Y = share
+Z = snakesize
 
 
 pagename:
 
 l = load
 h = hub
-1-1 to 3-8: $A to $L
-
-functions:
-
+e = editor
+A = 1-1
+B = 1-3
+C = 1-4
+D = 2-1
+E = 2-15
+F = 2-2
+G = 2-3
+H = 2-4
+I = 2-5
+J = 3-1
+K = 3-3
+L = 3-6
+M = 3-7
+N = 3-8

@@ -1,0 +1,35 @@
+﻿<!doctype html>
+<title>SNAKE</title>
+<meta content="width=device-width,user-scalable=no"name=viewport>
+<link rel=stylesheet href=s.css>
+<script src=init.js></script>
+<script src=gameplay.js></script>
+<body id=b class=l onload=editor()>
+<div id=form>
+<label>Grid</label> <input id=z type=range value=5 min=4 max=8 step=1>
+<span id=gridval>5</span>
+<br>
+<label>Snake</label> <input id=Z type=range value=5 min=5 max=30 step=1>
+<span id=v>5</span>
+<br>
+<input type=checkbox id=G> <label for=G id=g>Ground</label>
+<script>if(localStorage["lossst_e"]||(localStorage["lossst_s"]&&localStorage["lossst_S"]>6))document.write("<input type=checkbox id=wall> <label for=wall>Wall")</script>
+<script>if(localStorage["lossst_e"]||localStorage["lossst_s"])document.write("<input type=checkbox id=W> <label for=W>Wrap")</script>
+<br>
+<button id=test>Test</button>
+<button id=Y disabled>Share</button>
+<button id=A>Reset</button>
+<button id=O>Quit</button>
+<div id=V>
+<div id=s>
+<div class="c w" id=puzzle0>
+<div class=L></div>
+<div class=R></div>
+<div id=H class=D></div>
+<div id=E class=_B></div>
+<div class=U></div>
+<div class=F></div>
+</div>
+<div id=S></div>
+<div class=Z>
+<div class=sun>

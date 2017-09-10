@@ -80,51 +80,51 @@ movesnake = (cameraonly) => {
       if(wrapping){
         
         // Rotate
-        self["snakecuberotate"+i].style.transform = `rotateZ(${snakeangle[(head-i)]}rad)`;
+        self["R"+i].style.transform = `rotateZ(${snakeangle[(head-i)]}rad)`;
         
         // Disappear after the wrap start
-        self["snakecubemove"+i].style.transform = `translateX(${oldx*sidesize+.5}vh)translateY(${oldy*sidesize+.5}vh)translateZ(${oldz*sidesize+.5}vh)scale(.01)scaleZ(.01)`;
+        self["M"+i].style.transform = `translateX(${oldx*sidesize+.5}vh)translateY(${oldy*sidesize+.5}vh)translateZ(${oldz*sidesize+.5}vh)scale(.01)scaleZ(.01)`;
         
         // Disable transitions
-        setTimeout("snakecubemove"+i+".style.transition='none'", 150);
+        setTimeout("M"+i+".style.transition='none'", 150);
         
         // Move cube at the position before the end of the wrap
-        setTimeout("snakecubemove"+i+".style.transform=`translateX(${"+newx+"*sidesize+.5}vh)translateY(${"+newy+"*sidesize+.5}vh)translateZ(${"+newz+"*sidesize+.5}vh)scale(.01)`", 175);
+        setTimeout("M"+i+".style.transform=`translateX(${"+newx+"*sidesize+.5}vh)translateY(${"+newy+"*sidesize+.5}vh)translateZ(${"+newz+"*sidesize+.5}vh)scale(.01)`", 175);
         
         // Reenable transitions and finish the wrap
-        setTimeout("snakecubemove"+i+".style.transition='';snakecubemove"+i+".style.transform=`translateX(${snakex["+(head-i)+"]*sidesize+.5}vh)translateY(${snakey["+(head-i)+"]*sidesize+.5}vh)translateZ(${snakez["+(head-i)+"]*sidesize+.5}vh)`", 200);
+        setTimeout("M"+i+".style.transition='';M"+i+".style.transform=`translateX(${snakex["+(head-i)+"]*sidesize+.5}vh)translateY(${snakey["+(head-i)+"]*sidesize+.5}vh)translateZ(${snakez["+(head-i)+"]*sidesize+.5}vh)`", 200);
       }
       
       // Normal transition (just update snakecubemove and snakecuberotate)
       else{
         try{
-          self["snakecubemove"+i].style.transform = `translateX(${snakex[(head-i)]*sidesize+.5}vh)translateY(${snakey[(head-i)]*sidesize+.5}vh)translateZ(${snakez[(head-i)]*sidesize+.9}vh)`;
-          self["snakecuberotate"+i].style.transform = `rotateZ(${snakeangle[(head-i)]}rad)`;
+          self["M"+i].style.transform = `translateX(${snakex[(head-i)]*sidesize+.5}vh)translateY(${snakey[(head-i)]*sidesize+.5}vh)translateZ(${snakez[(head-i)]*sidesize+.9}vh)`;
+          self["R"+i].style.transform = `rotateZ(${snakeangle[(head-i)]}rad)`;
         }
         catch(e){};
       }
       
       // Shadow
       try{
-        self["snakeshadow"+i].style.display = snakez[(head-i)] == 0 ? "" : "none";
+        self["S"+i].style.display = snakez[(head-i)] == 0 ? "" : "none";
       }
       catch(e){};
     }
     
     // no puzzle or puzzle already solved: camera follows the snake
     // (except in editor: camera is fixed)
-    if(!iseditor && typeof scene !== "undefined"){
+    if(!iseditor && typeof s !== "undefined"){
       
       if(currentpuzzle === null || L[P+"p"+pagename+currentpuzzle]){
-        scene.style.transform="translateX("+(-snakex[head]*sidesize)+"vh)translateY("+(-snakey[head]*sidesize) + "vh)translateZ(15vh)rotateX(40deg)";
-        scene.style.transformOrigin = "" + (snakex[head]*sidesize) + "vh " + (snakey[head]*sidesize) + "vh";
+        s.style.transform="translateX("+(-snakex[head]*sidesize)+"vh)translateY("+(-snakey[head]*sidesize) + "vh)translateZ(15vh)rotateX(40deg)";
+        s.style.transformOrigin = "" + (snakex[head]*sidesize) + "vh " + (snakey[head]*sidesize) + "vh";
       }
       
       // Unsolved puzzle: fixed camera
       else {
-        scene.style.transform = "translateX(" + (-(leftoffset + puzzles[currentpuzzle][0] / 2) * sidesize + 5) + "vh)translateY(" + (-(topoffset + puzzles[currentpuzzle][0] / 2) * sidesize + 8) + "vh)translateZ(" + (60 - (puzzles[currentpuzzle][0] * (sidesize + 3))) + "vh)rotateX(30deg)";
+        s.style.transform = "translateX(" + (-(leftoffset + puzzles[currentpuzzle][0] / 2) * sidesize + 5) + "vh)translateY(" + (-(topoffset + puzzles[currentpuzzle][0] / 2) * sidesize + 8) + "vh)translateZ(" + (60 - (puzzles[currentpuzzle][0] * (sidesize + 3))) + "vh)rotateX(30deg)";
         
-        scene.style.transformOrigin = ""+((leftoffset + puzzles[currentpuzzle][0] / 2) * sidesize + 5) +"vh "+((topoffset + puzzles[currentpuzzle][0] / 2 - 1) * sidesize + 8) + "vh";
+        s.style.transformOrigin = ""+((leftoffset + puzzles[currentpuzzle][0] / 2) * sidesize + 5) +"vh "+((topoffset + puzzles[currentpuzzle][0] / 2 - 1) * sidesize + 8) + "vh";
       }
     }
   }
@@ -177,15 +177,15 @@ movesnake = (cameraonly) => {
     
     // Open a door if the snake's length is big enough
     if(((doors[i][10] && son) || (!doors[i][10] && !son)) && self["d" + pagename + i] && doors[i][3] > 0 && snakelength >= doors[i][3] && Math.hypot(x - doors[i][0], y - doors[i][1]) < 4){
-      self["d" + pagename + i].className = "door open";
+      self["d" + pagename + i].className = "d o";
       
       // Save that in L for next visit
       L[P+"d" + pagename + i] = 1;
     }
     
     // Walk on a door path if the door is open
-    if(self["d" + pagename + i] && self["d" + pagename + i].className == "door open" && Math.hypot(x - doors[i][0], y - doors[i][1]) < 2){
-      if(pagename == "load"){
+    if(self["d" + pagename + i] && self["d" + pagename + i].className == "d o" && Math.hypot(x - doors[i][0], y - doors[i][1]) < 2){
+      if(pagename == "l"){
         setTimeout('location="index.html"',600);
       }
       else {
@@ -290,35 +290,35 @@ checkmove = (x, y, z) => {
     if(L[P+"A" + pagename + i] && x == apples[i][0] && y == apples[i][1]){
       
       // Ending easter egg
-      if(pagename == "3-8"){
+      if(pagename == "N"){
         lock = 1;
         
-        setTimeout("move_scene(Math.PI/2);appleshadow0.remove();apple0.style.transform='translateY(319vh)translateZ(2vh)rotateX(-65deg)rotateY(90deg)';apple0.style.transition=scene.style.transition='10s';apple0.style.transform='translateY(15vh)translateZ(2vh)rotateX(-65deg)';scene.style.transform='translateX(-207vh)translateY(-320vh)translateZ(-300vh)rotateX(0deg)rotateZ(1.5708rad)'", 200);
+        setTimeout("move_scene(Math.PI/2);A0.remove();a0.style.transform='translateY(319vh)translateZ(2vh)rotateX(-65deg)rotateY(90deg)';a0.style.transition=s.style.transition='10s';a0.style.transform='translateY(15vh)translateZ(2vh)rotateX(-65deg)';s.style.transform='translateX(-207vh)translateY(-320vh)translateZ(-300vh)rotateX(0deg)rotateZ(1.5708rad)'", 200);
         
         for(i in puzzles){
-          setTimeout("back"+i+".style.transition='.5s';back"+i+".style.transform='translateY(-125%)'", [1450, 2500, 3900, 5500][i]);
+          setTimeout("B"+i+".style.transition='.5s';B"+i+".style.transform='translateY(-125%)'", [1450, 2500, 3900, 5500][i]);
         }
         
-        setTimeout(`clearInterval(int_time);L[P+"ended"]=1;L[P+"e"]=1;b.style.background='#000';b.innerHTML='<div id=perspective style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=https://twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ahttp%3A%2F%2Fjs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>1786 seconds, 3461 moves<br><br>You can now create 3D puzzles<br>in the editor!<br><br><a href=index.html style=font-size:4vh>RETURN TO TITLE SCREEN</a>'`,15000);
+        setTimeout(`clearInterval(int_time);L[P+"ended"]=1;L[P+"e"]=1;b.style.background='#000';b.innerHTML='<div id=V style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=https://twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ahttp%3A%2F%2Fjs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>1786 seconds, 3461 moves<br><br>You can now create 3D puzzles<br>in the editor!<br><br><a href=index.html style=font-size:4vh>RETURN TO TITLE SCREEN</a>'`,15000);
         
       }
       
       // Eat an apple
       else {
         delete apples[i];
-        self["apple" + i].remove();
-        self["appleshadow" + i].remove();
+        self["a" + i].remove();
+        self["A" + i].remove();
         snakelength++;
         L[P+"S"] = snakelength;
         L[P+"a" + pagename + i] = 1;
         
-        // Room 2-2: easter-egg
-        if(pagename == "2-2" && snakelength == 16){
+        // Room F = 2-2: easter-egg
+        if(pagename == "F" && snakelength == 16){
           lock = 1;
           easteregg = 1;
-          scene.style.transition = "5s";
-          scene.style.transform = "translateX(-256vh)translateY(-95vh)translateZ(-400vh)rotateX(0deg)rotateZ(180deg)";
-          setTimeout("scene.style.transition='1s';lock=easteregg=0;movesnake()",10000);
+          s.style.transition = "5s";
+          s.style.transform = "translateX(-256vh)translateY(-95vh)translateZ(-400vh)rotateX(0deg)rotateZ(180deg)";
+          setTimeout("s.style.transition='1s';lock=easteregg=0;movesnake()",10000);
         }
       }
     }
@@ -333,7 +333,7 @@ checkmove = (x, y, z) => {
   
   // Emoji
   for(var i in emoji){
-    if(pagename != "1-4" && x == emoji[i][1] && y == emoji[i][2] && z == 0){
+    if(pagename != "C" && x == emoji[i][1] && y == emoji[i][2] && z == 0){
       stuck = 1;
     }
   }
@@ -342,7 +342,7 @@ checkmove = (x, y, z) => {
   for(var i in doors){
     
     // Walk on a door path if the door is open
-    if(self["d" + pagename + i] && self["d" + pagename + i].className == "door open" && Math.hypot(x - doors[i][0], y - doors[i][1]) <= 2){
+    if(self["d" + pagename + i] && self["d" + pagename + i].className == "d o" && Math.hypot(x - doors[i][0], y - doors[i][1]) <= 2){
       stuck = 0;
     }
   }
@@ -379,8 +379,8 @@ checkmove = (x, y, z) => {
     }
   }
   
-  // Room 2-5: find son
-  if(pagename == "2-5" && x == 18 && !son){
+  // Room I = 2-5: find son
+  if(pagename == "I" && x == 18 && !son){
     stuck = 1;
     lock = 1;
     easteregg = son = 1;
@@ -388,23 +388,23 @@ checkmove = (x, y, z) => {
     L[P+"S"] = snakelength = 5;
     for(i = 0; i < 21; i ++){
       cubes.push([snakex[head-i], snakey[head-i]]);
-      self["snakecubemove" + i].id = "";
-      self["snakecuberotate" + i].id = "";
-      self["snakeshadow" + i].id = "";
-      self["snakecube" + i].id = "";
+      self["M" + i].id = "";
+      self["R" + i].id = "";
+      self["S" + i].id = "";
+      self["T" + i].id = "";
     }
-    scene.style.transition = "2s";
+    s.style.transition = "2s";
     resetsnake();
     movesnake();
-    scene.style.transform = "translateX(-142vh)translateY(-70vh)translateZ(80vh)rotateX(45deg)";
-    scene.style.transformOrigin = "140vh 70vh";
+    s.style.transform = "translateX(-142vh)translateY(-70vh)translateZ(80vh)rotateX(45deg)";
+    s.style.transformOrigin = "140vh 70vh";
     setTimeout('snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push(0);snakeangle.push(snakeangle[head]);head++;movesnake()', 3000);
-    setTimeout("text.innerHTML='Daddy!'", 4000);
-    setTimeout("text.innerHTML=''", 6000);
-    setTimeout("text.innerHTML='I lossst my soccer ball!'", 7000);
-    setTimeout("text.innerHTML=''", 9000);
-    setTimeout("text.innerHTML='But I found new moves!'", 10000);
-    setTimeout(`text.innerHTML='';easteregg=lock=0;scene.style.transition='1s';movesnake();checkapple();if(mobile){k_top.className=k_bottom.className='';L[P+"B"]=1}`, 13000);
+    setTimeout("t.innerHTML='Daddy!'", 4000);
+    setTimeout("t.innerHTML=''", 6000);
+    setTimeout("t.innerHTML='I lossst my soccer ball!'", 7000);
+    setTimeout("t.innerHTML=''", 9000);
+    setTimeout("t.innerHTML='But I found new moves!'", 10000);
+    setTimeout(`t.innerHTML='';easteregg=lock=0;s.style.transition='1s';movesnake();checkapple();if(mobile){T.className=C.className='';L[P+"B"]=1}`, 13000);
   }
 }
 
@@ -423,11 +423,11 @@ checkgrid = e => {
   // Repaint everything in black and white
   for(i = 0; i < size; i++){
     for(j = 0; j < size; j++){
-      if(self[`g${cellprefix}-${i}-${j}`]){
-        self[`g${cellprefix}-${i}-${j}`].style.background = dg[i][j] ? "#000" : "#fff";
+      if(self[`g${cellprefix}${i}${j}`]){
+        self[`g${cellprefix}${i}${j}`].style.background = dg[i][j] ? "#000" : "#fff";
       }
-      if(self[`w${cellprefix}-${i}-${j}`]){
-        self[`w${cellprefix}-${i}-${j}`].style.background = dw[i][j] ? "#000" : "#fff";
+      if(self[`w${cellprefix}${i}${j}`]){
+        self[`w${cellprefix}${i}${j}`].style.background = dw[i][j] ? "#000" : "#fff";
       }
     }
   }
@@ -441,12 +441,12 @@ checkgrid = e => {
   for(i = 0; i < snakelength; i++){
  
     // Paint the good cells in green and the bad ones in red (if they exist, and if the snake part is in the puzzle)
-    if(self[`g${cellprefix}-${snakey[head-i] - topoffset}-${snakex[head-i] - leftoffset}`]){
-      self[`g${cellprefix}-${snakey[head-i] - topoffset}-${snakex[head-i] - leftoffset}`].style.background = dg[snakey[head-i] - topoffset][snakex[head-i] - leftoffset] ? "#080" : "#f00";
+    if(self[`g${cellprefix}${snakey[head-i] - topoffset}${snakex[head-i] - leftoffset}`]){
+      self[`g${cellprefix}${snakey[head-i] - topoffset}${snakex[head-i] - leftoffset}`].style.background = dg[snakey[head-i] - topoffset][snakex[head-i] - leftoffset] ? "#080" : "#f00";
     }
     
-    if(snakey[head-i] >= topoffset && snakey[head-i] < topoffset + size && self[`w${cellprefix}-${size - 1 - snakez[head-i]}-${snakex[head-i] - leftoffset}`]){
-      self[`w${cellprefix}-${size - 1 - snakez[head-i]}-${snakex[head-i] - leftoffset}`].style.background = dw[size - 1 - snakez[head-i]][snakex[head-i] - leftoffset] ? "#080" : "#f00";
+    if(snakey[head-i] >= topoffset && snakey[head-i] < topoffset + size && self[`w${cellprefix}${size - 1 - snakez[head-i]}${snakex[head-i] - leftoffset}`]){
+      self[`w${cellprefix}${size - 1 - snakez[head-i]}${snakex[head-i] - leftoffset}`].style.background = dw[size - 1 - snakez[head-i]][snakex[head-i] - leftoffset] ? "#080" : "#f00";
     }
     
     // If a snake part is out of the grid, not solved
@@ -470,13 +470,13 @@ checkgrid = e => {
   for(i = 0; i < size; i++){
     for(j = 0; j < size; j++){
       try{
-        if(hasground && self[`g${cellprefix}-${i}-${j}`].style.backgroundColor.match(/0/g).length == 3){
+        if(hasground && self[`g${cellprefix}${i}${j}`].style.backgroundColor.match(/0/g).length == 3){
           solved = 0;
         }
       }
       catch(e){}
       try{
-        if(haswall  && self[`w${cellprefix}-${i}-${j}`].style.backgroundColor.match(/0/g).length == 3){
+        if(haswall  && self[`w${cellprefix}${i}${j}`].style.backgroundColor.match(/0/g).length == 3){
           solved = 0;
         }
       }
@@ -490,18 +490,18 @@ checkgrid = e => {
     
     // Editor solved 
     if(iseditor){
-      setTimeout(`share.disabled=0;playing=puzzling=0;b.className="editor";for(i=exithead;i<=head;i++){snakex.pop();snakey.pop();snakez.pop();snakeangle.pop();}head=exithead-1;exithead=0;movesnake()`,1000);
+      setTimeout(`Y.disabled=0;playing=puzzling=0;b.className="l";for(i=exithead;i<=head;i++){snakex.pop();snakey.pop();snakez.pop();snakeangle.pop();}head=exithead-1;exithead=0;movesnake()`,1000);
     }
     
-    self["p" + currentpuzzle].classList.remove("wrapvisible");
+    self["p" + currentpuzzle].classList.remove("W");
     L[P+"p" + pagename + currentpuzzle] = 1;
     for(i = 0; i < size; i++){
       for(j = 0; j < size; j++){
-        if(self[`g${cellprefix}-${i}-${j}`]){
-          self[`g${cellprefix}-${i}-${j}`].style.background = dg[i][j] ? "#44c" : "#fd0";
+        if(self[`g${cellprefix}${i}${j}`]){
+          self[`g${cellprefix}${i}${j}`].style.background = dg[i][j] ? "#44c" : "#fd0";
         }
-        if(self[`w${cellprefix}-${i}-${j}`]){
-          self[`w${cellprefix}-${i}-${j}`].style.background = dw[i][j] ? "#44c" : "#fd0";
+        if(self[`w${cellprefix}${i}${j}`]){
+          self[`w${cellprefix}${i}${j}`].style.background = dw[i][j] ? "#44c" : "#fd0";
         }
       }
     }
@@ -535,13 +535,13 @@ checkapple = e => {
       
 
       // backtrack button
-      if(mobile && pagename == "hub" && i == 1){
-        k_backtrack.className = '';
+      if(mobile && pagename == "_h" && i == 1){
+        b.className = '';
         L[P+"b"] = 1;
       }
       
       // Focus on new apple 
-      setTimeout(`scene.style.transform="translateX("+(-apples[`+i+`][0]*sidesize)+"vh)translateY("+(-apples[`+i+`][1]*sidesize)+"vh)translateZ(-15vh)rotateX(40deg)";L[P+"appleappeared"+pagename+"`+i+`"]=1;scene.style.transformOrigin=""+(apples[`+i+`][0]*sidesize)+"vh "+(apples[`+i+`][1]*sidesize)+"vh";self["apple"+`+i+`].className="emoji apple";self["appleshadow"+`+i+`].className="emojishadow appleshadow"`, 250);
+      setTimeout(`s.style.transform="translateX("+(-apples[`+i+`][0]*sidesize)+"vh)translateY("+(-apples[`+i+`][1]*sidesize)+"vh)translateZ(-15vh)rotateX(40deg)";L[P+"appleappeared"+pagename+"`+i+`"]=1;s.style.transformOrigin=""+(apples[`+i+`][0]*sidesize)+"vh "+(apples[`+i+`][1]*sidesize)+"vh";self["apple"+`+i+`].className="e apple";self["A"+`+i+`].className="q _A"`, 250);
       
       // Focus back on snake
       setTimeout("movesnake();lock=0", 2000);
@@ -580,7 +580,7 @@ onkeydown = function(e) {
   
   // Shift = 16
   if(e.which == 16){
-    s = 1;
+    n = 1;
   }
   
   // Ctrl = 17
@@ -781,7 +781,7 @@ onkeydown = function(e) {
     }
     
     // Upwards (shift)
-    else if((son || haswall) && s){
+    else if((son || haswall) && n){
       
       // Can't go upper than snake's height (or snake's height + 1 if standing on a cube) if not in a puzzle
       if(!inbounds){
@@ -907,14 +907,14 @@ onkeydown = function(e) {
       }
 
       // Editor
-      if(pagename == "hub" && (son || snakelength >= 14) && snakex[head] == 20 && snakey[head] == 10){
+      if(pagename == "_h" && (son || snakelength >= 14) && snakex[head] == 20 && snakey[head] == 10){
         lock = 1;
         var z = 0;
         for(i = 0; i < snakelength; i++){
           z--;
           setTimeout("snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push("+z+");snakeangle.push(snakeangle[head]);head++;movesnake()", i * 150);
         }
-        setTimeout("location='editor.html'", i * 100);
+        setTimeout("location='e.htm'", i * 100);
         L[P+"x"] = 20;
         L[P+"y"] = 10;
       }
@@ -936,5 +936,5 @@ onkeydown = function(e) {
 }
 
 onkeyup = e => {
-  u = r = d = l = s = c = B = 0;
+  u = r = d = l = n = c = B = 0;
 }
