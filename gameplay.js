@@ -130,7 +130,7 @@ movesnake = cameraonly => {
   }
   
   // Fall if all the cubes are in the air
-  var flying = 1;
+  var flying = son ? 1 : 0;
   for(i = 0; i < snakelength; i++){
     if(snakez[head - i] <= 0){
       flying = 0;
@@ -285,21 +285,33 @@ checkmove = (x, y, z) => {
   for(var i in apples){
     if(L[P + "appleappeared" + pagename + i] && x == apples[i][0] && y == apples[i][1]){
       
-      // Eat an apple
-      delete apples[i];
-      self["apple" + i].remove();
-      self["appleshadow" + i].remove();
-      snakelength++;
-      L[P + "snakelength"] = snakelength;
-      L[P + "appleeaten" + pagename + i] = 1;
-      
-      // Room 2-2: easter-egg
-      if(pagename == "2-2" && snakelength == 16){
+      // Ending easter egg
+      if(pagename == "3-8"){
         lock = 1;
-        easteregg = 1;
-        scene.style.transition = "5s";
-        scene.style.transform = "translateX(-256vh)translateY(-95vh)translateZ(-400vh)rotateX(0deg)rotateZ(180deg)";
-        setTimeout("scene.style.transition='.8s';lock=easteregg=0;movesnake()",10000);
+        setTimeout("rot=Math.PI/2;move_scene();appleshadow0.remove();apple0.style.transform='translateY(319vh)translateZ(2vh)rotateX(-65deg)rotateY(90deg)';apple0.style.transition=scene.style.transition='10s';apple0.style.transform='translateY(15vh)translateZ(2vh)rotateX(-65deg)';scene.style.transform='translateX(-207vh)translateY(-320vh)translateZ(-300vh)rotateX(0deg)rotateZ(1.5708rad)'", 200);
+        for(i in puzzles){
+          setTimeout("back"+i+".style.transition='.5s';back"+i+".style.transform='translateY(-125%)'", [1400, 2500, 3800, 5500][i]);
+        }
+        
+      }
+      
+      // Eat an apple
+      else {
+        delete apples[i];
+        self["apple" + i].remove();
+        self["appleshadow" + i].remove();
+        snakelength++;
+        L[P + "snakelength"] = snakelength;
+        L[P + "appleeaten" + pagename + i] = 1;
+        
+        // Room 2-2: easter-egg
+        if(pagename == "2-2" && snakelength == 16){
+          lock = 1;
+          easteregg = 1;
+          scene.style.transition = "5s";
+          scene.style.transform = "translateX(-256vh)translateY(-95vh)translateZ(-400vh)rotateX(0deg)rotateZ(180deg)";
+          setTimeout("scene.style.transition='.8s';lock=easteregg=0;movesnake()",10000);
+        }
       }
     }
   }
@@ -333,13 +345,12 @@ checkmove = (x, y, z) => {
 
     if(
       puzzles[p][3] // wall
-      && !puzzles[p][2] // no wrap
       && x >= puzzles[p][5] // x betwee left and right
       && x < puzzles[p][5] + puzzles[p][0]
       && (
         (
-          // head trying to pass from top line to after the wall
-          y == puzzles[p][6] - 1  && snakey[head] == puzzles[p][6] 
+          // no wrap && head trying to pass from top line to after the wall
+          y == puzzles[p][6] - 1  && snakey[head] == puzzles[p][6] && !puzzles[p][2]
          ) 
         ||
         (
@@ -375,7 +386,7 @@ checkmove = (x, y, z) => {
     setTimeout('snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push(0);snakeangle.push(snakeangle[head]);head++;movesnake()', 3000);
     setTimeout("text.innerHTML='Daddy!'", 4000);
     setTimeout("text.innerHTML=''", 6000);
-    setTimeout("text.innerHTML='I lossst my basketball!'", 7000);
+    setTimeout("text.innerHTML='I lossst my soccer ball!'", 7000);
     setTimeout("text.innerHTML=''", 9000);
     setTimeout("text.innerHTML='But I found new moves!'", 10000);
     setTimeout("text.innerHTML='';easteregg=lock=0;scene.style.transition='.8s';movesnake();checkapple()", 13000);
@@ -433,6 +444,7 @@ checkgrid = e => {
       solved = 0;
     }
     
+    
     if(haswall && dw[size - 1 - snakez[head - i]] && !dw[size - 1 - snakez[head - i]][snakex[head - i] - leftoffset]){
       solved = 0;
     }
@@ -446,7 +458,10 @@ checkgrid = e => {
         if(hasground && self[`g${cellprefix}-${i}-${j}`].style.backgroundColor.match(/0/g).length == 3){
           solved = 0;
         }
-        if(haswall && self[`w${cellprefix}-${i}-${j}`].style.backgroundColor.match(/0/g).length == 3){
+      }
+      catch(e){}
+      try{
+        if(haswall  && self[`w${cellprefix}-${i}-${j}`].style.backgroundColor.match(/0/g).length == 3){
           solved = 0;
         }
       }
@@ -458,9 +473,9 @@ checkgrid = e => {
   if(solved){
     issolved = 1;
     
-    // Editor
+    // Editor solved 
     if(iseditor){
-      setTimeout(`share.disabled=0;playing=puzzling=0;b.className="editor";resetsnake();movesnake();checkgrid()`,1000);
+      setTimeout(`share.disabled=0;playing=puzzling=0;b.className="editor";for(var i = exithead; i <= head; i++){snakex.pop();snakey.pop();snakez.pop();snakeangle.pop();} head = exithead - 1;exithead = 0; movesnake();`,1000);
     }
     
     self["puzzle" + currentpuzzle].classList.remove("wrapvisible");
@@ -483,9 +498,9 @@ checkgrid = e => {
     for(var j in cubes){
       if(
         cubes[j][0] >= puzzles[currentpuzzle][5]
-        && cubes[j][0]  < puzzles[currentpuzzle][5] + puzzles[currentpuzzle][0]
-        && cubes[j][1]  >= puzzles[currentpuzzle][6]
-        && cubes[j][1]  < puzzles[currentpuzzle][6] + puzzles[currentpuzzle][0]
+        && cubes[j][0] < puzzles[currentpuzzle][5] + puzzles[currentpuzzle][0]
+        && cubes[j][1] >= puzzles[currentpuzzle][6]
+        && cubes[j][1] < puzzles[currentpuzzle][6] + puzzles[currentpuzzle][0]
       ){
         delete cubes[j];
         cubetoremove++;
@@ -497,6 +512,8 @@ checkgrid = e => {
 
 // Check if a new apple can appear after a certain snake length or number of puzzles solved, and make it appear
 checkapple = e => {
+  log(pagename);
+  log(apples);
   for(var i in apples){
 
     if(!L[P + "appleappeared" + pagename + i] &&((apples[i][3] > 0 && apples[i][3] == snakelength) || (apples[i][4] > 0 && apples[i][4] == totalsolved))){
@@ -558,6 +575,25 @@ onkeydown = e => {
   if(e.which == 17){
     c = 1;
   }
+  
+  // 1 = 49 / 97
+  if(e.which == 49 || e.which == 97){
+    rot = -1.2;
+    move_scene();
+  }
+  
+  // 2 = 50 / 98
+  if(e.which == 50 || e.which == 98){
+    movesnake();
+  }
+  
+  // 3 = 51 / 99
+  if(e.which == 51 || e.which == 99){
+    rot = 1.2;
+    move_scene();
+  }
+  
+  
   
   testinbounds();
   if(inbounds){
@@ -873,7 +909,12 @@ onkeydown = e => {
       testinbounds();
       
       if(inbounds && !exithead){
-        exithead = head - 1;
+        if(iseditor){
+          exithead = snakelength;
+        }
+        else {
+          exithead = head;
+        }
       }
     }
   }

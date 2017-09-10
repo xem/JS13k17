@@ -14,7 +14,7 @@ log = s => {
 // Rotate camera
 rot = 0,
 move_scene = () => {
-  scene.style.transform = "translateX(-"+(snakex[head]*sidesize)+"vh)translateY(-"+(snakey[head]*sidesize)+"vh)translateZ(40vh)rotateX(40deg)rotateZ(" + rot + "rad)";
+  scene.style.transform = "translateX(-"+(snakex[head]*sidesize)+"vh)translateY(-"+(snakey[head]*sidesize)+"vh)translateZ(15vh)rotateX(40deg)rotateZ(" + rot + "rad)";
 },
 
 // Meta
@@ -216,6 +216,8 @@ enterroom = () => {
   }
   
   // 1-1 (puzzles 2D length 8)
+  // Puzzles solved before: 0
+  // Puzzles solved after: 6
   // ----
   
   else if(pagename == "1-1"){
@@ -282,6 +284,8 @@ enterroom = () => {
   }
   
   // 1-3 (puzzles 2D length 11)
+  // Puzzles solved before: 6
+  // Puzzles solved after: 12
   // ----
   
   else if(pagename == "1-3"){
@@ -344,6 +348,8 @@ enterroom = () => {
   }
   
   // 1-4 (2D puzzles length 13)
+  // Puzzles solved before: 12
+  // Puzzles solved after: 18
   else if(pagename == "1-4"){
     
     w = 40;
@@ -420,6 +426,8 @@ enterroom = () => {
   }
   
   // 2-1 (2D puzzle with wrap, length 14)
+  // Puzzles solved before: 18
+  // Puzzles solved after: 19
   else if(pagename == "2-1"){
     
     w = 20;
@@ -474,6 +482,8 @@ enterroom = () => {
   }
   
   // 2-15 (2D, wrap, length 14)
+  // Puzzles solved before: 19
+  // Puzzles solved after: 23
   else if(pagename == "2-15"){
     
     w = 25;
@@ -529,9 +539,9 @@ enterroom = () => {
     
   }
   
-  
-  
   // 2-2 (2D puzzle with wrap, length 15, easter egg)
+  // Puzzles solved before: 23
+  // Puzzles solved after: 35
   else if(pagename == "2-2"){
     
     w = 80;
@@ -598,6 +608,8 @@ enterroom = () => {
   }
   
   // 2-3 (2D puzzle with wrap, length 16)
+  // Puzzles solved before: 35
+  // Puzzles solved after: 37
   else if(pagename == "2-3"){
     
     w = 20;
@@ -653,6 +665,8 @@ enterroom = () => {
   }
   
   // 2-4 (2D puzzle with wrap, length 20)
+  // Puzzles solved before: 37
+  // Puzzles solved after: 39
   else if(pagename == "2-4"){
     
     w = 20;
@@ -705,6 +719,8 @@ enterroom = () => {
   }
   
   // 2-5 (change snake)
+  // Puzzles solved before: 39
+  // Puzzles solved after: 39
   else if(pagename == "2-5"){
     
     w = 40;
@@ -747,7 +763,7 @@ enterroom = () => {
     // 4: max snake length
     hints = [
       ["Guess what, you finished the first half of the game!", 5, 9, 1, 0],
-	  ["Little snake can move up and down with Shift and Ctrl keys, and open black doors", 30, 9, 1, 0],
+      ["Little snake can move up and down with Shift and Ctrl keys, and open black doors", 30, 9, 1, 0],
     ];
     
     cubes = [
@@ -770,6 +786,8 @@ enterroom = () => {
   }
   
   // 3-1 (3D puzzles, length 6, wall and wall+gtound)
+  // Puzzles solved before: 39
+  // Puzzles solved after: 47
   else if(pagename == "3-1"){
     
     w = 15;
@@ -800,7 +818,7 @@ enterroom = () => {
     // 10: color
     doors = [
       [16, 5, Math.PI / 2, 6, 0, "hub", 0, 1, 11, 0, 1],
-      [-2, 65, -Math.PI / 2, 7, 0, "3-3", 1, 19, 65, 0, 1],
+      [-2, 65, -Math.PI / 2, 8, 0, "3-3", 1, 19, 65, 0, 1],
     ];
     
     // Puzzles
@@ -827,6 +845,7 @@ enterroom = () => {
     hints = [
       ["You now have to match the patterns on the walls...", 10, 2, 1, 0, 1],
       ["... and on the floor too!", 10, 40, 1, 0, 1],
+      ["You can rotate the camera with the keys 1, 2 and 3", 2, 68, 1, 0, 1],
     ];
     
     cubes = [
@@ -834,6 +853,8 @@ enterroom = () => {
   }
   
   // 3-3 (3D puzzles, length 8, wall and full and wrap)
+  // Puzzles solved before: 47
+  // Puzzles solved after: 59
   else if(pagename == "3-3"){
     
     w = 20;
@@ -899,9 +920,8 @@ enterroom = () => {
     // 4: max snake length
     // 5: son
     hints = [
-      ["Don't worry, there won't be 4D puzzles next...", 15, 69, 1, 0, 1],
-      ["<br>However...<br><br>", 7, 52, 1, 0, 1],
-      ["...there are 3D puzzles with wrap!", 7, 28, 1, 0, 1],
+      ["Can you imagine what's coming next?", 7, 54, 1, 0, 1],
+      ["Of course... 3D puzzles with wrap! Use Shift and Ctrl to shift up and down", 7, 24, 1, 0, 1],
     ];
     
     cubes = [
@@ -910,16 +930,23 @@ enterroom = () => {
 
 
   // 3-6 (3D puzzles, length 12, all kinds)
+  // Puzzles solved before: 59
+  // Puzzles solved after: 68
   else if(pagename == "3-6"){
     
     w = 15;
     h = 80;
     
     // Trees
-    trees = [];
+    trees = [
+      [2, 70]
+    ];
     
     // Apples (x, y, z, length, puzzles solved) 
-    apples = [];
+    apples = [
+      [1, 73, 0, 0, 68],
+      [3, 75, 0, 0, 68],
+    ];
     
     // Doors
     // 0: x,
@@ -935,8 +962,7 @@ enterroom = () => {
     // 10: color
     doors = [
       [16, 5, Math.PI / 2, 12, 0, "3-3", 0, 1, 5, 0, 1],
-      [-2, 75, -Math.PI / 2, 14, 0, "3-7", 1, 14, 35, 0, 1],
-      
+      [-2, 75, -Math.PI / 2, 14, 0, "3-7", 1, 14, 25, 0, 1],
     ];
     
     // Puzzles
@@ -955,7 +981,7 @@ enterroom = () => {
       // Wrap
       [4,5,1,"1000100110010001","0000100110010000", 2, 54],
       [4,12,1,"0000001011110100","0000110011110011", 5, 63],
-      //[4,5,1,"","", 8, 72], // TODO
+      [5,12,1,"0100011000010000111001000","0000001110110000100000000", 8, 72],
     ];
     
     // Hints
@@ -973,16 +999,27 @@ enterroom = () => {
   }
   
   // 3-7 (3D puzzles, length 14, all kinds)
+  // Puzzles solved before: 68
+  // Puzzles solved after: 71
   else if(pagename == "3-7"){
     
     w = 15;
     h = 30;
     
     // Trees
-    trees = [];
+    trees = [
+      [10,12]
+    ];
     
     // Apples (x, y, z, length, puzzles solved) 
-    apples = [];
+    apples = [
+      [8, 11, 0, 0, 71],
+      [9, 10, 0, 0, 71],
+      [10, 9, 0, 0, 71],
+      [11, 10, 0, 0, 71],
+      [12, 11, 0, 0, 71],
+      [13, 12, 0, 0, 71],
+    ];
     
     // Doors
     // 0: x,
@@ -997,14 +1034,15 @@ enterroom = () => {
     // 9: z
     // 10: color
     doors = [
+      [16, 25, Math.PI / 2, 14, 0, "3-6", 0, 1, 75, 0, 1],
+      [-2, 5, -Math.PI / 2, 20, 0, "3-8", 1, 14, 5, 0, 1],
     ];
     
     // Puzzles
     puzzles = [
-      [5,5,0,"1101101010011100010000000",, 2, 22],
-      // TODO: 1 with no wrap
-      [5,5,1,"1100010001000011000111000","0000011000110010000000000", 2, 12],
-      [5,5,1,"1101110001000001000011000","1100010000000001000111011", 2, 2],
+      [5,14,1,"0001100110011001100010000","0001100110011001100010000", 2, 24],
+      [5,5,1,"1100010001000011000111000","0000011000110010000000000", 4, 13],
+      [5,5,1,"1101110001000001000011000","1100010000000001000111011", 6, 2],
     ];
     
     // Hints
@@ -1020,17 +1058,23 @@ enterroom = () => {
     ];
   }
   
-  // 3-8 (3D puzzles, length 20, wrap) TO TEST
+  // 3-8 (3D puzzles, length 20, wrap)
+  // Puzzles solved before: 71
+  // Puzzles solved after: 75
   else if(pagename == "3-8"){
     
     w = 15;
-    h = 40;
+    h = 48;
     
     // Trees
-    trees = [];
+    trees = [
+      [10, 41],
+    ];
     
     // Apples (x, y, z, length, puzzles solved) 
-    apples = [];
+    apples = [
+      [7, 45, 0, 0, 75],
+    ];
     
     // Doors
     // 0: x,
@@ -1045,14 +1089,15 @@ enterroom = () => {
     // 9: z
     // 10: color
     doors = [
+      [16, 5, Math.PI / 2, 20, 0, "3-7", 0, 1, 5, 0, 1],
     ];
     
     // Puzzles
     puzzles = [
-      [5,5,1,"1000011110111101111010000","1111110000111101011010000", 2, 2], // TODO
-      [5,5,1,"0011110011110001001100111","1111010100100011101100000", 2, 11], // TODO
-      [5,5,1,"1000011100110011001110000","1110010001001111000111100", 2, 20], // TODO
-      [5,5,1,"1111110000110111000011111","1011110111100001011110111", 2, 29], // TODO
+      [4,20,1,"0000111101101111","1000111111111000", 5, 38],
+      [4,20,1,"1111001001001111","1111101010101111", 5, 28],
+      [4,20,1,"1111010101011101","0001101101101111", 5, 18],
+      [4,20,1,"1111000100011110","1111110110011111", 5, 8],
     ];
     
     // Hints
@@ -1094,7 +1139,7 @@ enterroom = () => {
     // Draw apples to eat
     else {
       objects.innerHTML += 
-      `<div id=apple${i} class="emoji apple ${L[P + "appleappeared"+pagename+i]?"":"hidden"}" style="left:${apples[i][0]*sidesize}vh;transform:translateY(${apples[i][1]*sidesize+4}vh) rotateX(-65deg)">🍎</div><div id=appleshadow${i} class="emojishadow appleshadow ${L[P+"appleappeared"+pagename+i]?"":"hidden"}" style="left:${apples[i][0]*sidesize}vh;transform:translateY(${apples[i][1]*sidesize+3}vh)rotateZ(144deg)">🍎`;
+      `<div id=apple${i} class="emoji apple ${L[P + "appleappeared"+pagename+i]?"":"hidden"}" style="left:${apples[i][0]*sidesize}vh;transform:translateY(${apples[i][1]*sidesize+4}vh) rotateX(-65deg)">${pagename=="3-8"?"⚽":"🍎"}</div><div id=appleshadow${i} class="emojishadow appleshadow ${L[P+"appleappeared"+pagename+i]?"":"hidden"}" style="left:${apples[i][0]*sidesize}vh;transform:translateY(${apples[i][1]*sidesize+3}vh)rotateZ(144deg)">${pagename=="3-8"?"⚽":"🍎"}`;
     }
   }
   
@@ -1181,6 +1226,11 @@ enterroom = () => {
     if(self["back" + p]){
       self["back" + p].innerHTML += whtml;
     }
+  }
+  
+  // The end
+  if(pagename == "3-8"){
+    objects.innerHTML += "<div style='position:fixed;transform:rotateZ(-90deg)translateX(-113vh)translateY(22vh)translateZ(317vh);font:30vh/30vh a'>THE<br><br>END";
   }
   
   // Init snake
@@ -1368,12 +1418,11 @@ resetsnake = noresethistory => {
 
 
 // Onload
-index = (name) => {
+index = (n) => {
   
   
   // Go to the last saved room (or hub by default)
-  pagename = name || L[P + "page"] || "hub";
-  
+  pagename = n || L[P + "page"] || "hub";
   
   // Draw html structure
   document.body.outerHTML =
@@ -1382,7 +1431,7 @@ index = (name) => {
 </div></div>
 <center id=text style=font:5vh'arial';color:#fff;position:fixed;bottom:9vh;left:0;width:100vw></center>`
 
-+ (name || window.location.toString().indexOf("free.fr") > 0 ? "" : `
++ (pagename == "load" || window.location.toString().indexOf("free.fr") > 0 ? "" : `
 
 <div style="position:fixed;margin:0;bottom:5px;left:5px;width:800px">
 <button style="width:30px;margin:0;float:none" onclick="rot+=Math.PI/4;move_scene()">↻</button>
@@ -1407,10 +1456,11 @@ Room
 <button style="width:30px;margin:0;float:none" onclick="L[P+'totalsolved']=59;L[P+'son']=1;L[P+'snakelength']=12;L[P+'snakex']=L[P+'snakey']=1;L[P+'snakez']=0;L[P+'page']='3-6';location=location">3-6</button>
 <button style="width:30px;margin:0;float:none" onclick="L[P+'son']=1;L[P+'snakelength']=14;L[P+'snakex']=L[P+'snakey']=1;L[P+'snakez']=0;L[P+'page']='3-7';location=location">3-7</button>
 <button style="width:30px;margin:0;float:none" onclick="L[P+'son']=1;L[P+'snakelength']=20;L[P+'snakex']=L[P+'snakey']=1;L[P+'snakez']=0;L[P+'page']='3-8';location=location">3-8</button>
+<button style="width:30px;margin:0;float:none" onclick="L[P+'son']=1;L[P+'snakelength']=20;L[P+'totalsolved']=75;L[P+'snakex']=1;L[P+'snakey']=40;L[P+'snakez']=0;L[P+'page']='3-8';location=location">end</button>
 `);
   
   // Disable cinematics (debug only)
-  debug = 1;
+  debug = 0;
   
   // Make the first apple appear (when the game starts only)
   L[P + "appleappearedhub0"] = 1;
@@ -1644,6 +1694,14 @@ editor = () => {
   test.onclick = e => {
     playing = puzzling = 1;
     b.className = "editor playing";
+    issolved = 0;
+    share.disabled = 1;
+    for(i = 0; i < size; i++){
+      for(j = 0; j < size; j++){
+        self[`ge-${i}-${j}`].style.background = dg[i][j] ? "#000" : "#fff";
+        self[`we-${i}-${j}`].style.background = dw[i][j] ? "#000" : "#fff";
+      }
+    }
   }
   
   // Quit

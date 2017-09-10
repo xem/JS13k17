@@ -1,3 +1,13 @@
 TODO
-replace puzzles[][5 / 6] par leftoffset/top
-replace puzzles[][1] par size
+compter mouvements
+compter temps
+les afficher à la fin
+deco
+controles mobile
+ecran de départ:
+ - Mobile / PC
+ - Nouvelle partie
+ - Continuer
+ - Twitter levels
+ 
+musique
