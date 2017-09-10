@@ -17,10 +17,10 @@ move_scene = (rot) => {
 L = localStorage,
 P = "lossst_",
 easteregg = 0,
-son = +L[P+"son"] || 0,
-mobile = +L[P+"mobile"] || 0,
-ocd_time = +L[P+"time"] || 0,
-ocd_moves = +L[P+"moves"] || 0,
+son = +L[P+"s"] || 0,
+mobile = +L[P+"m"] || 0,
+ocd_time = +L[P+"t"] || 0,
+ocd_moves = +L[P+"M"] || 0,
 int_time = 0,
 touchintervals = [],
 
@@ -45,7 +45,7 @@ snakeangle = [],
 
 // Snake length in cubes (default: 5)
 // Synchronized with localStorage
-snakelength = L[P+"snakelength"] = +L[P+"snakelength"] || 5,
+snakelength = L[P+"S"] = +L[P+"S"] || 5,
 
 // Game
 //=======
@@ -59,7 +59,7 @@ playing = 1,
 // Playing a puzzle
 puzzling = 0,
 
-// Keyboard input (control snake's cubes): up, right, down, left, shift, ctrl, backspace
+// Keyboard input (control snake's cubes): up, right, down, left, shift, ctrl, backspace/alt
 u = r = d = l = s = c = B = 0,
 
 // Keyboard lock
@@ -94,7 +94,7 @@ issolved = 0,
 leftoffset = 0,
 topoffset = 0,
 size = 0,
-totalsolved = +L[P+"totalsolved"] || 0,
+totalsolved = +L[P+"T"] || 0,
 exithead = 0,
 inbounds = 0,
 
@@ -125,7 +125,7 @@ enterroom = () => {
   
   // Mobile hacks
   if(mobile){
-    perspective.className = "mobile";
+    perspective.className = "M";
   }
   
   // Set room name to the body
@@ -151,8 +151,8 @@ enterroom = () => {
     hints = [
       ["Move: arrow keys<br>"+(son?"Up/Down: Shift/Ctrl<br>":"")+"backtrack: Alt<br>Reset: R", 1, 5, 1, 0, son, 0],
     ];
-    if(L[P+"puzzleload0"]) delete L[P+"puzzleload0"];
-    L[P+"doorload0"] = 1;
+    if(L[P+"pl0"]) delete L[P+"pl0"];
+    L[P+"dl0"] = 1;
   }
   
   // Hub (start, tuto, access to 2D, wrap and 3D puzzles)
@@ -314,7 +314,7 @@ enterroom = () => {
     // Show mobile button Reset
     if(mobile){
       k_reset.className = "";
-      L[P+"reset"] = 1;
+      L[P+"r"] = 1;
     }
     
     w = 40;
@@ -904,7 +904,7 @@ enterroom = () => {
     // Show mobile button Reset
     if(mobile){
       k_camleft.className = k_camright.className = "";
-      L[P+"camera"] = 1;
+      L[P+"c"] = 1;
     }
 
     w = 20;
@@ -1193,14 +1193,14 @@ enterroom = () => {
   for(i in apples){
 
     // Remove apples already eaten
-    if(L[P+"appleeaten" + pagename + i]){      
+    if(L[P+"a" + pagename + i]){      
       delete apples[i];
     }
    
     // Draw apples to eat
     else {
       objects.innerHTML += 
-      `<div id=apple${i} class="emoji apple ${L[P+"appleappeared"+pagename+i]?"":"hidden"}" style="left:${apples[i][0]*sidesize}vh;transform:translateY(${apples[i][1]*sidesize+4}vh) rotateX(-65deg)">${pagename=="3-8"?"<div>⚽</div>":"<div class=emojimove>🍎</div>"}</div><div id=appleshadow${i} class="emojishadow appleshadow ${L[P+"appleappeared"+pagename+i]?"":"hidden"}" style="left:${apples[i][0]*sidesize}vh;transform:scaleX(-1)translateY(${apples[i][1]*sidesize+3}vh)rotateZ(212deg)">${pagename=="3-8"?"⚽":"🍎"}`;
+      `<div id=apple${i} class="emoji apple ${L[P+"A"+pagename+i]?"":"hidden"}" style="left:${apples[i][0]*sidesize}vh;transform:translateY(${apples[i][1]*sidesize+4}vh) rotateX(-65deg)">${pagename=="3-8"?"<div>⚽</div>":"<div class=emojimove>🍎</div>"}</div><div id=appleshadow${i} class="emojishadow appleshadow ${L[P+"A"+pagename+i]?"":"hidden"}" style="left:${apples[i][0]*sidesize}vh;transform:scaleX(-1)translateY(${apples[i][1]*sidesize+3}vh)rotateZ(212deg)">${pagename=="3-8"?"⚽":"🍎"}`;
     }
   }
   
@@ -1214,7 +1214,7 @@ enterroom = () => {
   
   // Doors
   for (i in doors){
-  objects.innerHTML+=`<div id=door${""+pagename+i} class="door${L[P+"door"+pagename+i]?" open":""}" style="left:${(doors[i][0]+.5)*sidesize}vh;top:${(doors[i][1]+.5)*sidesize}vh;transform:rotateZ(${doors[i][2]}rad)translateZ(${doors[i][9]*sidesize}vh)"><div class="realdoor door${doors[i][10]}" ${doors[i][6]?"":"hidden"}>${doors[i][3]}</div><div class=path>`;
+  objects.innerHTML+=`<div id=door${""+pagename+i} class="door${L[P+"d"+pagename+i]?" open":""}" style="left:${(doors[i][0]+.5)*sidesize}vh;top:${(doors[i][1]+.5)*sidesize}vh;transform:rotateZ(${doors[i][2]}rad)translateZ(${doors[i][9]*sidesize}vh)"><div class="realdoor door${doors[i][10]}" ${doors[i][6]?"":"hidden"}>${doors[i][3]}</div><div class=path>`;
   }
   
   // Cubes
@@ -1222,7 +1222,7 @@ enterroom = () => {
   for(var p in puzzles){
     for(var j in cubes){
       if(
-        L[P+"puzzle" + pagename + p]
+        L[P+"p" + pagename + p]
         && cubes[j][0] >= puzzles[p][5]
         && cubes[j][0] < puzzles[p][5] + puzzles[p][0]
         && cubes[j][1] >= puzzles[p][6]
@@ -1251,7 +1251,7 @@ enterroom = () => {
         (hints[i][4] && hints[i][4] >= snakelength)
       ){
         //hints[i][4] = 1;
-        objects.innerHTML+=`<div id=hint${""+pagename+i} class=hint style="left:${hints[i][1]*sidesize+1}vh;transform:translateY(${hints[i][2]*sidesize+4}vh)translateZ(${(hints[i][6]*sidesize||0)}vh)rotateX(-70deg)translateY(-4vh)">${hints[i][0]}`;
+        objects.innerHTML+=`<div id=hint${""+pagename+i} class=hint style="left:${hints[i][1]*sidesize+1}vh;transform:translateY(${hints[i][2]*sidesize+4}vh)translateZ(${(hints[i][6]*sidesize||0)}vh)rotateX(-70deg)translateY(-4vh)">${hints[i][0]}</div>`;
       }
     }
   }
@@ -1264,13 +1264,13 @@ enterroom = () => {
     var whtml = '';
     var ghtml = '';
     var html =
-    `<div id=puzzle${p} class="cube wrap visible ${(puzzles[p][2]&&!L[P+'puzzle'+pagename+p])?"wrapvisible":""}" style="left:${puzzles[p][5]*sidesize}vh;top:${puzzles[p][6]*sidesize}vh;width:${puzzles[p][0]*sidesize}vh;height:${size*sidesize}vh">${puzzles[p][2]?"<div class=left></div><div class=right></div>":""}<div id=down${p} class=down></div><div id=back${p} class=back></div>${puzzles[p][2]?"<div class=front>":""}`;
+    `<div id=puzzle${p} class="cube wrap visible ${(puzzles[p][2]&&!L[P+"p"+pagename+p])?"wrapvisible":""}" style="left:${puzzles[p][5]*sidesize}vh;top:${puzzles[p][6]*sidesize}vh;width:${puzzles[p][0]*sidesize}vh;height:${size*sidesize}vh">${puzzles[p][2]?"<div class=left></div><div class=right></div>":""}<div id=down${p} class=down></div><div id=back${p} class=back></div>${puzzles[p][2]?"<div class=front>":""}`;
     puzzle.innerHTML += html;
 
     // Not solved (black/white)
     // Solved (blue/gold)
     var color1 = "000", color2 = "fff";
-    if(L[P+"puzzle" + pagename + p]){
+    if(L[P+"p" + pagename + p]){
       color1 = "44c";
       color2 = "fd0";
     }
@@ -1302,7 +1302,7 @@ enterroom = () => {
   // Init snake
   
   // Hub's opening cinematic
-  if(pagename == "hub" && !L[P+"snakex"]){
+  if(pagename == "hub" && !L[P+"x"]){
       
     // Lock controls
     lock = 1;
@@ -1319,7 +1319,7 @@ enterroom = () => {
     setTimeout("snakeshadow0.style.transform=snakecuberotate0.style.transform=''",6000);
     
     // Reset custom transitions, unlock keyboard, show mobile controls
-    setTimeout("b.innerHTML+=`<div style='position:fixed;font:8vh a;top:3vh;right:3vh' onclick=location=location>×</div>`;scene.style.transition='transform 1s,transform-origin 1s';snakeshadow0.style.transition=snakecuberotate0.style.transition='';lock=0;L[P+'snakex']=20;L[P+'snakey']=10;if(mobile){k_up.className=k_down.className=k_left.className=k_right.className='';L[P+'wasd']=1}",9000);
+    setTimeout(`b.innerHTML+="<div style='position:fixed;font:8vh a;top:3vh;right:3vh' onclick=location=location>×";scene.style.transition='transform 1s,transform-origin 1s';snakeshadow0.style.transition=snakecuberotate0.style.transition='';lock=0;L[P+"x"]=20;L[P+"y"]=10;if(mobile){k_up.className=k_down.className=k_left.className=k_right.className='';L[P+"w"]=1}`,9000);
   }
   
   // Return to hub, or enter other rooms
@@ -1382,14 +1382,14 @@ resetsnake = noresethistory => {
     }
     
     // Game
-    else if(L[P+"snakex"]){
-      var x = +L[P+"snakex"];
-      var y = +L[P+"snakey"];
-      var z = +L[P+"snakez"];
+    else if(L[P+"x"]){
+      var x = +L[P+"x"];
+      var y = +L[P+"y"];
+      var z = +L[P+"z"];
       
       // Return to hub from 3-1: z = 1
       if(pagename == "hub" && snakex < 2){
-        z = L[P+"snakez"] = 1;
+        z = L[P+"z"] = 1;
       }
       
       // Son start
@@ -1479,7 +1479,7 @@ resetsnake = noresethistory => {
 index = (n, cross) => {
   
   // Go to the last saved room (or hub by default)
-  pagename = n || L[P+"page"] || "hub";
+  pagename = n || L[P+"p"] || "hub";
   
   // Draw html structure
   document.body.outerHTML =
@@ -1507,31 +1507,31 @@ index = (n, cross) => {
 <center id=text style='font:5vh arial,sans-serif;color:#fff;position:fixed;bottom:9vh;left:0;width:100vw'>`;
   
   // Make the first apple appear (when the game starts only)
-  L[P+"appleappearedhub0"] = 1;
+  L[P+"Ah0"] = 1;
   
   // Enter room
   enterroom();
   
   // Show buttons that already appeared before
-  if(L[P+"wasd"]){
+  if(L[P+"w"]){
     k_up.className = k_down.className = k_left.className = k_right.className = '';
   }
-  if(L[P+"backtrack"]){
+  if(L[P+"b"]){
     k_backtrack.className = "";
   }
-  if(L[P+"reset"]){
+  if(L[P+"r"]){
     k_reset.className = "";
   }
-  if(L[P+"topbottom"]){
+  if(L[P+"B"]){
     k_top.className = "";
     k_bottom.className = "";
   }
-  if(L[P+"camera"]){
+  if(L[P+"c"]){
     k_camleft.className = "";
     k_camright.className = "";
   }
 
-  int_time = setInterval("L[P+'time']=++ocd_time;document.title='LOSSST: '+ocd_moves+'m, '+ocd_time+'s'",1000);
+  int_time = setInterval(`L[P+"t"]=++ocd_time;document.title='LOSSST: '+ocd_moves+'m, '+ocd_time+'s'`,1000);
   
     
   if(cross){
@@ -1559,7 +1559,7 @@ editor = () => {
   share.disabled = 1;
   
   // Hide ground checkbox & label if they're alone
-  if(!L[P+"editorfull"] && !((L[P+"son"] && L[P+"snakelength"] > 6))){
+  if(!L[P+"e"] && !((L[P+"s"] && L[P+"S"] > 6))){
     ground.style.opacity = groundlabel.style.opacity = 0;
     ground.style.position = groundlabel.style.position = "fixed";
     ground.style.top = groundlabel.style.top = "-9vh";
@@ -1819,12 +1819,12 @@ mainmenu = () => {
 <center id=itext></center>
 <div id=perspective style=perspective:30vh>
 <center id=menu>
-<h1>LOSSST</h1><span onclick=a()>New game</span><br>` + (L[P+"start"] ? (L[P+'ended'] ? '' : '<span onclick=index(0,1)>Continue</span><br>') + `<span onclick=location='editor.html'>Puzzle editor</span><br>` : "") + `<span onclick="location='//twitter.com/search?q=%23LOSSSTjs13k'">Twitter levels</span><br><span onclick=location='//maximeeuziere.itch.io'>Other games`;
+<h1>LOSSST</h1><span onclick=a()>New game</span><br>` + (L[P+"start"] ? (L[P+"ended"] ? '' : '<span onclick=index(0,1)>Continue</span><br>') + `<span onclick=location='editor.html';/*index("editor",1)*/>Puzzle editor</span><br>` : "") + `<span onclick="location='//twitter.com/search?q=%23LOSSSTjs13k'">Twitter levels</span><br><span onclick=location='//xem.github.io/articles#js13k17'>Making of</span><br><span onclick=location='//maximeeuziere.itch.io'>Other games`;
 
   // New game
   a = () => {
     for(i in localStorage){
-      if(i.indexOf("lossst") == 0 && i.indexOf("editorfull") == -1){
+      if(i.indexOf("lossst") == 0 && i.indexOf("e") == -1){
         delete localStorage[i];
       }
     }
@@ -1834,13 +1834,13 @@ mainmenu = () => {
 
   // Intro
   intro = function(m) {
-    L[P+"mobile"] = mobile = m;
-    L[P+"snakelength"] = snakelength = 5;
-    ocd_time = L[P+"time"] = 0,
-    ocd_moves = L[P+"moves"] = 0,
+    L[P+"m"] = mobile = m;
+    L[P+"S"] = snakelength = 5;
+    ocd_time = L[P+"t"] = 0,
+    ocd_moves = L[P+"M"] = 0,
     
-    L[P+"moves"] = 0;
-    L[P+"time"] = 0;
+    L[P+"M"] = 0;
+    L[P+"t"] = 0;
     menu.innerHTML = "";
     
     // Eyes
@@ -1854,4 +1854,130 @@ mainmenu = () => {
     setTimeout("clearInterval(inter);e.style.margin='-80vh 0 0'", 7000);
     setTimeout(index, 7500);
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  // Music by Anders Kaare
+  // http://veralin.dk/2k.html
+  Music = () => {
+
+    MM=new (function(){
+      if (!window.AudioContext) return;
+
+      var M=this;
+
+      var ctx=new AudioContext;
+      var node=ctx.createScriptProcessor(4096,0,1);
+
+      // "constants"
+      var RATE=ctx.sampleRate/48e3;
+      var POW=Math.pow;
+      var SIN=Math.sin;
+      var RND=Math.random;
+      var NSIN=function(x){return SIN(x)+RND()*0.6};
+      var P2=Math.PI*2;
+      //var PRB=function(x){return RND()<x;};
+      var OSC=function(fn){
+        var x=0;
+        return function(note) {
+          x+=POW(2,note/12)*RATE;
+          if(x>P2)x-=P2;
+          return fn(x);
+        };
+      };
+
+      // oscillators
+      var snare=OSC(NSIN);
+      var pling=OSC(function(x) {
+        return (x/P2-0.5);
+      });
+      var pling2=OSC(function(x) {
+        return (x/P2-0.5);
+      });
+      var bass=OSC(function (x) {
+        return (x/P2-0.5)+POW(SIN(x),5)*3;
+      });
+
+      var pos=1;
+      var step=-1;
+      var vibrato=0;
+
+      node.onaudioprocess = function(e) {
+        var data = e.outputBuffer.getChannelData(0);
+        for (var i=0;i<data.length;i++) {
+          pos+=M.t/RATE;
+          vibrato+=0.001/RATE;
+          if(pos>=1){
+            pos-=1;
+            step++;
+          }
+          var decay=1-pos;
+
+          var o=0;
+
+          var X=null;
+          var bt=0;
+
+          var lseq,lseq2;
+          if ((step%128)<64) {
+            lseq = [3,4,4,4,3,4,0,-3,0,X,X,0,X,X,0,X,3,4,4,4,3,4,0,-3,0,12,X,12,12,X,X,X];
+            lseq2 = [X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,-1,0,0,0,-1,0,-5,-8,-5,X,X,-5,X,X,-5,X,X];
+          } else {
+            lseq = [6,7,7,7,6,5,4,2,-5,X,X,7,X,X,X];
+            lseq2 = [X,X,X,X,-10,-5,X,X,X,-10];
+            bt = -5;
+          }
+
+          var L=lseq.length;
+          var ln = lseq[step%L];
+          if (ln!=X) o+=pling(-81+ln+24)*decay*M.p;
+
+          L=lseq2.length;
+          var ln = lseq2[step%L];
+          if (ln!=X) o+=pling2(-81+ln+24+SIN(vibrato)*0.05)*decay*M.p;
+
+          var bseq=[0,X,X,0,7,9,X,7];
+          L=bseq.length;
+          var bseq2=[X,12,X,12,12,X,12,X];
+          var bn = (((step/L)&3)<3?bseq:bseq2)[step%L];
+          if (bn!=X) o+=bass(-81+bn+bt-SIN(vibrato)*0.05)*M.b*decay;
+
+          var drumx=((1-pos)+(step&1))/2;
+          if ((step&2)==2) o += snare(-70+POW(drumx,15)*60)*M.s*decay*RND();
+
+
+          data[i]=o;
+        }
+      };
+      node.connect(ctx.destination);
+
+      // hi xem, this is the interface:
+      M.stop = function() { node.disconnect(); } // XXX you can remove this to conserve space
+
+      M.s = 0.1; // snare volume
+      M.p = 0.2; // pling volume
+      M.b = 0.2; // bass volume
+      M.t=1.1e-4; // tempo
+    })
+
+  }
+
+  //Music();
+  
+  
+  
+  
+  
+  
+  
+  
 }

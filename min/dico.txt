@@ -1,0 +1,121 @@
+Localstorage keys:
+
+ok a+room+n = appleeaten+room+n
+ok b = backtrack
+ok c = camera
+ok d+room+puzzleid = door+room+puzzleid
+ok e = editorfull
+ok m = mobile
+ok p+room+puzzleid = puzzle+room+puzzleid
+ok p = page
+ok r = reset
+ok s = son
+ok t = time
+ok w = wasd
+ok x = snakex
+ok y = snakey
+ok z = snakez
+ok A+room+n = appleappeared+room+n
+ok B = topbottom
+ok M = moves
+ok S = snakelength
+ok T = totalsolved
+
+classnames: (JS + CSS)
+
+a = apple
+c = cube
+d = hidden
+d+n = door+n
+e = emoji
+f = fx
+h = height
+h+x+y = hint+x+y
+k = rock
+m = mac
+n = animal
+o = open
+l = editor
+p = path
+q = emojishadow
+r = realdoor
+s = snake
+t = tongue
+v = visible
+w = width
+x = wrap
+A = appleshadow
+B = back
+C = cell
+D = down
+E = emojimove
+F = front
+L = left
+M = mobile
+N = animalshadow
+P = playing
+R = right
+U = up
+W = wrapvisible
+
+ids & globals:
+
+a = grass
+a+n = apple+n
+b = k_backtrack
+c = ctrl
+d = down
+d+x+y = door+x+y
+g = groundlabel
+gxyz = gx-y-z
+l = left
+m = k_camleft
+o = objects
+p = puzzle
+p+x+y = puzzle+x+y
+s = scene
+q = k_reset
+r = right
+s = shift
+t = text
+u = up
+z = gridsize
+w = wall
+Z = snakesize
+v = snakeval
+wxyz = wx-y-z
+x = itext
+z = share
+A = reset
+A+n = appleshadow+n
+B = backspace/alt
+B+p = back+p
+C = k_bottom
+D = k_down
+D+p = down+p
+F = k_left
+G = ground
+L = localStorage
+M+i = snakecubemove+i
+N = snake2
+P = "lossst_"
+Q = k_camright
+R = k_right
+R+i = snakecuberotate+i
+S = snake
+S+i = snakeshadow+i
+T = k_top
+T+i = snakecube+i
+U = k_up
+V = perspective
+W = wrap
+
+
+pagename:
+
+l = load
+h = hub
+1-1 to 3-8: $A to $L
+
+functions:
+

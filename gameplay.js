@@ -115,7 +115,7 @@ movesnake = (cameraonly) => {
     // (except in editor: camera is fixed)
     if(!iseditor && typeof scene !== "undefined"){
       
-      if(currentpuzzle === null || L[P+"puzzle"+pagename+currentpuzzle]){
+      if(currentpuzzle === null || L[P+"p"+pagename+currentpuzzle]){
         scene.style.transform="translateX("+(-snakex[head]*sidesize)+"vh)translateY("+(-snakey[head]*sidesize) + "vh)translateZ(15vh)rotateX(40deg)";
         scene.style.transformOrigin = "" + (snakex[head]*sidesize) + "vh " + (snakey[head]*sidesize) + "vh";
       }
@@ -176,27 +176,26 @@ movesnake = (cameraonly) => {
   for(var i in doors){
     
     // Open a door if the snake's length is big enough
-    if(((doors[i][10] && son) || (!doors[i][10] && !son)) && self["door" + pagename + i] && doors[i][3] > 0 && snakelength >= doors[i][3] && Math.hypot(x - doors[i][0], y - doors[i][1]) < 4){
-      self["door" + pagename + i].className = "door open";
+    if(((doors[i][10] && son) || (!doors[i][10] && !son)) && self["d" + pagename + i] && doors[i][3] > 0 && snakelength >= doors[i][3] && Math.hypot(x - doors[i][0], y - doors[i][1]) < 4){
+      self["d" + pagename + i].className = "door open";
       
       // Save that in L for next visit
-      L[P+"door" + pagename + i] = 1;
+      L[P+"d" + pagename + i] = 1;
     }
     
     // Walk on a door path if the door is open
-    if(self["door" + pagename + i] && self["door" + pagename + i].className == "door open" && Math.hypot(x - doors[i][0], y - doors[i][1]) < 2){
+    if(self["d" + pagename + i] && self["d" + pagename + i].className == "door open" && Math.hypot(x - doors[i][0], y - doors[i][1]) < 2){
       if(pagename == "load"){
         setTimeout('location="index.html"',600);
       }
       else {
-        L[P+"page"] = pagename = doors[i][5];
+        L[P+"p"] = pagename = doors[i][5];
         setTimeout(enterroom, 600);
         
         // Save snake future position in L
-        L[P+"snakex"] = doors[i][7];
-        L[P+"snakey"] = doors[i][8];
-        L[P+"snakez"] = 0;
-        L[P+"snakeangle"] = snakeangle[head];
+        L[P+"x"] = doors[i][7];
+        L[P+"y"] = doors[i][8];
+        L[P+"z"] = 0;
       }
     }
   }
@@ -222,7 +221,7 @@ movesnake = (cameraonly) => {
         
         currentpuzzle = +p;
         issolved = 0;
-        if(L[P+"puzzle" + pagename + p]){
+        if(L[P+"p" + pagename + p]){
           issolved = 1; 
         }
         else {
@@ -288,7 +287,7 @@ checkmove = (x, y, z) => {
   
   // Apples
   for(var i in apples){
-    if(L[P+"appleappeared" + pagename + i] && x == apples[i][0] && y == apples[i][1]){
+    if(L[P+"A" + pagename + i] && x == apples[i][0] && y == apples[i][1]){
       
       // Ending easter egg
       if(pagename == "3-8"){
@@ -300,7 +299,7 @@ checkmove = (x, y, z) => {
           setTimeout("back"+i+".style.transition='.5s';back"+i+".style.transform='translateY(-125%)'", [1450, 2500, 3900, 5500][i]);
         }
         
-        setTimeout(`clearInterval(int_time);L[P+'ended']=1;L[P+'editorfull']=1;b.style.background='#000';b.innerHTML='<div id=perspective style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=https://twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ahttp%3A%2F%2Fjs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>1786 seconds, 3461 moves<br><br>You can now create 3D puzzles<br>in the editor!<br><br><a href=index.html style=font-size:4vh>RETURN TO TITLE SCREEN</a>'`,15000);
+        setTimeout(`clearInterval(int_time);L[P+"ended"]=1;L[P+"e"]=1;b.style.background='#000';b.innerHTML='<div id=perspective style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=https://twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ahttp%3A%2F%2Fjs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>1786 seconds, 3461 moves<br><br>You can now create 3D puzzles<br>in the editor!<br><br><a href=index.html style=font-size:4vh>RETURN TO TITLE SCREEN</a>'`,15000);
         
       }
       
@@ -310,8 +309,8 @@ checkmove = (x, y, z) => {
         self["apple" + i].remove();
         self["appleshadow" + i].remove();
         snakelength++;
-        L[P+"snakelength"] = snakelength;
-        L[P+"appleeaten" + pagename + i] = 1;
+        L[P+"S"] = snakelength;
+        L[P+"a" + pagename + i] = 1;
         
         // Room 2-2: easter-egg
         if(pagename == "2-2" && snakelength == 16){
@@ -343,7 +342,7 @@ checkmove = (x, y, z) => {
   for(var i in doors){
     
     // Walk on a door path if the door is open
-    if(self["door" + pagename + i] && self["door" + pagename + i].className == "door open" && Math.hypot(x - doors[i][0], y - doors[i][1]) <= 2){
+    if(self["d" + pagename + i] && self["d" + pagename + i].className == "door open" && Math.hypot(x - doors[i][0], y - doors[i][1]) <= 2){
       stuck = 0;
     }
   }
@@ -385,8 +384,8 @@ checkmove = (x, y, z) => {
     stuck = 1;
     lock = 1;
     easteregg = son = 1;
-    L[P+"son"] = 1;
-    L[P+"snakelength"] = snakelength = 5;
+    L[P+"s"] = 1;
+    L[P+"S"] = snakelength = 5;
     for(i = 0; i < 21; i ++){
       cubes.push([snakex[head-i], snakey[head-i]]);
       self["snakecubemove" + i].id = "";
@@ -405,7 +404,7 @@ checkmove = (x, y, z) => {
     setTimeout("text.innerHTML='I lossst my soccer ball!'", 7000);
     setTimeout("text.innerHTML=''", 9000);
     setTimeout("text.innerHTML='But I found new moves!'", 10000);
-    setTimeout("text.innerHTML='';easteregg=lock=0;scene.style.transition='1s';movesnake();checkapple();if(mobile){k_top.className=k_bottom.className='';L[P+'topbottom']=1}", 13000);
+    setTimeout(`text.innerHTML='';easteregg=lock=0;scene.style.transition='1s';movesnake();checkapple();if(mobile){k_top.className=k_bottom.className='';L[P+"B"]=1}`, 13000);
   }
 }
 
@@ -494,8 +493,8 @@ checkgrid = e => {
       setTimeout(`share.disabled=0;playing=puzzling=0;b.className="editor";for(i=exithead;i<=head;i++){snakex.pop();snakey.pop();snakez.pop();snakeangle.pop();}head=exithead-1;exithead=0;movesnake()`,1000);
     }
     
-    self["puzzle" + currentpuzzle].classList.remove("wrapvisible");
-    L[P+"puzzle" + pagename + currentpuzzle] = 1;
+    self["p" + currentpuzzle].classList.remove("wrapvisible");
+    L[P+"p" + pagename + currentpuzzle] = 1;
     for(i = 0; i < size; i++){
       for(j = 0; j < size; j++){
         if(self[`g${cellprefix}-${i}-${j}`]){
@@ -507,7 +506,7 @@ checkgrid = e => {
       }
     }
     totalsolved++;
-    L[P+'totalsolved'] = totalsolved;
+    L[P+"T"] = totalsolved;
     
     // Remove rock cubes that are on the puzzle
     var cubetoremove = 1;
@@ -530,7 +529,7 @@ checkgrid = e => {
 checkapple = e => {
   for(var i in apples){
 
-    if(!L[P+"appleappeared" + pagename + i] &&((apples[i][3] > 0 && apples[i][3] == snakelength) || (apples[i][4] > 0 && apples[i][4] == totalsolved))){
+    if(!L[P+"A" + pagename + i] &&((apples[i][3] > 0 && apples[i][3] == snakelength) || (apples[i][4] > 0 && apples[i][4] == totalsolved))){
       
       lock = 1;
       
@@ -538,7 +537,7 @@ checkapple = e => {
       // backtrack button
       if(mobile && pagename == "hub" && i == 1){
         k_backtrack.className = '';
-        L[P+"backtrack"] = 1;
+        L[P+"b"] = 1;
       }
       
       // Focus on new apple 
@@ -629,7 +628,7 @@ onkeydown = function(e) {
     exithead = 0;
     movesnake();
     checkgrid();
-    L[P+'moves']= ++ocd_moves;
+    L[P+"M"]= ++ocd_moves;
     document.title='LOSSST: ' + ocd_moves + 'm, ' + ocd_time + 's';
     return;
   }
@@ -882,7 +881,7 @@ onkeydown = function(e) {
     // If a move key was pressed and snake is not stuck and easteregg/son sinematic is not playing
     if(!stuck && !easteregg && (u || r || d || l || s || c || B)){
 
-      L[P+"moves"] = ++ocd_moves;
+      L[P+"M"] = ++ocd_moves;
       if(!iseditor) document.title = 'LOSSST: ' + ocd_moves + 'm, ' + ocd_time + 's';
         
       checkgrid();
@@ -916,8 +915,8 @@ onkeydown = function(e) {
           setTimeout("snakex.push(snakex[head]);snakey.push(snakey[head]);snakez.push("+z+");snakeangle.push(snakeangle[head]);head++;movesnake()", i * 150);
         }
         setTimeout("location='editor.html'", i * 100);
-        L[P+"snakex"] = 20;
-        L[P+"snakey"] = 10;
+        L[P+"x"] = 20;
+        L[P+"y"] = 10;
       }
       
       

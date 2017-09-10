@@ -1,3 +1,3 @@
 L.clear();
 
-L[P+"snakex"]=0;L[P+"snakey"]=0;L[P+"snakez"]=0;L[P+"page"]="3-8";L[P+"son"]=1;L[P+"snakelength"]=20;L[P+"totalsolved"]=75;location=location;
+L[P+"x"]=0;L[P+"y"]=0;L[P+"z"]=0;L[P+"p"]="3-8";L[P+"s"]=1;L[P+"S"]=20;L[P+"T"]=75;location=location;
