@@ -1,3 +1,53 @@
+vars already 1 char long
+u
+r
+d
+l
+s
+c
+B
+
+ids:
+
+
+kU = k_up
+kD = k_down
+kL = k_left
+kR = k_right
+kT = k_top
+kB = k_bottom
+kw = kb = k_backtrack
+kx = kr = k_reset
+ky = kl = k_camleft 
+kz = ks = k_camright
+
+
+pagename (LS key + var + classname):
+
+px <= ph <= hub
+py <= pl <= load
+pz <= pe <= editor
+1-1: pA
+1-3: pB
+1-4: pC
+2-1: pD
+2-15: pE
+2-2: pF
+2-3: pG
+2-4: pH
+2-5: pI
+3-1: pJ
+3-3: pK
+3-6: pL
+3-7: pM
+3-8: pN
+
+
+
+/// TODO
+
+
+
 Localstorage keys:
 
 s = son
@@ -58,7 +108,8 @@ t = tongue
 o = editor
 P = playing
 
-ids:
+
+
 
 s = scene
 S = snake
@@ -74,16 +125,7 @@ M+i = snakecubemove+i
 R+i = snakecuberotate+i
 S+i = snakeshadow+i
 T+i = snakecube+i
-U = k_up
-D = k_down
-L = k_left
-R = k_right
-T = k_top
-B = k_bottom
-b = k_backtrack
-r = k_reset
-l = k_camleft 
-s = k_camright
+
 t = text
 S = share
 G = ground
@@ -101,11 +143,14 @@ x = itext
 a = grass
 
 
-pagename:
 
-l = load
-h = hub
-1-1 to 3-8: A B C D E F G H I J K L
 
-functions:
+...
+
+
+
+also:
+
+Math.PI
+Math.PI/2
 

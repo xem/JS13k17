@@ -1,6 +1,9 @@
 L.clear();
 
-L[P+"snakex"]=0;L[P+"snakey"]=0;L[P+"snakez"]=0;L[P+"page"]="3-8";L[P+"son"]=1;L[P+"snakelength"]=20;L[P+"totalsolved"]=75;location=location;
+
+L[P+"page"]='pF';L[P+"snakelength"]=15;L[P+"totalsolved"]=35
+
+L[P+"snakex"]=0;L[P+"snakey"]=0;L[P+"snakez"]=0;L[P+"page"]="pN";L[P+"son"]=1;L[P+"snakelength"]=20;L[P+"totalsolved"]=75;location=location;
 
 
 factorize draw hints and call it after easter egg 2-2
