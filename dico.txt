@@ -9,24 +9,22 @@ B
 
 ids:
 
-
 kU = k_up
 kD = k_down
 kL = k_left
 kR = k_right
 kT = k_top
 kB = k_bottom
-kw = kb = k_backtrack
-kx = kr = k_reset
-ky = kl = k_camleft 
-kz = ks = k_camright
-
+kw = k_backtrack
+kx = k_reset
+ky = k_camleft 
+kz = k_camright
 
 pagename (LS key + var + classname):
 
-px <= ph <= hub
-py <= pl <= load
-pz <= pe <= editor
+px = hub
+py = load
+pz = editor
 1-1: pA
 1-3: pB
 1-4: pC
@@ -43,11 +41,6 @@ pz <= pe <= editor
 3-8: pN
 
 
-
-/// TODO
-
-
-
 Localstorage keys:
 
 s = son
@@ -56,14 +49,9 @@ t = time
 M = moves
 S = snakelength
 T = totalsolved
-p+room+puzzleid = puzzle+room+puzzleid
-d+room+puzzleid = door+room+puzzleid
-a+room+n = appleeaten+room+n
-A+room+n = appleappeared+room+n
 x = snakex
 y = snakey
 z = snakez
-a = snakeangle?
 p = page
 w = wasd
 b = backtrack
@@ -72,52 +60,59 @@ B = topbottom
 c = camera
 e = editorfull
 u = menu
+a = start
+E = ended
+p+room+puzzleid = puzzle+room+puzzleid
+d+room+puzzleid = door+room+puzzleid
+a+room+n = appleeaten+room+n
+A+room+n = appleappeared+room+n
+
+
 
 classnames:
 
-m = mac
-f = fx
-M = mobile
-e = emoji
-s = emojishadow
-E = emojimove
-a = apple
-A = appleshadow
-n = animal
-N = animalshadow
-h = hidden
+e=emojishadow ok
+p=appleshadow ok
+w=wrapvisible ok
+m=emojimove ok 
+y=realdoor ok
+v=visible ok
+h= nada
+i=mobile ok
+n=animal ok
+k=snake ok
+g=apple ok
+j=emoji ok
+f=front ok
+r=right ok
+l=left ok
+b=back ok
+d=down ok
+s=open ok
+z=cube ok
+x=rock ok
+q=wrap ok
+o=cell ok
+a=mac ok
+u=up ok
+c=fx ok
+t=hint ok
+d+n = door+n ok
+
+
+
+
+
+ids:
+
 h+x+y = hint+x+y
-r = realdoor
-p = path
-d+n = door+n
-o = open
-c = cube
-k = rock
-F = front
-L = left
-R = right
-D = down
-B = back
-U = up
-w = wrap
-v = visible
-W = wrapvisible
-C = cell
-s = snake
-t = tongue
-o = editor
-P = playing
-
-
-
-
+as+n = appleshadow+n
 s = scene
 S = snake
 N = snake2
 o = objects
 p = puzzle
 a+n = apple+n
-A+n = appleshadow+n
 d+x+y = door+x+y
 D+p = down+p
 B+p = back+p
@@ -141,16 +136,4 @@ wxyz = wx-y-z
 V = perspective
 x = itext
 a = grass
-
-
-
-
-...
-
-
-
-also:
-
-Math.PI
-Math.PI/2
 

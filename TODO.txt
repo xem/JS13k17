@@ -10,3 +10,7 @@ factorize draw hints and call it after easter egg 2-2
 patternalist
 fix editor with wrap
 fx intro
+
+L[P+"s"]=0
+L[P+"S"]=21
+L[P+"p"]="pH"
