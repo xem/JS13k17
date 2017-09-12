@@ -1400,7 +1400,7 @@ enterroom = () => {
   
   // The end
   if(pagename == "pN"){
-    objects.innerHTML += "<div style='position:fixed;transform:rotateZ(-90deg)translateX(-73vh)translateY(21vh)translateZ(338vh);font:30vh/30vh a'>THE<br><br>END";
+    objects.innerHTML += "<div style='position:fixed;transform:"+(mobile?"rotateZ(-90deg)translateX(-87vh)translateY(22vh)translateZ(365vh)":"rotateZ(-90deg)translateX(-83vh)translateY(6vh)translateZ(208vh)")+";font: 30vh/25vh a'>THE<br><br>END";
   }
   
   
@@ -2087,31 +2087,32 @@ checkmove = (x, y, z) => {
       
       // Ending easter egg
       if(pagename == "pN"){
-        lock = 1;
         musicint = setInterval(currentsong.forward,150);
         L[P+"E"] = 1;
 
         setTimeout(()=>{
+          lock = 1;
           appleshadow0.remove();
           apple0.style.transform='translateY(319vh)translateZ(2vh)rotateX(-65deg)rotateY(90deg)';
           apple0.style.transition=scene.style.transition='10s';
           apple0.style.transform='translateY(15vh)translateZ(2vh)rotateX(-65deg)';
-          scene.style.transform=(mobile?'translateX(-133vh)translateY(-249vh)translateZ(-373vh)rotateZ(90deg)':'translateX(-144vh)translateY(-249vh)translateZ(-340vh)rotateZ(90deg)')
+          scene.style.transform=(mobile?'translateX(-133vh)translateY(-249vh)translateZ(-373vh)rotateZ(90deg)':'translateX(-141vh)translateY(-227vh)translateZ(-185vh)rotateZ(90deg)')
         }, 200);
         
         for(let i in puzzles){
           setTimeout(()=>{
             top["back"+i].style.transition='.5s';
             top["back"+i].style.transform='translateY(-125%)'
-          }, [1450, 2500, 3900, 5500][i]);
+          }, [1450, 2500, 3800, 5400][i]);
         }
         
         setTimeout(()=>{
           clearInterval(int_time);
+          L[P+"E"]=1;
           L[P+"e"]=1;
           b.style.background='#000';
           L[P+"s"] = 0;
-          b.innerHTML='<div id=perspective style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=https://twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ahttp%3A%2F%2Fjs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>997 seconds, 2593 moves<br><br>3D puzzle editor unlocked !<br><br><a href=index.html style=font-size:4vh>TITLE SCREEN'
+          b.innerHTML='<div id=perspective style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=https://twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ahttp%3A%2F%2Fjs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>936 seconds, 2554 moves<br><br>3D puzzle editor unlocked !<br><br><a href=index.html style=font-size:4vh>TITLE SCREEN'
         },15000);
         
         var z = document.querySelectorAll(".o");
@@ -2926,7 +2927,7 @@ onload = () => {
 <center id=menu>
 <h1>LOSSST</h1>
 <span onclick=a()>New game</span><br>
-` + ((L[P+"a"] && !L[P+"ended"]) ? '<span onclick=indexx(0,1)>Continue</span><br>' : '') + `
+` + ((L[P+"a"] && !L[P+"E"]) ? '<span onclick=indexx(0,1)>Continue</span><br>' : '') + `
 <span onclick=indexx("pz",1)>Puzzle editor</span><br>
 <span onclick=window.open('//xem.github.io/JS13k17/bonus')>Bonus`;
 
