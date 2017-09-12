@@ -6,7 +6,7 @@
 // ====================
 // Keyboard input (control snake's cubes): up, right, down, left, shift, ctrl, backspace
 
-top.u = top.r = top.d = top.l = top.s = top.c = top.B = 0;
+window["u"] = window["r"] = window["d"] = window["l"] = window["s"] = window["c"] = window["B"] = 0;
 window["trees"] = [];
 window["apples"] = [];
 window["doors"] = [];
@@ -14,6 +14,23 @@ window["cubes"] = [];
 window["hints"] = [];
 window["emoji"] = [];
 window["puzzles"] = [];
+window["TS"] = (n) => {
+  if(touchintervals[n]){
+    clearInterval(touchintervals[n]);
+  }
+  
+  onkeydown({which:"+n+"});
+  touchintervals[n] = setInterval(()=>{
+    onkeydown({which:n})
+  },150);
+};
+
+window["TE"] = (n) => {
+  setTimeout(()=>{
+    clearInterval(touchintervals[n]);
+    onkeyup();
+  },150);
+};
 
 // GLOBALS
 // =======
@@ -29,7 +46,7 @@ move_scene = () => {
 
 
 // Music
-musicint = position = index = 0,
+musicint = $ = _ = 0,
 Phase = function () {
 	var phase = 0;
 	this.sample = function (hz) {
@@ -54,7 +71,7 @@ Note = function (value, x){
 },
 
 Song = function (song){
-	position = -1;
+	$ = -1;
 	var mk_audio = function (data) {
 		var l = data.length;
 		var l2=l*2;
@@ -77,11 +94,11 @@ Song = function (song){
 	};
 	var play = function () {
 		var n = song.length/2;
-		index = position;
-		while (index < 0) index += n;
-		index %= n;
+		_ = $;
+		while (_ < 0) _ += n;
+		_ %= n;
 		var get_note = function (channel) {
-			return song[index*2+channel].charCodeAt(0) - 48;
+			return song[_*2+channel].charCodeAt(0) - 48;
 		};
 		var note1 = new Note(get_note(0), 1);
 		var note2 = new Note(get_note(1), 1);
@@ -97,11 +114,11 @@ Song = function (song){
 		mk_audio(samples).play();
 	};
 	this.forward = function () {
-		position++;
+		$++;
 		play();
 	};
 	this.back = function () {
-		position--;
+		$--;
 		play();
 	};
 },
@@ -266,7 +283,7 @@ enterroom = () => {
   
   // Mobile hacks
   if(mobile){
-    iv.className += " m";
+    iv.className += " i";
   }
   
   // Set room name to the body
@@ -381,7 +398,7 @@ enterroom = () => {
       ["Use the " + (mobile ? "↩" : "Alt") + " key to backtrack", 1, 9, 0, 13, 0, 1],
       ["Approach red doors with the right length to open them", 35, 14, 0, 13, 0],
       ["↑<br>New puzzles !<hr>Puzzle editor<br>↓", 19, 8, 14, 0, 0],
-      ["New ! Puzzle editor with wraps<br>↓", 19, 8, 6, 7, 1],
+      //["New ! Puzzle editor with wraps<br>↓", 19, 8, 6, 7, 1],
       ["←<br>New puzzles !", 1, 9, 6, 7, 1, 1],
     ];
     
@@ -452,7 +469,7 @@ enterroom = () => {
     // 4: max snake length
     hints = [
       ["Cover the black patterns to solve puzzles", 9, 9, 1, 0],
-      ["Solve all the puzzles in the room to get new apples and unlock a new door", 21, 9, 1, 0],
+      ["Solve all the puzzles in the room to unlock a new door", 21, 9, 1, 0],
       ["Your progress is saved automatically", 34, 9, 1, 0],
     ];
     
@@ -940,8 +957,8 @@ enterroom = () => {
     // 3: min snake length
     // 4: max snake length
     hints = [
-      ["Hey, you finished the first half of the game !", 5, 9, 1, 0],
-      ["Little snake can move up and down with " + (mobile ? "⬆︎ and ⬇︎" : "Shift and Ctrl keys") + ", and open black doors", 30,11, 1, 0],
+      ["Guess what, you finished the first half of the game !", 5, 9, 1, 0],
+      ["You can now move up and down with " + (mobile ? "⬆︎ and ⬇︎" : "Shift and Ctrl keys") + ", and open black doors", 30,11, 1, 0],
     ];
     
     for(i=0;i<9;i++) cubes.push([30, i]);
@@ -1014,7 +1031,7 @@ enterroom = () => {
     hints = [
       ["You now have to match the patterns on the walls...", 10, 2, 1, 0, 1],
       ["... and on the floor too !", 10, 40, 1, 0, 1],
-      ["Beware the gravity: you can't fly !", 2, 68, 1, 0, 1],
+      //["Beware the gravity: you can't fly !", 2, 68, 1, 0, 1],
     ];
     
     emoji = [
@@ -1098,7 +1115,7 @@ enterroom = () => {
     hints = [
       ["You can rotate the camera with " + (mobile ? "<br>↻ and ↺" : "the keys 1, 2 and 3"), 15, 68, 1, 0, 1],
       ["Can you guess what's coming next?", 7, 54, 1, 0, 1],
-      ["Yep! 3D puzzles with wrap ! Use " + (mobile ? "⬆︎ and ⬇︎" : "Shift and Ctrl") + " to wrap between top and bottom", 7, 24, 1, 0, 1],
+      ["3D puzzles with wrap ! Use " + (mobile ? "⬆︎ and ⬇︎" : "Shift and Ctrl") + " to wrap between top and bottom", 7, 24, 1, 0, 1],
     ];
     
     emoji = [
@@ -1485,7 +1502,7 @@ enterroom = () => {
       if(ik.checked){
         hasground = 1;
       }
-      else if(top.wall){
+      else if(top["wall"]){
         hasground = 0;
         haswall = 1;
         son = 1;
@@ -1495,9 +1512,9 @@ enterroom = () => {
       resetgrid();
     }
    
-    if(top.wall){
+    if(top["wall"]){
       wall.onclick = e => {
-        if(top.wall && wall.checked){
+        if(wall.checked){
           haswall = 1;
           puzzles[0][3] = 1;
           son = 1;
@@ -1516,7 +1533,7 @@ enterroom = () => {
 
     
     // Wrap checkbox
-    if(top.wrap){
+    if(top["wrap"]){
       wrap.onclick = e => {
         haswrap = puzzles[0][2] = wrap.checked || 0;
         puzzle0.className = "z q v " + (haswrap ? "w" : "");
@@ -1530,7 +1547,7 @@ enterroom = () => {
       var r = "";
       for(i=0;i<size;i++){
         for(j=0;j<size;j++){
-          if(top[a+"0-"+i+"-"+j].style.background && top[a+"0-"+i+"-"+j].style.background.match(/255/)){
+          if(top[a+"0"+i+j].style.background && top[a+"0"+i+j].style.background.match(/255/)){
             r+=0;
           }
           else{
@@ -1771,24 +1788,6 @@ resetsnake = noresethistory => {
   for(i = 0; i < Math.max(snakelength + 4, 16); i++){
     container.innerHTML += `<div id=M${i} class=sm style=transform:translateX(50vh)translateY(50vh)translateZ(-30vh);width:${sidesize-.7}vh;height:${sidesize-.7}vh><div class=ss id=S${i}></div><div id=R${i} class=sr><div class="z k"id=T${i}>${i<1?"<div style=background:none;box-shadow:none;color:red;font-size:4vh;text-align:center;transform:rotateZ(180deg)translateY(-4vh)translateZ(1.5vh)>Y</div>":""}<div class=u style="font:${sidesize*.5}vh/${sidesize*.8}vh a">${i<1?"👀":""}</div><div class=f>${i<1?"‿":""}</div><div class=r></div><div class=l></div><div class=b>`;
   }
-},
-
-touchstart = (n) => {
-  if(touchintervals[n]){
-    clearInterval(touchintervals[n]);
-  }
-  
-  onkeydown({which:"+n+"});
-  touchintervals[n] = setInterval(()=>{
-    onkeydown({which:n})
-  },150);
-},
-
-touchend = (n) => {
-  setTimeout(()=>{
-    clearInterval(touchintervals[n]);
-    onkeyup();
-  },150);
 },
 
 // GAMEPLAY
@@ -2110,7 +2109,7 @@ checkmove = (x, y, z) => {
           L[P+"e"]=1;
           b.style.background='#000';
           L[P+"s"] = 0;
-          b.innerHTML='<div id=iv style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=//twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ajs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>936 seconds, 2554 moves<br><br>3D puzzle editor unlocked!<br><br><a href=. style=font-size:4vh>MAIN MENU'
+          b.innerHTML='<div id=iv style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=//twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ajs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>854 seconds, 2452 moves<br><br>3D puzzle editor unlocked!<br><br><a href=. style=font-size:4vh>MAIN MENU'
         },15000);
         
         var z = document.querySelectorAll(".o");
@@ -2153,7 +2152,7 @@ checkmove = (x, y, z) => {
           var z = document.querySelectorAll(".o");
           for(let i in z){
             try{
-              if(z[i].id.match(/g\d-/) && z[i].style.backgroundColor.match(/68/g).length == 2){
+              if(z[i].id.match(/g\d\d\d$/) && z[i].style.backgroundColor.match(/68/g).length == 2){
                 setTimeout(()=>{
                   top[z[i].id].style.background='#a00'
                 }, 5500 + i * 10);
@@ -2233,7 +2232,7 @@ checkmove = (x, y, z) => {
     easteregg = son = 1;
     clearInterval(musicint);
     currentsong = song2;
-    index = position = 0;
+    _ = $ = 0;
     musicint=setInterval(song2.forward, 250);
     L[P+"s"] = 1;
     L[P+"S"] = snakelength = 5;
@@ -2879,7 +2878,7 @@ onkeydown = function(e) {
           }, i * 150);
         }
         setTimeout(()=>{
-          indexx("pz",1)
+          AA("pz",1)
         }, snakelength * 160);
         L[P+"x"] = 20;
         L[P+"y"] = 10;
@@ -2908,7 +2907,7 @@ onkeyup = e => {
 onload = () => {
   
   if(location.hash.length > 1){
-    indexx("py",1);
+    AA("py",1);
     return;
   }
   
@@ -2925,9 +2924,9 @@ onload = () => {
 <center id=menu>
 <h1>LOSSST</h1>
 <span onclick=newgame()>New game</span><br>
-` + ((L[P+"a"] && !L[P+"E"]) ? '<span onclick=indexx(0,1)>Continue</span><br>' : '') + `
-<span onclick=indexx("pz",1)>Puzzle editor</span><br>
-<span onclick=window.open('//goo.gl/iKqoCS')>Bonus`;
+` + ((L[P+"a"] && !L[P+"E"]) ? '<span onclick=AA(0,1)>Continue</span><br>' : '') + `
+<span onclick=AA("pz",1)>Puzzle editor</span><br>
+<span onclick=top.open('//goo.gl/iKqoCS')>Bonus`;
 
   // New game
   newgame = () => {
@@ -2944,7 +2943,7 @@ onload = () => {
   intro = function(m) {
   
     clearInterval(musicint);
-    index=position=0;
+    _=$=0;
     musicint = setInterval(currentsong.forward, 250);
     
     L[P+"m"] = mobile = m;
@@ -2981,16 +2980,16 @@ onload = () => {
       clearInterval(inter);
       e.style.margin='-80vh 0 0'
     }, 7000);
-    setTimeout(indexx, 7500);
+    setTimeout(AA, 7500);
   } 
 };
 
 // Index
-window["indexx"] = (n, cross) => {
+window["AA"] = (n, cross) => {
   
   if(n===0 || n=="pz"){
     clearInterval(musicint);
-    index=position=0;
+    _=$=0;
   }
   
   // Editor
@@ -3038,16 +3037,16 @@ ${(L[P+"e"]||L[P+"s"])?"<input type=checkbox id=wrap> <label for=wrap>wrap</labe
 </div>
 </div>
 <center id=iz style='font:5vh arial,sans-serif;color:#fff;position:fixed;bottom:9vh;left:0;width:100vw'>
-<button id=kU class=h ontouchstart=touchstart(38) ontouchend=touchend(38)>↑</button>
-<button id=kD class=h ontouchstart=touchstart(40) ontouchend=touchend(40)>↓</button>
-<button id=kL class=h ontouchstart=touchstart(37) ontouchend=touchend(37)>←</button>
-<button id=kR class=h ontouchstart=touchstart(39) ontouchend=touchend(39)>→</button>
-<button id=kT class=h ontouchstart=touchstart(16) ontouchend=touchend(16)>⬆︎</button>
-<button id=kB class=h ontouchstart=touchstart(17) ontouchend=touchend(17)>⬇︎</button>
-<button id=kw class=h ontouchstart=touchstart(18) ontouchend=touchend(18)>↩</button>
-<button id=kx class=h ontouchstart=touchstart(82) ontouchend=touchend(82)>×</button>
-<button id=ky class=h ontouchstart=touchstart(49) ontouchend=touchend(49)>↻</button>
-<button id=kz class=h ontouchstart=touchstart(51) ontouchend=touchend(51)>↺</button>
+<button id=kU class=h ontouchstart=TS(38) ontouchend=TE(38)>↑</button>
+<button id=kD class=h ontouchstart=TS(40) ontouchend=TE(40)>↓</button>
+<button id=kL class=h ontouchstart=TS(37) ontouchend=TE(37)>←</button>
+<button id=kR class=h ontouchstart=TS(39) ontouchend=TE(39)>→</button>
+<button id=kT class=h ontouchstart=TS(16) ontouchend=TE(16)>⬆︎</button>
+<button id=kB class=h ontouchstart=TS(17) ontouchend=TE(17)>⬇︎</button>
+<button id=kw class=h ontouchstart=TS(18) ontouchend=TE(18)>↩</button>
+<button id=kx class=h ontouchstart=TS(82) ontouchend=TE(82)>×</button>
+<button id=ky class=h ontouchstart=TS(49) ontouchend=TE(49)>↻</button>
+<button id=kz class=h ontouchstart=TS(51) ontouchend=TE(51)>↺</button>
 </center>
 <center id=ii style='font:5vh arial,sans-serif;color:#fff;position:fixed;bottom:9vh;left:0;width:100vw'>`;
   

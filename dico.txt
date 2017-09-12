@@ -143,3 +143,9 @@ M+i = snakecubemove+i ok
 R+i = snakecuberotate+i ok
 S+i = snakeshadow+i ok
 T+i = snakecube+i ok
+
+position = $
+index = _
+indexx = AA
+TS = touchstart
+TE = touchend

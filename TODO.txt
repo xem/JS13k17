@@ -18,3 +18,18 @@ L[P+"T"]=75
 L[P+"x"]=0;
 L[P+"y"]=0;
 L[P+"z"]=0;
+
+localStorage.lossst_s=1;
+localStorage.lossst_S=20;
+localStorage.lossst_p="pN";
+localStorage.lossst_T=75
+
+localStorage.lossst_x=0;
+localStorage.lossst_y=0;
+localStorage.lossst_z=0;
+
+
+localStorage["elems"]=0;localStorage["html"]="";
+
+localStorage["elems"] = +localStorage["elems"] + $$("*").length;
+localStorage["html"] += document.documentElement.outerHTML;console.log(localStorage["elems"]);
