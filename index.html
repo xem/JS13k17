@@ -524,7 +524,7 @@ enterroom = () => {
     // 4: max snake length
     hints = [
       ["If you get stuck, " + (mobile ? "click ×" : "press R") + " to exit a puzzle", 35, 11, 1, 0],
-      ["If a puzzle looks impossible, try another entry !", 14, 10, 1, 0],
+      //["If a puzzle looks impossible, try another entry !", 14, 10, 1, 0],
     ];
     
     cubes = [
@@ -940,7 +940,7 @@ enterroom = () => {
     // 3: min snake length
     // 4: max snake length
     hints = [
-      ["Guess what, you finished the first half of the game !", 5, 9, 1, 0],
+      ["Hey, you finished the first half of the game !", 5, 9, 1, 0],
       ["Little snake can move up and down with " + (mobile ? "⬆︎ and ⬇︎" : "Shift and Ctrl keys") + ", and open black doors", 30,11, 1, 0],
     ];
     
@@ -1098,7 +1098,7 @@ enterroom = () => {
     hints = [
       ["You can rotate the camera with " + (mobile ? "<br>↻ and ↺" : "the keys 1, 2 and 3"), 15, 68, 1, 0, 1],
       ["Can you guess what's coming next?", 7, 54, 1, 0, 1],
-      ["Yep... 3D puzzles with wrap ! Use " + (mobile ? "⬆︎ and ⬇︎" : "Shift and Ctrl") + " to wrap between top and bottom", 7, 24, 1, 0, 1],
+      ["Yep! 3D puzzles with wrap ! Use " + (mobile ? "⬆︎ and ⬇︎" : "Shift and Ctrl") + " to wrap between top and bottom", 7, 24, 1, 0, 1],
     ];
     
     emoji = [
@@ -2110,7 +2110,7 @@ checkmove = (x, y, z) => {
           L[P+"e"]=1;
           b.style.background='#000';
           L[P+"s"] = 0;
-          b.innerHTML='<div id=iv style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=//twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ajs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>936 seconds, 2554 moves<br><br><a href=. style=font-size:4vh>try the 3D puzzle editor'
+          b.innerHTML='<div id=iv style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=//twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ajs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>936 seconds, 2554 moves<br><br>3D puzzle editor unlocked!<br><br><a href=. style=font-size:4vh>MAIN MENU'
         },15000);
         
         var z = document.querySelectorAll(".o");
@@ -2927,7 +2927,7 @@ onload = () => {
 <span onclick=newgame()>New game</span><br>
 ` + ((L[P+"a"] && !L[P+"E"]) ? '<span onclick=indexx(0,1)>Continue</span><br>' : '') + `
 <span onclick=indexx("pz",1)>Puzzle editor</span><br>
-<span onclick=window.open('//xem.github.io/JS13k17/bonus')>Bonus`;
+<span onclick=window.open('//goo.gl/iKqoCS')>Bonus`;
 
   // New game
   newgame = () => {
@@ -3003,7 +3003,7 @@ window["indexx"] = (n, cross) => {
   pagename = n || L[P+"p"] || "px";
   
   // Draw html structure
-  document.body.outerHTML =
+  b.outerHTML =
 `<body id=b class=${pagename}>
 <div id=iv>
 <div id=a style=transform:translateX(-97vh)translateY(-50vh)rotateZ(90deg)translateZ(119vh);transform-origin:100vh+50vh>
