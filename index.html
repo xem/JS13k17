@@ -140,38 +140,38 @@ t = function(i,n){
 SNDeat = function(i){
 	var n = 1e4;
 	if (i>n) return null;
-	return ((Math.pow(i,1.055)&128)?1:-1)*Math.pow(t(i,n),2);
+	return ((Math.pow(i,1.055)&128)?1:-1)*Math.pow(t(i,n),2)/2;
 },
 
 SNDappear = function(i){
 	var n=25000;
 	if (i > n) return null;
-	return ((((i^(i>>3))^(i*i*7.3)^(i<<4))&65535)/65536)*t(i,n);
+	return ((((i^(i>>3))^(i*i*7.3)^(i<<4))&65535)/65536)*t(i,n)/2;
 },
 
 SNDstuck = function(i){
 	var n=5e3;
 	if (i > n) return null;
-	return ((Math.pow(i+Math.sin(i*0.01)*1000,0.8)&200)?0.5:-0.5)*Math.pow(t(i,n),1);
+	return ((Math.pow(i+Math.sin(i*0.01)*1000,0.8)&200)?0.5:-0.5)*Math.pow(t(i,n),1)/2;
 },
 
 SNDwin = function(i){
 	var n=1.6e4;
 	var c=n/7;
 	if (i > n) return null;
-	var q=Math.pow(t(i,n),2.1);
+	var q=Math.pow(t(i,n),2.1)/2;
 	return (i<c ? ((i+Math.sin(-i/900)*10)&16) : i&13) ?q:-q;
 },
 
 SNDopendoor = function(i){
 	var n=9e4;
 	if (i > n) return null;
-	return ((Math.pow(i+Math.sin(i*0.01)*1000,0.8)&200)?0.5:-0.5)*Math.pow(t(i,n),1);
+	return ((Math.pow(i+Math.sin(i*0.01)*1000,0.8)&200)?0.5:-0.5)*Math.pow(t(i,n),1)/4;
 },
 
-song1 = new Song("nbo0risiubv0uisirbs0uiniojrlsjuivjymvjubv0uisgu0vnxnzgx0vnunsgrisjulvmulsjufscrbs0ui"),
+//song1 = new Song("nbo0risiubv0uisirbs0uiniojrlsjuivjymvjubv0uisgu0vnxnzgx0vnunsgrisjulvmulsjufscrbs0ui"),
 
-//song1 = new Song("nbo0risiubv0uisirbs0ui0i0b0c0f0gniojrlsjuivjymvjubv0ui0i0j0m0n0rsgu0vnxnzgx0vnunsg0n0o0n0g0s0o0nrisjulvgufsjufscrbo0ni0j0b0i0j0il`n0ogqgs`u0vgxgz`0gxl0nsouqvsxuuev0u`0`0eq0slulqcs0qcs0qbs0q`s0njo0reseujv0xeveuj0v0e0q0j0i0g0e0cu0scq00bv0ufr0sgn0vbr0xiz0zjr0sgu0vbx0zgx0vbubsg{0zb{`z^{0zi{fzgv0xiu0vjs0ulr0sbn0oll0nbl0jfi0g00bxc0`zb0^{`0]z^0[z]0Zz[0]z^0`zb0]uf0bxi0f{l0izr0ozn0ixr0nrulrnbo0risiufs0r`o0nb0czf0gzi0gzf0cub0i0j0mvn0m0j0irbscrbs`rbs`sbrbo`q0sgugv`x0zg{gz`s0x`s0v`x0vcx0ues0q`l00eu00`x00ev00`u00eq00`o`"),
+song1 = new Song("nbo0risiubv0uisirbs0ui0i0b0c0f0gniojrlsjuivjymvjubv0ui0i0j0m0n0rsgu0vnxnzgx0vnunsg0n0o0n0g0s0o0nrisjulvgufsjufscrbo0ni0j0b0i0j0il`n0ogqgs`u0vgxgz`0gxl0nsouqvsxuuev0u`0`0eq0slulqcs0qcs0qbs0q`s0njo0reseujv0xeveuj0v0e0q0j0i0g0e0cu0scq00bv0ufr0sgn0vbr0xiz0zjr0sgu0vbx0zgx0vbubsg{0zb{`z^{0zi{fzgv0xiu0vjs0ulr0sbn0oll0nbl0jfi0g00bxc0`zb0^{`0]z^0[z]0Zz[0]z^0`zb0]uf0bxi0f{l0izr0ozn0ixr0nrulrnbo0risiufs0r`o0nb0czf0gzi0gzf0cub0i0j0mvn0m0j0irbscrbs`rbs`sbrbo`q0sgugv`x0zg{gz`s0x`s0v`x0vcx0ues0q`l00eu00`x00ev00`u00eq00`o`"),
 
 song2 = new Song("p0r0sdk0rco0pdk0p0r0sdw0rcs0pdk0p0r0sdk0rck0pdk0p0r0sdw0rcs0pd0f0g0iwg0bwgx0wgurrnspur0bufwgubs0pkrcsdk0rco0pkk0p0r0sdk0rco0pk0l0k0iwg0b0k0g0n0kzs0nxi0f|l0izr0p0n0lwk0dwg0k0p0k|s0pur0kuo0k0i0l0k0isd0krj0kpd0k0p0rsd0krl0opd0f0g0iskw0riw0pgw0nfw0u`s0rbs0pd0k"),
 
@@ -2199,7 +2199,6 @@ checkmove = (x, y, z) => {
       stuck = 1;
       if(i == 1){
         hitcube2 = 1;
-        console.log("lel");
       }
     }
   }
@@ -2232,13 +2231,11 @@ checkmove = (x, y, z) => {
   if(pagename == "pI" && x == 18 && !son){
     lock = 1;
     stuck=1;
-    console.log(lock);
     easteregg = son = 1;
     clearInterval(musicint);
     currentsong = song2;
     index = position = 0;
     musicint=setInterval(song2.forward, 250);
-    console.log(lock);
     L[P+"s"] = 1;
     L[P+"S"] = snakelength = 5;
     for(let i = 0; i < 21; i ++){
@@ -2248,13 +2245,11 @@ checkmove = (x, y, z) => {
       top["snakeshadow" + i].id = "";
       top["snakecube" + i].id = "";
     }
-    console.log(lock);
     scene.style.transition = "2s";
     resetsnake();
     movesnake();
     scene.style.transform = "translateX(-105vh)translateY(-51vh)translateZ(80vh)rotateX(45deg)";
     scene.style.transformOrigin = "140vh 70vh";
-    console.log(lock);
     setTimeout(()=>{
       snakex.push(snakex[head]);
       snakey.push(snakey[head]);
@@ -2262,31 +2257,24 @@ checkmove = (x, y, z) => {
       snakeangle.push(snakeangle[head]);
       head++;
       movesnake()
-      console.log("prout", lock);
     }, 3000);
     setTimeout(()=>{
       text.innerHTML='Daddy!'
-      console.log(lock);
     }, 4000);
     setTimeout(()=>{
       text.innerHTML=''
-      console.log(lock);
     }, 6000);
     setTimeout(()=>{
       text.innerHTML='I lossst my soccer ball!'
-      console.log(lock);
     }, 7000);
     setTimeout(()=>{
       text.innerHTML=''
-      console.log(lock);
     }, 9000);
     setTimeout(()=>{
       text.innerHTML='But I found new moves!'
-      console.log(lock);
     }, 10000);
     setTimeout(()=>{
       text.innerHTML='';
-      console.log(lock);
       easteregg=lock=0;
       clearInterval(musicint);
       scene.style.transition='1s';
@@ -2506,8 +2494,6 @@ testinbounds = () => {
 
 // On key down
 onkeydown = function(e) {
-
-  console.log(lock);
   
   // Update u/d/l/r flags
   top['lurd************************l**r************l*d***u**u'[e.which - 37]] = 1;
@@ -2584,8 +2570,6 @@ onkeydown = function(e) {
   }
   
   if(!lock){
-  
-    console.log(lock);
     
     stuck = 0;
     
