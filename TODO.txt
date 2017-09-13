@@ -33,3 +33,6 @@ localStorage["elems"]=0;localStorage["html"]="";
 
 localStorage["elems"] = +localStorage["elems"] + $$("*").length;
 localStorage["html"] += document.documentElement.outerHTML;console.log(localStorage["elems"]);
+
+7434 elements
+1.26MB

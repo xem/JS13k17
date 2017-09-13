@@ -1115,7 +1115,7 @@ enterroom = () => {
     hints = [
       ["You can rotate the camera with " + (mobile ? "<br>↻ and ↺" : "the keys 1, 2 and 3"), 15, 68, 1, 0, 1],
       ["Can you guess what's coming next?", 7, 54, 1, 0, 1],
-      ["3D puzzles with wrap ! Use " + (mobile ? "⬆︎ and ⬇︎" : "Shift and Ctrl") + " to wrap between top and bottom", 7, 24, 1, 0, 1],
+      ["Yep... 3D puzzles with wrap ! Use " + (mobile ? "⬆︎ and ⬇︎" : "Shift and Ctrl") + " to wrap between top and bottom", 7, 24, 1, 0, 1],
     ];
     
     emoji = [
@@ -1566,7 +1566,7 @@ enterroom = () => {
       r.push(haswall ? print("w") : '')
       r.push(ik.checked ? print("g") : '')
       
-      open("//twitter.com/intent/tweet?text=I%20made%20a%20level%20for%20@MaximeEuziere's%20%23js13k%20game%20LOSSST!%0APlay%20here:%20js13kgames.com%2Fentries%2Flossst%0AMy%20level:%20js13kgames.com%2Fgames%2Flossst%23"+r+"%0A%23LOSSSTlevels");
+      open("//twitter.com/intent/tweet?text=I%20made%20a%20level%20for%20@MaximeEuziere's%20%23js13k%20game%20LOSSST!%0APlay%20here:%20js13kgames.com%2Fentries%2Flossst%0AMy%20level:%20js13kgames.com%2Fgames%2Flossst%2Findex.html%23"+r+"%0A%23LOSSSTlevels");
     }
 
     },100);
@@ -2109,7 +2109,7 @@ checkmove = (x, y, z) => {
           L[P+"e"]=1;
           b.style.background='#000';
           L[P+"s"] = 0;
-          b.innerHTML='<div id=iv style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=//twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ajs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>854 seconds, 2452 moves<br><br>3D puzzle editor unlocked!<br><br><a href=. style=font-size:4vh>MAIN MENU'
+          b.innerHTML='<div id=iv style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=//twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ajs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>791 seconds, 2336 moves<br><br>3D puzzle editor unlocked!<br><br><a href="index.html" style=font-size:4vh>MAIN MENU'
         },15000);
         
         var z = document.querySelectorAll(".o");
@@ -3083,7 +3083,7 @@ ${(L[P+"e"]||L[P+"s"])?"<input type=checkbox id=wrap> <label for=wrap>wrap</labe
   }
     
   if(cross){
-    b.innerHTML+=`<div style='position:fixed;font:8vh a;top:3vh;right:3vh'onclick=location='.'>×`;
+    b.innerHTML+=`<div style='position:fixed;font:8vh a;top:3vh;right:3vh'onclick=location='index.html'>×`;
   }
 };
 </script>
