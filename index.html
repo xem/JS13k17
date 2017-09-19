@@ -340,14 +340,14 @@ enterroom = () => {
     
     // Trees (x, y, z)
     trees = [
-      [13,9,0],
+      [15,9,0],
       [7,13,0],
       [35,8,0],
     ];
 
     // Apples (x, y, z, length, puzzles solved) 
     apples = [
-      [11,11,0,0,0],
+      [13,11,0,0,0],
       [2,12,0,6,0],
       [38,10,0,7,0],
     ];
@@ -2109,7 +2109,7 @@ checkmove = (x, y, z) => {
           L[P+"e"]=1;
           b.style.background='#000';
           L[P+"s"] = 0;
-          b.innerHTML='<div id=iv style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=//twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ajs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>791 seconds, 2336 moves<br><br>3D puzzle editor unlocked!<br><br><a href="index.html" style=font-size:4vh>MAIN MENU'
+          b.innerHTML='<div id=iv style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=//twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ajs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>742 seconds, 2266 moves<br><br>3D puzzle editor unlocked!<br><br><a href="index.html" style=font-size:4vh>MAIN MENU'
         },15000);
         
         var z = document.querySelectorAll(".o");
@@ -2378,7 +2378,7 @@ checkgrid = e => {
     else{
       issolved = 1;
     }
-
+    
     puzzles[currentpuzzle][2]=0;
     
     top["puzzle" + currentpuzzle].classList.remove("w");
@@ -2427,6 +2427,10 @@ checkgrid = e => {
         }, cubetoremove * 200);
       }
     }       
+  }
+  
+  if(localStorage.lossst_ppy0){
+    delete localStorage.lossst_ppy0;
   }
 },
 
@@ -2557,7 +2561,7 @@ onkeydown = function(e) {
     exithead = 0;
     movesnake();
     checkgrid();
-    L[P+"M"]= ++ocd_moves;
+    if(!iseditor && L[P+"Apx0"]) L[P+"M"]= ++ocd_moves;
     //document.title='LOSSST: ' + ocd_moves + 'm, ' + ocd_time + 's';
     return;
   }
@@ -2825,10 +2829,10 @@ onkeydown = function(e) {
     // If a move key was pressed and snake is not stuck and easteregg/son sinematic is not playing
     if(!stuck && !easteregg && (u || r || d || l || s || c || B)){
 
-      L[P+"M"] = ++ocd_moves;
-      //if(!iseditor){
-      //  document.title = 'LOSSST: ' + ocd_moves + 'm, ' + ocd_time + 's';
-      //}
+      if(!iseditor && L[P+"Apx0"]) L[P+"M"] = ++ocd_moves;
+      if(!iseditor){
+        //document.title = 'LOSSST: ' + ocd_moves + 'm, ' + ocd_time + 's';
+      }
 
       checkgrid();
       
@@ -2931,10 +2935,12 @@ onload = () => {
   // New game
   newgame = () => {
     for(i in localStorage){
-      if(i.indexOf("lossst") == 0 && i.indexOf("e") == -1){
+      if(i.indexOf("lossst") == 0 && i != "lossst_e"){
         delete localStorage[i];
       }
     }
+    //localStorage.clear();
+    
     L[P+"a"] = 1;
     menu.innerHTML = '<br><br><span onclick=intro(0)>Desssktop</span><br><br><span onclick=intro(1)>Mobile';
   }
@@ -3144,13 +3150,13 @@ input[type=range]{width:60%}
 .do .y.d1{background:radial-gradient(2vh at 90% 50%,gold 35%,transparent 40%),#222}
 .do.s .y{transform:translateX(-7.5vh)translateY(-12.5vh)rotateX(-90deg)rotateY(90deg)}
 .z.x div{background:linear-gradient(45deg,#640,#583808)}
-.z.x div.u{transform:rotateY(90deg)translateX(-5.4vh)translateZ(-.1vh)rotateY(-90deg);background:radial-gradient(#3F7D1F,#034301);background-size:280vh 140vh;width:5.3vh;height:5.3vh}
+.z.x div.u{transform:rotateY(90deg)translateX(-5.4vh)translateZ(-.1vh)rotateY(-90deg);background:radial-gradient(#3F7D1F,#034301);background-size:280vh 140vh;width:5.5vh;height:5.5vh}
 .t{position:fixed;background:#fff;padding:.7vh;width:20vh;font:2vh/2.5vh arial,sans-serif;transform-origin:50% 100%;text-align:center;box-shadow:0 0 0 .2vh #000 inset;bottom:0}
 .t br{font:0/0 a}
 .t:before{content:"";width:3vh;height:3vh;background:#750;position:absolute;bottom:-3vh;left:8vh;border-left:.2vh solid;border-right:.2vh solid}
 .pz .t:before{left:28vh}
 label{text-align:left}
-#a{transition:transform 6s ease-in,transform-origin 6s ease-in;width:280vh;height:140vh;background:radial-gradient(#4F8D2F,#136321);border-radius:3vh}
+#a{transition:transform 5s ease-in,transform-origin 5s ease-in;width:280vh;height:140vh;background:radial-gradient(#4F8D2F,#136321);border-radius:3vh}
 .px #a,.pI #a{background:radial-gradient(10vh at 51.3% 52%,#000 40%,transparent 50%),radial-gradient(15vh at 51.3% 52%,#640 40%,transparent 50%),radial-gradient(#4F8D2F,#136321)}
 #e{margin:99vh 0 0;transition:margin 1s;font:10vh/80vh a}
 #iw{font:5vh arial,sans-serif;color:#fff;position:fixed;bottom:9vh;left:0;width:100vw}

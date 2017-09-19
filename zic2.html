@@ -1,4 +1,10 @@
+<canvas id=a width=1600 height=900>
+
 <script>
+
+x = a.getContext('2d');
+
+
 // Sound by Anders Kaare
 function mkaudio(fn) {
 	var data = [];
@@ -20,14 +26,21 @@ function mkaudio(fn) {
 		var b = b32(v);
 		return b[0]+b[1];
 	};;
-
+  x.moveTo(0,0);
+  for(i in data){
+    x.lineTo(i/10, data[i]*450+450);
+  }
+  x.lineWidth = 2;
+  x.stroke();
+  
 	var SR=48e3;
 	var b = "RIFF"+b32(l2+36)+"WAVEfmt "+b32(16)+b16(1)+b16(1)+b32(SR)+b32(SR*2)+b16(2)+b16(16)+"data"+b32(l2);
 	for (var i in data) b+=b16(data[i]*10e3);
 	return new Audio("data:audio/wav;base64,"+btoa(b));
 }
 
-Pow=Math.pow;S=Math.sin;
+Pow=Math.pow;
+S=Math.sin;
 
 function t(i,n) {
 	return (n-i)/n;
@@ -37,23 +50,24 @@ function t(i,n) {
 
 
 
-function SNDeat(i) {
+/*function SNDeat(i) {
 	var n = 1e4;
 	if (i>n) return null;
 	return ((Pow(i,1.055)&128)?1:-1)*Pow(t(i,n),2);
 }
+*/
 
-function SNDappear(i) {
+/*function SNDappear(i) {
 	var n=25000;
 	if (i > n) return null;
 	return ((((i^(i>>3))^(i*i*7.3)^(i<<4))&65535)/65536)*t(i,n);
-}
+}*/
 
-function SNDstuck(i) {
+/*function SNDstuck(i) {
 	var n=5e3;
 	if (i > n) return null;
 	return ((Pow(i+S(i*0.01)*1000,0.8)&200)?0.5:-0.5)*Pow(t(i,n),1);
-}
+}*/
 
 function SNDwin(i) {
 	var n=1.6e4;
@@ -63,12 +77,12 @@ function SNDwin(i) {
 	return (i<c ? ((i+S(-i/900)*10)&16) : i&13) ?q:-q;
 }
 
-function SNDopendoor(i) {
+/*function SNDopendoor(i) {
 	var n=9e4;
 	if (i > n) return null;
 	return ((Pow(i+S(i*0.01)*1000,0.8)&200)?0.5:-0.5)*Pow(t(i,n),1);
 }
-
+*/
 
 
 
