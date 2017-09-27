@@ -19,7 +19,7 @@ window["TS"] = (n) => {
     clearInterval(touchintervals[n]);
   }
   
-  onkeydown({which:n});
+  onkeydown({which:"+n+"});
   touchintervals[n] = setInterval(()=>{
     onkeydown({which:n})
   },150);
@@ -2934,11 +2934,11 @@ onload = () => {
 
   // New game
   newgame = () => {
-    for(i in localStorage){
+    /*for(i in localStorage){
       if(i.indexOf("lossst") == 0 && i != "lossst_e"){
         delete localStorage[i];
       }
-    }
+    }*/
     //localStorage.clear();
     
     L[P+"a"] = 1;
