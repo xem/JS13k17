@@ -1,14 +1,6 @@
+// http://www.airconsole.com/simulator/#http://192.168.2.28:8080/JS13k17/airconsole/
+
 ac = new AirConsole();
-
-ac.onMessage = (from, data) => {
-console.log(data);
-}
-
-
-
-
-
-
 
 
 // Unrenameable globals
@@ -406,7 +398,7 @@ enterroom = () => {
       ["Move with<br>arrow keys" + (mobile ? "" : " or WASD/ZQSD"), 19, 5, 0, 13, 0],
       ["Use the " + (mobile ? "↩" : "Alt") + " key to backtrack", 1, 9, 0, 13, 0, 1],
       ["Approach red doors with the right length to open them", 35, 14, 0, 13, 0],
-      ["↑<br>New puzzles !<hr>Puzzle editor<br>↓", 19, 8, 14, 0, 0],
+      ["↑<br>New puzzles !", 19, 8, 14, 0, 0],
       //["New ! Puzzle editor with wraps<br>↓", 19, 8, 6, 7, 1],
       ["←<br>New puzzles !", 1, 9, 6, 7, 1, 1],
     ];
@@ -615,7 +607,7 @@ enterroom = () => {
     // 3: min snake length
     // 4: max snake length
     hints = [
-      ["↑<br>After this room, you can try a puzzle editor and a new kind of puzzles !", 22, 11, 13, 0, 0],
+      ["↑<br>After this room, you can try a new kind of puzzles !", 22, 11, 13, 0, 0],
     ];
     
     cubes = [
@@ -2118,7 +2110,7 @@ checkmove = (x, y, z) => {
           L[P+"e"]=1;
           b.style.background='#000';
           L[P+"s"] = 0;
-          b.innerHTML='<div id=iv style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br><a href=//twitter.com/intent/tweet?text=I%20played%20LOSSST,%20a%20%23js13k%20game%20by%20by%20@MaximeEuziere%0Amy%20score:%20'+ocd_time+'%20seconds%20and%20'+ocd_moves+'%20moves!%0Ajs13kgames.com%2Fentries%2Flossst target=_blank style=color:#def;font-size:4vh>TWEET YOUR SCORE</a><br><br>Dev record:<br>742 seconds, 2266 moves<br><br>3D puzzle editor unlocked!<br><br><a href="index.html" style=font-size:4vh>MAIN MENU'
+          b.innerHTML='<div id=iv style=perspective:90vh><center id=menu style=width:75vh;transform:translateX(-38vh)translateY(-35vh)rotateX(-28deg)><span style=font-size:4vh;line-height:5vh><h1>Congrats!</h1><br>You completed the game in<br>'+ocd_time+' seconds and '+ocd_moves+' moves!<br><br>Dev record:<br>742 seconds, 2266 moves'
         },15000);
         
         var z = document.querySelectorAll(".o");
@@ -2504,10 +2496,14 @@ testinbounds = () => {
 
 
 // On key down
-onkeydown = function(e) {
+zzz = onkeydown = function(e) {
+  
+  console.log(e);
   
   // Update u/d/l/r flags
   window['lurd************************l**r************l*d***u**u'[e.which - 37]] = 1;
+  
+  console.log(l, d, u, r);
   
   // Alt = 18
   if(e.which == 18){
@@ -2571,7 +2567,7 @@ onkeydown = function(e) {
     movesnake();
     checkgrid();
     if(!iseditor && L[P+"Apx0"]) L[P+"M"]= ++ocd_moves;
-    //document.title='LOSSST: ' + ocd_moves + 'm, ' + ocd_time + 's';
+    document.title='LOSSST: ' + ocd_moves + 'm, ' + ocd_time + 's';
     return;
   }
 
@@ -2840,7 +2836,7 @@ onkeydown = function(e) {
 
       if(!iseditor && L[P+"Apx0"]) L[P+"M"] = ++ocd_moves;
       if(!iseditor){
-        //document.title = 'LOSSST: ' + ocd_moves + 'm, ' + ocd_time + 's';
+        document.title = 'LOSSST: ' + ocd_moves + 'm, ' + ocd_time + 's';
       }
 
       checkgrid();
@@ -2876,7 +2872,7 @@ onkeydown = function(e) {
       }
 
       // Editor
-      if(pagename == "px" && (son || snakelength >= 14) && snakex[head] == 20 && snakey[head] == 10){
+      /*if(pagename == "px" && (son || snakelength >= 14) && snakex[head] == 20 && snakey[head] == 10){
         lock = 1;
         var z = 0;
         
@@ -2896,6 +2892,7 @@ onkeydown = function(e) {
         L[P+"x"] = 20;
         L[P+"y"] = 10;
       }
+      */
       
       
       // Save reset head if entering in bounds
@@ -2911,6 +2908,8 @@ onkeydown = function(e) {
       }
     }
   }
+  onkeyup();
+  
 };
 
 onkeyup = e => {
@@ -2924,11 +2923,11 @@ onload = () => {
     return;
   }
   
-  setTimeout(()=>{
+  /*setTimeout(()=>{
     musicint = setInterval(()=>{
       currentsong.forward();
     },500)
-  },200);
+  },200);*/
   
   // Menu 1
   b.innerHTML = `<center id=e>👀</center>
@@ -2952,6 +2951,13 @@ onload = () => {
     }
     //localStorage.clear();
     
+    
+    clearInterval(musicint);
+    if(!L[P+"a"]){
+      musicint = setInterval(currentsong.forward, 250);
+    }
+    
+    
     L[P+"a"] = 1;
     //menu.innerHTML = '<br><br><span onclick=intro(0)>Desssktop</span><br><br><span onclick=intro(1)>Mobile';
     intro(0);
@@ -2960,9 +2966,7 @@ onload = () => {
   // Intro
   intro = function(m) {
   
-    clearInterval(musicint);
     _=$=0;
-    musicint = setInterval(currentsong.forward, 250);
     
     L[P+"m"] = mobile = m;
     L[P+"S"] = snakelength = 5;
@@ -3002,8 +3006,12 @@ onload = () => {
     setTimeout(AA, 7500);
   }
   
-  newgame();
-  
+  if(!L[P+"a"]){
+    newgame();
+  }
+  else {
+    AA(0,1);
+  }
 };
 
 // Index
@@ -3059,16 +3067,6 @@ ${(L[P+"e"]||L[P+"s"])?"<input type=checkbox id=wrap> <label for=wrap>wrap</labe
 </div>
 </div>
 <center id=iz style='font:5vh arial,sans-serif;color:#fff;position:fixed;bottom:9vh;left:0;width:100vw'>
-<button id=kU class=h ontouchstart=TS(38) onmousedown=TS(38) ontouchend=TE(38) onmouseup=TE(38)>↑</button>
-<button id=kD class=h ontouchstart=TS(40) onmousedown=TS(40) ontouchend=TE(40) onmouseup=TE(40)>↓</button>
-<button id=kL class=h ontouchstart=TS(37) onmousedown=TS(37) ontouchend=TE(37) onmouseup=TE(37)>←</button>
-<button id=kR class=h ontouchstart=TS(39) onmousedown=TS(39) ontouchend=TE(39) onmouseup=TE(39)>→</button>
-<button id=kT class=h ontouchstart=TS(16) onmousedown=TS(16) ontouchend=TE(16) onmouseup=TE(16)>⬆︎</button>
-<button id=kB class=h ontouchstart=TS(17) onmousedown=TS(17) ontouchend=TE(17) onmouseup=TE(17)>⬇︎</button>
-<button id=kw class=h ontouchstart=TS(18) onmousedown=TS(18) ontouchend=TE(18) onmouseup=TE(18)>↩</button>
-<button id=kx class=h ontouchstart=TS(82) onmousedown=TS(82) ontouchend=TE(82) onmouseup=TE(82)>×</button>
-<button id=ky class=h ontouchstart=TS(49) onmousedown=TS(49) ontouchend=TE(49) onmouseup=TE(49)>↻</button>
-<button id=kz class=h ontouchstart=TS(51) onmousedown=TS(51) ontouchend=TE(51) onmouseup=TE(51)>↺</button>
 </center>
 <center id=ii style='font:5vh arial,sans-serif;color:#fff;position:fixed;bottom:9vh;left:0;width:100vw'>`;
   
@@ -3100,7 +3098,7 @@ ${(L[P+"e"]||L[P+"s"])?"<input type=checkbox id=wrap> <label for=wrap>wrap</labe
   if(!iseditor){
     int_time = setInterval(()=>{
       L[P+"t"]=++ocd_time;
-      //document.title='LOSSST: '+ocd_moves+'m, '+ocd_time+'s'
+      document.title='LOSSST: '+ocd_moves+'m, '+ocd_time+'s'
     },1000);
   }
     
@@ -3108,3 +3106,13 @@ ${(L[P+"e"]||L[P+"s"])?"<input type=checkbox id=wrap> <label for=wrap>wrap</labe
     b.innerHTML+=`<div style='position:fixed;font:8vh a;top:3vh;right:3vh'onclick=location='index.html'>`;
   }
 };
+
+
+
+
+ac.onMessage = (from, data) => {
+console.log(from, data);
+zzz({which: data});
+}
+
+
