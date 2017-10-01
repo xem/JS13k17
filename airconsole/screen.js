@@ -271,6 +271,8 @@ w = h = 0,
 // Enter a room
 enterroom = () => {
   
+  mobile = 1;
+  
   // Enable Mac css hacks
   if(navigator.userAgent.match(/Mac/)){
     iv.className = "a";
@@ -2868,7 +2870,7 @@ zzz = onkeydown = function(e) {
           if(!easteregg){
             lock=0;
           }
-        }, 150);
+        }, 100);
       }
 
       // Editor
