@@ -491,7 +491,7 @@ enterroom = () => {
     
     // Show mobile button Reset
     if(mobile){
-      kx.className = "";
+      //kx.className = "";
       L[P+"r"] = 1;
     }
     
@@ -1049,7 +1049,7 @@ enterroom = () => {
     
     // Show mobile button Reset
     if(mobile){
-      ky.className = kz.className = "";
+      //ky.className = kz.className = "";
       L[P+"c"] = 1;
     }
 
@@ -1639,7 +1639,7 @@ enterroom = () => {
       L[P+"y"]=10;
       b.innerHTML+="<div style='position:fixed;font:8vh a;top:3vh;right:3vh'onclick=location='index.html'>×";
       if(mobile){
-        kU.className=kD.className=kL.className=kR.className='';
+        //kU.className=kD.className=kL.className=kR.className='';
         L[P+"w"]=1
       }
     },9000);
@@ -2282,7 +2282,7 @@ checkmove = (x, y, z) => {
       movesnake();
       checkapple();
       if(mobile){
-        kT.className=kB.className='';
+        //kT.className=kB.className='';
         L[P+"B"]=1;
       }
     }, 13500);
@@ -2448,7 +2448,7 @@ checkapple = e => {
 
       // backtrack button
       if(mobile && pagename == "px" && i == 1){
-        kw.className = '';
+        //kw.className = '';
         L[P+"b"] = 1;
       }
       
@@ -3079,7 +3079,7 @@ ${(L[P+"e"]||L[P+"s"])?"<input type=checkbox id=wrap> <label for=wrap>wrap</labe
   enterroom();
   
   // Show buttons that already appeared before
-  if((mobile && pagename == "py") || L[P+"w"]){
+  /*if((mobile && pagename == "py") || L[P+"w"]){
     kU.className = kD.className = kL.className = kR.className = '';
   }
   if((mobile && pagename == "py") || L[P+"b"]){
@@ -3095,7 +3095,7 @@ ${(L[P+"e"]||L[P+"s"])?"<input type=checkbox id=wrap> <label for=wrap>wrap</labe
   if((mobile && pagename == "py") || L[P+"c"]){
     ky.className = "";
     kz.className = "";
-  }
+  }*/
   
   if(!iseditor){
     int_time = setInterval(()=>{
